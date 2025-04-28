@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "education")
@@ -33,9 +34,8 @@ public class Education {
     private String institution;
     @Column(name = "specialization")
     private String specialization;
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "graduation_date")
-    private LocalDateTime graduationDate;
+    private Date graduationDate;
     @ManyToOne
     @JoinColumn(name = "info_id")
     private PersonalInfo personalInfo;

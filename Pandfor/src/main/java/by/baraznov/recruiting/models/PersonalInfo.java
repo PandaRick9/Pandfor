@@ -1,7 +1,10 @@
 package by.baraznov.recruiting.models;
 
+import by.baraznov.recruiting.models.enums.Gender;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,8 +43,7 @@ public class PersonalInfo {
     @Column(name = "patronymic")
     private String patronymic;
     @Column(name = "birth_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     @Column(name = "phone")
     private String phone;
     @Column(name = "email")
@@ -49,7 +51,8 @@ public class PersonalInfo {
     @Column(name = "city")
     private String city;
     @Column(name = "gender")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @Column(name = "position")
     private String position;
     @Column(name = "photo")

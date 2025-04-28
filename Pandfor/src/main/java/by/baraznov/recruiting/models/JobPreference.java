@@ -1,7 +1,13 @@
 package by.baraznov.recruiting.models;
 
+import by.baraznov.recruiting.models.enums.EmploymentType;
+import by.baraznov.recruiting.models.enums.ExperienceYear;
+import by.baraznov.recruiting.models.enums.Schedule;
+import by.baraznov.recruiting.models.enums.WorkFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,13 +32,19 @@ public class JobPreference {
     @Column(name = "preference_id")
     private Integer preferenceId;
     @Column(name = "schedule")
-    private String schedule;
+    @Enumerated(EnumType.STRING)
+    private Schedule schedule;
     @Column(name = "employment_type")
-    private String employmentType;
+    @Enumerated(EnumType.STRING)
+    private EmploymentType employmentType;
     @Column(name = "work_format")
-    private String workFormat;
+    @Enumerated(EnumType.STRING)
+    private WorkFormat workFormat;
     @Column(name = "desired_salary")
     private Integer desiredSalary;
+    @Column(name = "experience_years")
+    @Enumerated(EnumType.STRING)
+    private ExperienceYear experienceYear;
     @OneToOne
     @JoinColumn(name = "resume_id")
     private Resume resume;

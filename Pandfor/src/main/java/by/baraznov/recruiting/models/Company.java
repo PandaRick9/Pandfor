@@ -34,6 +34,8 @@ public class Company {
     private String description;
     @Column(name = "photo")
     private String photo;
+    @Column(name = "city")
+    private String city;
     @OneToMany(mappedBy = "company")
     private List<Employer> employers;
     @OneToMany(mappedBy = "company")

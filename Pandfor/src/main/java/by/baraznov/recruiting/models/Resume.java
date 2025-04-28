@@ -41,6 +41,7 @@ public class Resume {
     private LocalDateTime dateCreated;
     @Column(name = "is_active")
     private Boolean isActive;
+
     @ManyToOne
     @JoinColumn(name = "seeker_id")
     private JobSeeker jobSeeker;

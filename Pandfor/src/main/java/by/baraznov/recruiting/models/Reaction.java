@@ -1,7 +1,10 @@
 package by.baraznov.recruiting.models;
 
+import by.baraznov.recruiting.models.enums.ReactionStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,7 +38,8 @@ public class Reaction {
     @Column(name = "cover_letter")
     private String coverLetter;
     @Column(name = "status")
-    private String status;//TODO replace with enum
+    @Enumerated(EnumType.STRING)
+    private ReactionStatus status;
     @Column(name = "created_at")
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

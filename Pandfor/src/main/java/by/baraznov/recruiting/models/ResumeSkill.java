@@ -1,7 +1,10 @@
 package by.baraznov.recruiting.models;
 
+import by.baraznov.recruiting.models.enums.SkillLevel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +31,8 @@ public class ResumeSkill {
     @Column(name = "resume_skill_id")
     private Integer resumeSkillId;
     @Column(name = "proficiency_level")
-    private String proficiencyLevel;
+    @Enumerated(EnumType.STRING)
+    private SkillLevel proficiencyLevel;
     @ManyToOne
     @JoinColumn(name = "resume_id")
     private Resume resume;

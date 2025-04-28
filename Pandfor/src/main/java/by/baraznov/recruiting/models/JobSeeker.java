@@ -30,7 +30,8 @@ public class JobSeeker {
     private String login;
     @Column(name = "password")
     private String password;
+
     @OneToMany(mappedBy = "jobSeeker")
-    private List<Resume> vacancies;
+    private List<Resume> resumes;
 
 }

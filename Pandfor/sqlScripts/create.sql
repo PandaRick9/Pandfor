@@ -70,6 +70,7 @@ CREATE TABLE JobPreferences
     schedule        VARCHAR(100),                             -- График работы (полный день, сменный и т.д.)
     employment_type VARCHAR(100),                             -- Тип занятости (полная, частичная, стажировка и т.д.)
     work_format     VARCHAR(100),                             -- Формат (удалённая, офис, гибрид)
+    experience_years VARCHAR(50),
     desired_salary  NUMERIC                                   -- Желаемая зарплата
 );
 

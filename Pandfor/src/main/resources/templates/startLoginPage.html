@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Выбор профиля</title>
+  <link rel="stylesheet" href="/static/css/startLoginPage.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+
+        <div class="top-bar">
+            <button class="back-btn">←</button>
+            <img src="https://img.icons8.com/ios-filled/50/000000/user.png" alt="Логотип" class="logo-img">
+        </div>
+    
+
+      <h2>Вход</h2>
+
+      <form>
+        <label class="profile-option">
+          <input type="radio" name="profile" value="jobseeker" checked>
+          <div class="option-box">
+            <img src="https://img.icons8.com/ios-filled/50/000000/user.png" />
+            <div>
+              <strong>Я ищу работу</strong><br>
+              <span>Профиль соискателя</span>
+            </div>
+          </div>
+        </label>
+
+        <label class="profile-option">
+          <input type="radio" name="profile" value="employer">
+          <div class="option-box">
+            <img src="https://img.icons8.com/ios-filled/50/000000/company.png" />
+            <div>
+              <strong>Я ищу сотрудников</strong><br>
+              <span>Профиль работодателя</span>
+            </div>
+          </div>
+        </label>
+
+        <button type="submit" class="login-btn">Войти</button>
+        <button type="button" class="register-btn">Зарегистрироваться</button>
+      </form>
+
+    </div>
+  </div>
+</body>
+</html>

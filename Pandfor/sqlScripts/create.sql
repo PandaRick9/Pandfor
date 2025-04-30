@@ -1,3 +1,10 @@
+CREATE TABLE User_Table
+(
+    user_id    SERIAL PRIMARY KEY,
+    login      VARCHAR(100) UNIQUE NOT NULL,
+    "password" VARCHAR(100)        NOT NULL,
+    role       VARCHAR(20)         NOT NULL -- например: ROLE_JOBSEEKER, ROLE_EMPLOYER
+);
 -- Компания
 CREATE TABLE Company
 (
@@ -11,17 +18,16 @@ CREATE TABLE Company
 CREATE TABLE Employer
 (
     employer_id SERIAL PRIMARY KEY,                 -- Уникальный ID работодателя
-    login       VARCHAR(100) NOT NULL UNIQUE,       -- Логин для входа
-    "password"  VARCHAR(100) NOT NULL,              -- Пароль (хешированный)
-    company_id  INT REFERENCES Company (company_id) -- Привязка к компании
+    company_id  INT REFERENCES Company (company_id), -- Привязка к компании
+    user_id INT REFERENCES User_Table(user_id)
+
 );
 
 -- Соискатель
 CREATE TABLE JobSeeker
 (
     seeker_id  SERIAL PRIMARY KEY,           -- Уникальный ID соискателя
-    login      VARCHAR(100) NOT NULL UNIQUE, -- Логин пользователя
-    "password" VARCHAR(100) NOT NULL         -- Пароль (хешированный)
+    user_id INT REFERENCES User_Table(user_id)
 );
 
 -- Резюме
@@ -65,13 +71,13 @@ CREATE TABLE Education
 -- Пожелания по условиям работы
 CREATE TABLE JobPreferences
 (
-    preference_id   SERIAL PRIMARY KEY,                       -- Уникальный ID предпочтений
-    resume_id       INT UNIQUE REFERENCES Resume (resume_id), -- Привязка к резюме
-    schedule        VARCHAR(100),                             -- График работы (полный день, сменный и т.д.)
-    employment_type VARCHAR(100),                             -- Тип занятости (полная, частичная, стажировка и т.д.)
-    work_format     VARCHAR(100),                             -- Формат (удалённая, офис, гибрид)
+    preference_id    SERIAL PRIMARY KEY,                       -- Уникальный ID предпочтений
+    resume_id        INT UNIQUE REFERENCES Resume (resume_id), -- Привязка к резюме
+    schedule         VARCHAR(100),                             -- График работы (полный день, сменный и т.д.)
+    employment_type  VARCHAR(100),                             -- Тип занятости (полная, частичная, стажировка и т.д.)
+    work_format      VARCHAR(100),                             -- Формат (удалённая, офис, гибрид)
     experience_years VARCHAR(50),
-    desired_salary  NUMERIC                                   -- Желаемая зарплата
+    desired_salary   NUMERIC                                   -- Желаемая зарплата
 );
 
 -- Таблица скиллов (навыков)

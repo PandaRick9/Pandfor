@@ -139,7 +139,7 @@ body {
 }
 
 /* Filters Section */
-.filters {
+/* .filters {
   background-color: var(--white);
   color: var(--text);
   padding: 1rem;
@@ -159,7 +159,7 @@ body {
 
 .filters input[type="checkbox"] {
   margin-right: 0.5rem;
-}
+} */
 
 /* Featured Vacancies Section */
 .featured {
@@ -314,4 +314,100 @@ body {
 .dropdown-content a:hover {
   background-color: var(--light);
   color: var(--text);
+}
+
+
+
+.filters {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+}
+
+.filters h2 {
+  margin-bottom: 20px;
+}
+
+.filters-container {
+  display: flex;
+  gap: 20px;
+}
+
+.filter-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+.filter-column-search{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  flex: 1;
+  margin-right: 2rem;
+}
+
+
+.filter-box h4 {
+  margin-bottom: 10px;
+}
+
+.filter-box input {
+  width: 100%;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.filter-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.filter-submit{
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.salary-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.salary-inputs input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+ 
+.filter-box label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.filter-box input[type="checkbox"],
+.filter-box input[type="radio"] {
+  width: 16px;
+  height: 16px;
+}
+.filter-box input[type="text"],
+.filter-box input[type="number"] {
+  width: 100%;
+  margin-top: 5px;
+  padding: 10px;
+  font-size: 16px;
 }

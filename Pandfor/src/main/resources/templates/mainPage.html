@@ -27,27 +27,99 @@
     </div>
   </header>
 
-  <!-- Main content -->
+
   <main class="main-content">
-    <!-- Search -->
+
     <section class="search-section">
       <div class="search-bar">
         <input type="text" placeholder="Поиск вакансий..." />
         <button id="search-btn">Найти</button>
       </div>
     </section>
-
-    <!-- Filters -->
     <section class="filters">
-      <h3>Фильтры</h3>
-      <label><input type="checkbox"> Полная занятость</label>
-      <label><input type="checkbox"> Частичная занятость</label>
-      <label><input type="checkbox"> Удаленная работа</label>
-      <label><input type="checkbox"> Гибкий график</label>
-      <label><input type="checkbox"> Без опыта</label>
-    </section>
+      <h2>Фильтры</h2>
+      
+      <div class="filters-container">
 
-    <!-- Featured -->
+        <div class="filter-column">
+          <div class="filter-box">
+            <h4>Формат работы</h4>
+            <div class="filter-options">
+              <label><input type="checkbox" name="format"> На месте работодателя</label>
+              <label><input type="checkbox" name="format"> Удалённо</label>
+              <label><input type="checkbox" name="format"> Гибрид</label>
+            </div>
+          </div>
+          <div class="filter-box">
+            <h4>График работы</h4>
+            <div class="filter-options">
+              <label><input type="checkbox" name="schedule"> 5/2</label>
+              <label><input type="checkbox" name="schedule"> 2/2</label>
+              <label><input type="checkbox" name="schedule"> 3/3</label>
+              <label><input type="checkbox" name="schedule"> По выходным</label>
+            </div>
+          </div>
+        </div>
+    
+
+        <div class="filter-column">
+          <div class="filter-box">
+            <h4>Требуемый опыт</h4>
+            <div class="filter-options">
+              <label><input type="radio" name="experience"> Не имеет значения</label>
+              <label><input type="radio" name="experience"> Нет опыта</label>
+              <label><input type="radio" name="experience"> От 1 года до 3 лет</label>
+              <label><input type="radio" name="experience"> От 3 до 6 лет</label>
+              <label><input type="radio" name="experience"> Более 6 лет</label>
+            </div>
+          </div>
+          <div class="filter-box">
+            <h4>Тип занятости</h4>
+            <div class="filter-options">
+              <label><input type="checkbox" name="employment"> Полная занятость</label>
+              <label><input type="checkbox" name="employment"> Частичная занятость</label>
+              <label><input type="checkbox" name="employment"> Стажировка</label>
+            </div>
+          </div>
+        </div>
+    
+
+        <div class="filter-column-search">
+          <div class="filter-box">
+            <h4>Название компании</h4>
+            <div class="salary-inputs">
+             <input type="text" placeholder="Название компании">
+            </div>
+          </div>
+          <div class="filter-box">
+            <h4>Город</h4>
+            <div class="salary-inputs">
+             <input type="text" placeholder="Город">
+            </div>
+          </div>
+        </div>
+    
+
+        <div class="filter-column">
+          <div class="filter-box">
+            <h4>Уровень дохода</h4>
+            <div class="salary-inputs">
+              <input type="number" placeholder="Минимум">
+              <input type="number" placeholder="Максимум">
+            </div>
+          </div>
+          <div class="filter-box">
+            <button type="submit" class="filter-submit">Применить фильтры</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+    
+    
+
+
     <section class="featured">
       <h2>Вакансии дня</h2>
       <div class="vacancies">
@@ -59,7 +131,7 @@
     </section>
   </main>
 
-  <!-- Footer -->
+
   <footer class="footer">
     <div class="footer-left">
       <h3>О компании</h3>

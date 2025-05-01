@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание резюме</title>
+    <link rel="stylesheet" href="/static/css/addResumePage.css">
+</head>
+<body>
+<div class="container">
+    <h1>Создание резюме</h1>
+
+    <!-- Шаг 1 -->
+    <div class="step" id="step1">
+        <h2>Название вакансии</h2>
+        <label for="jobTitle">Введите позицию</label>
+        <input type="text" id="jobTitle" placeholder="Frontend разработчик">
+        <div class="button-row">
+            <button class="back" disabled>Назад</button>
+            <button class="next" onclick="nextStep(2)">Далее</button>
+        </div>
+    </div>
+
+    <!-- Шаг 2 -->
+    <div class="step" id="step2" style="display:none;">
+        <h2>Личная информация</h2>
+
+        <label>Фамилия</label>
+        <input type="text" id="lastName" placeholder="Иванов">
+
+        <label>Имя</label>
+        <input type="text" id="firstName" placeholder="Иван">
+
+        <label>Отчество</label>
+        <input type="text" id="middleName" placeholder="Иванович">
+
+        <label>Пол</label>
+        <select id="gender">
+            <option value="">Выберите пол</option>
+            <option value="MALE">Мужской</option>
+            <option value="FEMALE">Женский</option>
+        </select>
+
+        <label>Дата рождения</label>
+        <input type="date" id="birthDate">
+
+        <label>Телефон</label>
+        <input type="tel" id="phone" placeholder="+7 999 123 45 67">
+
+        <label>Почта</label>
+        <input type="email" id="email" placeholder="example@mail.com">
+
+        <label>Город</label>
+        <input type="text" id="city" placeholder="Москва">
+
+        <label>Фото</label>
+        <input type="file" id="photo" accept="image/*">
+
+        <label>Описание опыта работы</label>
+        <textarea id="workDescription" placeholder="Расскажите о своём опыте"></textarea>
+
+        <div class="button-row">
+            <button class="back" onclick="prevStep(1)">Назад</button>
+            <button class="next" onclick="nextStep(3)">Далее</button>
+        </div>
+    </div>
+
+    <!-- Шаг 3 -->
+    <div class="step" id="step3" style="display:none;">
+        <h2>Образование</h2>
+
+        <label>Название учебного заведения</label>
+        <input type="text" id="schoolName" placeholder="МГУ">
+
+        <label>Специальность</label>
+        <input type="text" id="speciality" placeholder="Программная инженерия">
+
+        <label>Год окончания</label>
+        <input type="number" id="graduationYear" placeholder="2024">
+
+        <div class="button-row">
+            <button class="back" onclick="prevStep(2)">Назад</button>
+            <button class="next" onclick="nextStep(4)">Далее</button>
+        </div>
+    </div>
+
+    <!-- Шаг 4 -->
+    <div class="step" id="step4" style="display:none;">
+        <h2>Условия работы</h2>
+
+        <label>Тип занятости</label>
+        <select id="employmentType">
+            <option value="FULL_TIME">Полная занятость</option>
+            <option value="PART_TIME">Частичная занятость</option>
+            <option value="INTERNSHIP">Стажировка</option>
+        </select>
+
+        <label>График работы</label>
+        <select id="workSchedule">
+            <option value="FIVE_TWO">5/2</option>
+            <option value="TWO_TWO">2/2</option>
+            <option value="THREE_THREE">3/3</option>
+            <option value="ON_WEEKENDS">По выходным</option>
+        </select>
+
+        <label>Формат работы</label>
+        <select id="workFormat">
+            <option value="REMOTELY">Удаленно</option>
+            <option value="EMPLOYER_PLACE">На месте работодателя</option>
+            <option value="HYBRID">Гибрид</option>
+        </select>
+
+        <label>Опыт работы</label>
+        <select id="experience">
+            <option value="NO_EXPERIENCE">Нет опыта</option>
+            <option value="ONE_THEE_YEAR">От 1года до 3 лет</option>
+            <option value="THREE_SIX_YEAR">От 3 до 6 лет</option>
+            <option value="MORE_THE_SIX_YEAR">Более 6 лет</option>
+        </select>
+       
+
+        <label>Желаемая зарплата</label>
+        <input type="number" id="salary" placeholder="Например: 60000">
+
+        <div class="button-row">
+            <button class="back" onclick="prevStep(3)">Назад</button>
+            <button class="next" onclick="nextStep(5)">Далее</button>
+        </div>
+    </div>
+
+    <!-- Шаг 5 -->
+    <div class="step" id="step5" style="display:none;">
+        <h2>Навыки</h2>
+    
+        <label for="skillInput">Добавьте навык</label>
+        <div class="skill-input-row">
+            <input type="text" id="skillInput" placeholder="Например: JavaScript">
+    
+            <select id="skillLevel">
+                <option value="BASIC">Начинающий</option>
+                <option value="INTERMEDIATE">Средний</option>
+                <option value="ADVANCED">Продвинутый</option>
+            </select>
+    
+            <button type="button" onclick="addSkill()">Добавить</button>
+        </div>
+    
+        <div id="skillsList"></div>
+    
+        <div class="button-row">
+            <button class="back" onclick="prevStep(4)">Назад</button>
+            <button class="submit" onclick="submitForm()">Отправить</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/addResumePage.js"></script>
+</body>
+</html>

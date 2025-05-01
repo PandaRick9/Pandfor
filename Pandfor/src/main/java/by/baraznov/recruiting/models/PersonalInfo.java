@@ -53,8 +53,6 @@ public class PersonalInfo {
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @Column(name = "position")
-    private String position;
     @Column(name = "photo")
     private String photo;
     @Column(name = "work_experience_summary")

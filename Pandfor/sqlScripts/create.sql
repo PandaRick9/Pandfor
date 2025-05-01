@@ -53,7 +53,6 @@ CREATE TABLE PersonalInfo
     email                   VARCHAR(100),                             -- Email
     city                    VARCHAR(100),                             -- Город проживания
     gender                  VARCHAR(20),                              -- Пол
-    "position"              VARCHAR(255),                             -- Желаемая должность
     photo                   varchar(255),                             --фото
     work_experience_summary TEXT                                      -- Краткое описание опыта работы
 );

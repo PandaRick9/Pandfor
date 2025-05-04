@@ -51,7 +51,7 @@
   .login-form input {
     width: 100%;
     padding: 12px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     border-radius: 10px;
     font-size: 16px;
     border-color: #ccc; 
@@ -98,4 +98,24 @@
     color: #007fff;
     text-decoration: none;
   }
-  
+
+
+.role-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.role-selection label {
+  display: flex;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.role-selection input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  accent-color: #007fff;
+}
+

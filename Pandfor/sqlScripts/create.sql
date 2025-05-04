@@ -11,6 +11,7 @@ CREATE TABLE Company
     company_id  SERIAL PRIMARY KEY,   -- Уникальный идентификатор компании
     "name"      varchar(70) NOT NULL, -- Название компании
     description TEXT,                 -- Описание компании
+    city        VARCHAR(100),
     photo       varchar(255)--фото
 );
 
@@ -45,7 +46,7 @@ CREATE TABLE PersonalInfo
 (
     info_id                 SERIAL PRIMARY KEY,                       -- Уникальный ID личной информации
     resume_id               INT UNIQUE REFERENCES Resume (resume_id), -- Привязка к резюме (один к одному)
-    photo_id               INT UNIQUE REFERENCES Photo (photo_id),
+    photo_id                INT UNIQUE REFERENCES Photo (photo_id),
     first_name              VARCHAR(100),                             -- Имя
     last_name               VARCHAR(100),                             -- Фамилия
     patronymic              VARCHAR(100),                             -- Отчество

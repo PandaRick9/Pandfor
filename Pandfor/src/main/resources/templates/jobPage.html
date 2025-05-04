@@ -22,8 +22,13 @@
       
     </div>
     <div class="right-section">
-      <button class="resume-btn">Создать резюме</button>
-      <button class="login-btn">Войти</button>
+      <form id="createResume" th:method="GET" th:action="@{/resume/new}">
+        <button class="resume-btn">Создать резюме</button>
+      </form>
+      <form id="login" th:method="GET" th:action="@{/auth/login}">
+        <button class="login-btn">Войти</button>
+      </form>
+
     </div>
   </header>
 

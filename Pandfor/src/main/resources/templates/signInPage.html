@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Вход</title>
-  <link rel="stylesheet" href="/static/css/signPageStyle.css">
+  <link rel="stylesheet" th:href="@{/css/signPageStyle.css}">
 </head>
 <body>
     
@@ -15,14 +15,17 @@
   
     <h2>Вход</h2>
   
-    <form class="login-form">
-      <input type="email" placeholder="Введите email" required>
-      <input type="password" placeholder="Введите пароль" required>
-      
-      <button type="submit" class="primary-btn">Войти</button>
+    <form class="login-form" method="post" action="/process_login">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="text"  name="login" id="login" placeholder="Введите логин" required>
+        <input type="password" name="password" id="password" placeholder="Введите пароль" required>
+        <div th:if="${param.error}" style="color: red;">
+            <p >Неверный логин или пароль</p>
+        </div>
+         <button type="submit" class="primary-btn">Войти</button>
 
     </form>
-  
+        <p>Нет учётной записи? <br><a th:href="@{/auth/registration}">Создать аккаунт</a></p>
   </div>
 
 </body>

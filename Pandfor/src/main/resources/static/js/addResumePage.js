@@ -71,15 +71,19 @@ function submitForm() {
         method: 'POST',
         body: formData
     })
-    .then(response => {
-        if (response.ok) {
-            alert('Резюме успешно отправлено!');
-        } else {
-            alert('Ошибка при отправке резюме.');
-        }
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-        alert('Ошибка при отправке данных.');
-    });
+        .then(response => {
+            if (response.ok) {
+                console.log('Резюме успешно отправлено!');
+
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            } else {
+                console.log('Ошибка при отправке резюме.');
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            console.log('Ошибка при отправке данных.');
+        });
 }

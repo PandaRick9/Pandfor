@@ -1,8 +1,13 @@
 package by.baraznov.recruiting.controllers;
 
 import by.baraznov.recruiting.dto.ResumeDTO;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,14 +18,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/resume")
 public class ResumeController {
 
-
+    @GetMapping
+    public String allResume() {
+        return "resumePage";
+    }
     @GetMapping("/new")
     public String addResume() {
         return "addResumePage";
     }
 
     @PostMapping(value = "/submit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> submitResume(
+    public ResponseEntity<?> submitResume(
             @RequestPart("resumeData") ResumeDTO resumeRequest,
             @RequestPart(value = "photo", required = false) MultipartFile photoFile) {
 
@@ -34,7 +42,9 @@ public class ResumeController {
         }
 
         // Здесь — логика сохранения resumeRequest + фото
-
-        return ResponseEntity.ok("Резюме успешно сохранено");
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, "/resume")
+                .build();
     }
+    
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Регистрация</title>
-  <link rel="stylesheet" href="/static/css/signPageStyle.css">
+  <link rel="stylesheet" th:href="@{/css/signPageStyle.css}">
 </head>
 <body>
 
@@ -15,13 +15,29 @@
       
         <h2>Регистрация</h2>
       
-        <form class="login-form">
-          <input type="email" placeholder="Введите email" required>
-          <input type="password" placeholder="Введите пароль" required>
+        <form class="login-form" th:method="post" th:action="@{/auth/registration}" th:object="${person}">
+          <input type="text" id="login" th:field="*{login}"  placeholder="Введите логин" required>
+            <div th:if="${#fields.hasErrors('login')}" style="color: red; margin-top: 10px;">
+                <span th:text="${#strings.arrayJoin(#fields.errors('login'), '. ')}"></span>
+            </div>
+            <input type="password" th:field="*{password}" id="password" placeholder="Введите пароль"/>
+            <div th:if="${#fields.hasErrors('password')}" style="color: red; margin-top: 10px;">
+                <span th:text="${#strings.arrayJoin(#fields.errors('password'), '. ')}"></span>
+            </div>
           <input type="password" placeholder="Подтвердите пароль" required>
-      
+            <div class="role-selection">
+                <label>
+                    <input type="radio" name="role" value="job_seeker" required>
+                    Я ищу работу
+                </label>
+                <label>
+                    <input type="radio" name="role" value="employer" required>
+                    Я ищу сотрудников
+                </label>
+            </div>
           <button type="submit" class="primary-btn">Зарегистрироваться</button>
         </form>
+        <p>Уже есть аккаунт?<br><a th:href="@{/auth/login}">Войти</a></p>
       
       </div>
       

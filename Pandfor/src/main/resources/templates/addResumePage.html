@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Создание резюме</title>
     <link  rel="stylesheet"  href="/css/addResumePage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 <div class="container">
@@ -42,6 +43,15 @@
 
         <label>Дата рождения</label>
         <input type="date" id="birthDate">
+
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+        <script>
+            flatpickr("#birthDate", {
+                dateFormat: "d.m.Y",
+                locale: "ru"
+            });
+        </script>
 
         <label>Телефон</label>
         <input type="tel" id="phone" placeholder="+7 999 123 45 67">

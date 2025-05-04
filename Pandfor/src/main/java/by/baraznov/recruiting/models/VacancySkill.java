@@ -23,7 +23,6 @@ import lombok.Setter;
 })
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class VacancySkill {
     @Id

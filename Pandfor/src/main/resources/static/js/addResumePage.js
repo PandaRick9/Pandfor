@@ -13,12 +13,11 @@ function addSkill() {
     const level = levelSelect.value;
 
     if (skill === '') return;
-
     const skillDiv = document.createElement('div');
     skillDiv.className = 'skill-item';
     skillDiv.innerHTML = `
         ${skill} — ${getSkillLevelText(level)}
-        <img src="/static/images/close-icon.png" alt="Удалить" class="remove-icon" onclick="removeSkill(this)">
+        <img src="/images/close-icon.png"  alt="Удалить" class="remove-icon" onclick="removeSkill(this)">
     `;
 
     document.getElementById('skillsList').appendChild(skillDiv);
@@ -37,9 +36,8 @@ function getSkillLevelText(value) {
 function removeSkill(element) {
     element.parentElement.remove();
 }
-
 function submitForm() {
-    const data = {
+    const jsonPart = {
         jobTitle: document.getElementById('jobTitle').value,
         lastName: document.getElementById('lastName').value,
         firstName: document.getElementById('firstName').value,
@@ -61,6 +59,27 @@ function submitForm() {
         skills: Array.from(document.querySelectorAll('.skill-item')).map(el => el.textContent.replace('✖', '').trim())
     };
 
-    console.log('Отправка данных:', data);
-    alert('Данные собраны и готовы к отправке!');
+    const formData = new FormData();
+    formData.append('resumeData', new Blob([JSON.stringify(jsonPart)], { type: 'application/json' }));
+
+    const photoFile = document.getElementById('photo').files[0];
+    if (photoFile) {
+        formData.append('photo', photoFile);
+    }
+
+    fetch('/resume/submit', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Резюме успешно отправлено!');
+        } else {
+            alert('Ошибка при отправке резюме.');
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Ошибка при отправке данных.');
+    });
 }

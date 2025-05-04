@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Подбор сотрудников</title>
-  <link rel="stylesheet" href="/static/css/mainPageStyle.css" />
+  <link rel="stylesheet" href="/css/jobPageStyle.css" />
 </head>
 <body>
 
   <!-- Header -->
   <header class="header">
     <div class="left-section">
-      <div class="logo">Компания</div>
+      <div class="logo">PandFor</div>
       <div class="dropdown">
-        <button class="dropbtn">Ищу работу</button>
+        <button class="dropbtn">Ищу сотрудника</button>
         <div class="dropdown-content">
-          <a href="mainPage.html">Ищу работу</a>
-          <a href="#">Ищу сотрудника</a>
+          <a th:href="@{/job}">Ищу работу</a>
+          <a th:href="@{/company}">Ищу сотрудника</a>
         </div>
       </div>      
       
@@ -32,7 +32,7 @@
 
     <section class="search-section">
       <div class="search-bar">
-        <input type="text" placeholder="Поиск вакансий..." />
+        <input type="text" placeholder="Поиск сотрудника..." />
         <button id="search-btn">Найти</button>
       </div>
     </section>
@@ -153,7 +153,7 @@
       </div>
     </div>
   </footer>
-  <script src="/static/js/mainPageScript.js"></script>
+  <script src="/js/jobPageScript.js"></script>
 
 </body>
 </html>

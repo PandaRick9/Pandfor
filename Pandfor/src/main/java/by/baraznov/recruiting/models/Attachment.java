@@ -19,7 +19,6 @@ import lombok.Setter;
 @Table(name = "attachment")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class Attachment {
     @Id

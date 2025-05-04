@@ -23,7 +23,6 @@ import java.util.Date;
 @Table(name = "education")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class Education {
     @Id

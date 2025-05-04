@@ -24,7 +24,6 @@ import lombok.Setter;
 @Table(name = "jobpreference")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class JobPreference {
     @Id

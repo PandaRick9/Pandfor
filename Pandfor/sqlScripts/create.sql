@@ -17,17 +17,17 @@ CREATE TABLE Company
 -- Работодатель
 CREATE TABLE Employer
 (
-    employer_id SERIAL PRIMARY KEY,                 -- Уникальный ID работодателя
+    employer_id SERIAL PRIMARY KEY,                  -- Уникальный ID работодателя
     company_id  INT REFERENCES Company (company_id), -- Привязка к компании
-    user_id INT REFERENCES User_Table(user_id)
+    user_id     INT REFERENCES User_Table (user_id)
 
 );
 
 -- Соискатель
 CREATE TABLE JobSeeker
 (
-    seeker_id  SERIAL PRIMARY KEY,           -- Уникальный ID соискателя
-    user_id INT REFERENCES User_Table(user_id)
+    seeker_id SERIAL PRIMARY KEY, -- Уникальный ID соискателя
+    user_id   INT REFERENCES User_Table (user_id)
 );
 
 -- Резюме
@@ -45,6 +45,7 @@ CREATE TABLE PersonalInfo
 (
     info_id                 SERIAL PRIMARY KEY,                       -- Уникальный ID личной информации
     resume_id               INT UNIQUE REFERENCES Resume (resume_id), -- Привязка к резюме (один к одному)
+    photo_id               INT UNIQUE REFERENCES Photo (photo_id),
     first_name              VARCHAR(100),                             -- Имя
     last_name               VARCHAR(100),                             -- Фамилия
     patronymic              VARCHAR(100),                             -- Отчество
@@ -53,7 +54,6 @@ CREATE TABLE PersonalInfo
     email                   VARCHAR(100),                             -- Email
     city                    VARCHAR(100),                             -- Город проживания
     gender                  VARCHAR(20),                              -- Пол
-    photo                   varchar(255),                             --фото
     work_experience_summary TEXT                                      -- Краткое описание опыта работы
 );
 
@@ -146,4 +146,13 @@ CREATE TABLE Attachment
     attachment_id SERIAL PRIMARY KEY,                    -- Уникальный ID файла
     reaction_id   INT REFERENCES Reaction (reaction_id), -- Привязка к отклику
     file_path     TEXT                                   -- Путь к файлу
+);
+
+
+CREATE TABLE Photo
+(
+    photo_id     SERIAL PRIMARY KEY,
+    file_name    VARCHAR(255),
+    content_type VARCHAR(100),
+    data         BYTEA,
 );

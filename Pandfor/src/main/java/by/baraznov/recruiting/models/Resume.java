@@ -26,7 +26,6 @@ import java.util.List;
 @Table(name = "resume")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class Resume {
     @Id

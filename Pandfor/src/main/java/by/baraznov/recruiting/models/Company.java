@@ -21,7 +21,6 @@ import java.util.List;
 @Table(name = "company")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class Company {
     @Id

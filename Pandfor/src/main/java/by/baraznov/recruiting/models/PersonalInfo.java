@@ -1,6 +1,7 @@
 package by.baraznov.recruiting.models;
 
 import by.baraznov.recruiting.models.enums.Gender;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,15 +22,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "personalinfo")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class PersonalInfo {
     @Id
@@ -53,8 +51,7 @@ public class PersonalInfo {
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @Column(name = "photo")
-    private String photo;
+
     @Column(name = "work_experience_summary")
     private String workExperienceSummary;
     @OneToOne
@@ -62,10 +59,7 @@ public class PersonalInfo {
     private Resume resume;
     @OneToMany(mappedBy = "personalInfo")
     private List<Education> education;
-
-
-
-
-
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
 }

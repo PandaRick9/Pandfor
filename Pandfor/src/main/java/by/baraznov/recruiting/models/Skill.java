@@ -19,7 +19,6 @@ import java.util.List;
 @Table(name = "skill")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class Skill {
     @Id

@@ -23,7 +23,6 @@ import lombok.Setter;
 @Table(name = "jobconditions")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class JobCondition {
     @Id

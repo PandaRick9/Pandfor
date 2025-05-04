@@ -22,7 +22,6 @@ import java.util.List;
 @Table(name = "employer")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class Employer {
     @Id

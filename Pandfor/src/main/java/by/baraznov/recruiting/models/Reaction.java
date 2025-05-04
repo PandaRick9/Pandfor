@@ -28,7 +28,6 @@ import java.util.List;
 @Table(name = "reaction")
 @Setter
 @Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class Reaction {
     @Id

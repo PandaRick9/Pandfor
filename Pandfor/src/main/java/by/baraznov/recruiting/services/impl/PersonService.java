@@ -1,4 +1,4 @@
-package by.baraznov.recruiting.services;
+package by.baraznov.recruiting.services.impl;
 
 import by.baraznov.recruiting.models.Person;
 import by.baraznov.recruiting.repositories.PeopleRepository;

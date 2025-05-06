@@ -1,6 +1,7 @@
 package by.baraznov.recruiting.models;
 
 import ch.qos.logback.classic.pattern.LineOfCallerConverter;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,8 +35,8 @@ public class Education {
     @Column(name = "specialization")
     private String specialization;
     @Column(name = "graduation_date")
-    private Date graduationDate;
-    @ManyToOne
+    private Integer graduationDate;
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "info_id")
     private PersonalInfo personalInfo;
 }

@@ -1,6 +1,7 @@
 package by.baraznov.recruiting.models;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,13 +45,13 @@ public class Resume {
     @ManyToOne
     @JoinColumn(name = "seeker_id")
     private JobSeeker jobSeeker;
-    @OneToOne(mappedBy = "resume")
+    @OneToOne(mappedBy = "resume", cascade = CascadeType.ALL)
     private JobPreference jobPreference;
-    @OneToOne(mappedBy = "resume")
-    private PersonalInfo personalInfo;
 
+    @OneToOne(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PersonalInfo personalInfo;
     @OneToMany(mappedBy = "resume")
     private List<Reaction> reactions;
-    @OneToMany(mappedBy = "resume")
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
     private List<ResumeSkill> resumeSkills;
 }

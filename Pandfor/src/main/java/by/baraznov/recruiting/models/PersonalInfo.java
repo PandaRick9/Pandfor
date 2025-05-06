@@ -54,9 +54,11 @@ public class PersonalInfo {
 
     @Column(name = "work_experience_summary")
     private String workExperienceSummary;
+
     @OneToOne
     @JoinColumn(name = "resume_id")
     private Resume resume;
+
     @OneToMany(mappedBy = "personalInfo")
     private List<Education> education;
     @OneToOne(cascade = CascadeType.ALL)

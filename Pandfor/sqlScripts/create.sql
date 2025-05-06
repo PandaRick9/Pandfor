@@ -65,7 +65,7 @@ CREATE TABLE Education
     info_id         INT REFERENCES PersonalInfo (info_id), -- Привязка к личной информации
     institution     VARCHAR(255),                          -- Учебное заведение
     specialization  VARCHAR(255),                          -- Специализация/направление
-    graduation_date DATE                                   -- Год окончания
+    graduation_date INT                                   -- Год окончания
 );
 
 -- Пожелания по условиям работы
@@ -155,5 +155,5 @@ CREATE TABLE Photo
     photo_id     SERIAL PRIMARY KEY,
     file_name    VARCHAR(255),
     content_type VARCHAR(100),
-    data         BYTEA,
+    data         BYTEA
 );

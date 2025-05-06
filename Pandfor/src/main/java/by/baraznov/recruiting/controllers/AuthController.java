@@ -1,7 +1,7 @@
 package by.baraznov.recruiting.controllers;
 
 import by.baraznov.recruiting.models.Person;
-import by.baraznov.recruiting.services.RegistrationService;
+import by.baraznov.recruiting.services.impl.RegistrationService;
 import by.baraznov.recruiting.util.PersonValidator;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

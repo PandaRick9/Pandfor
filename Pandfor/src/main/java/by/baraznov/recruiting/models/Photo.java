@@ -32,8 +32,8 @@ public class Photo {
     @Column(name = "content_type")
     private String contentType;
 
-    @Lob
-    @Column(name = "data")
+
+    @Column(name = "data", columnDefinition="bytea")
     private byte[] data;
 
     @OneToOne(mappedBy = "photo")

@@ -13,17 +13,22 @@ function addSkill() {
     const level = levelSelect.value;
 
     if (skill === '') return;
+
     const skillDiv = document.createElement('div');
     skillDiv.className = 'skill-item';
+    skillDiv.setAttribute('data-skill-name', skill);
+    skillDiv.setAttribute('data-skill-level', level);
+
     skillDiv.innerHTML = `
         ${skill} — ${getSkillLevelText(level)}
-        <img src="/images/close-icon.png"  alt="Удалить" class="remove-icon" onclick="removeSkill(this)">
+        <img src="/images/close-icon.png" alt="Удалить" class="remove-icon" onclick="removeSkill(this)">
     `;
 
     document.getElementById('skillsList').appendChild(skillDiv);
     input.value = '';
     levelSelect.value = 'BASIC';
 }
+
 function getSkillLevelText(value) {
     switch (value) {
         case 'BASIC': return 'Начинающий';
@@ -36,27 +41,45 @@ function getSkillLevelText(value) {
 function removeSkill(element) {
     element.parentElement.remove();
 }
+function getCsrfToken() {
+    const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
+    const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
+    return { token, header };
+}
 function submitForm() {
+    const educationItems = Array.from(document.querySelectorAll('.education-item')).map(item => ({
+        institution: item.querySelector('.schoolName').value,
+        specialization: item.querySelector('.speciality').value,
+        graduationDate: item.querySelector('.graduationYear').value,
+    }));
+
+    const skills = Array.from(document.querySelectorAll('.skill-item')).map(el => ({
+        name: el.getAttribute('data-skill-name'),
+        proficiencyLevel: el.getAttribute('data-skill-level'),
+    }));
+
     const jsonPart = {
-        jobTitle: document.getElementById('jobTitle').value,
-        lastName: document.getElementById('lastName').value,
-        firstName: document.getElementById('firstName').value,
-        middleName: document.getElementById('middleName').value,
-        gender: document.getElementById('gender').value,
-        birthDate: document.getElementById('birthDate').value,
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        city: document.getElementById('city').value,
-        workDescription: document.getElementById('workDescription').value,
-        schoolName: document.getElementById('schoolName').value,
-        speciality: document.getElementById('speciality').value,
-        graduationYear: document.getElementById('graduationYear').value,
-        workSchedule: document.getElementById('workSchedule').value,
-        employmentType: document.getElementById('employmentType').value,
-        workFormat: document.getElementById('workFormat').value,
-        experience: document.getElementById('experience').value,
-        salary: document.getElementById('salary').value,
-        skills: Array.from(document.querySelectorAll('.skill-item')).map(el => el.textContent.replace('✖', '').trim())
+        title: document.getElementById('jobTitle').value,
+        personalInfo: {
+            lastName: document.getElementById('lastName').value,
+            firstName: document.getElementById('firstName').value,
+            patronymic: document.getElementById('patronymic').value,
+            gender: document.getElementById('gender').value,
+            birthDate: document.getElementById('birthDate').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            city: document.getElementById('city').value,
+            workExperienceSummary: document.getElementById('workDescription').value,
+        },
+        educationList: educationItems,
+        jobPreference: {
+            schedule: document.getElementById('workSchedule').value,
+            employmentType: document.getElementById('employmentType').value,
+            workFormat: document.getElementById('workFormat').value,
+            experienceYear: document.getElementById('experience').value,
+            desiredSalary: document.getElementById('salary').value,
+        },
+        skills: skills
     };
 
     const formData = new FormData();
@@ -67,23 +90,53 @@ function submitForm() {
         formData.append('photo', photoFile);
     }
 
+    const { token, header } = getCsrfToken();
+
     fetch('/resume/submit', {
         method: 'POST',
+        headers: {
+            [header]: token
+        },
         body: formData
     })
-        .then(response => {
-            if (response.ok) {
-                console.log('Резюме успешно отправлено!');
-
-                if (response.redirected) {
-                    window.location.href = response.url;
-                }
-            } else {
-                console.log('Ошибка при отправке резюме.');
+    .then(response => {
+        if (response.ok) {
+            console.log('Резюме успешно отправлено!');
+            if (response.redirected) {
+                window.location.href = response.url;
             }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            console.log('Ошибка при отправке данных.');
-        });
+        } else {
+            console.log('Ошибка при отправке резюме. Код: ', response.status);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+    });
+}
+
+
+
+function addEducation() {
+    const container = document.getElementById('educationContainer');
+    
+    const newItem = document.createElement('div');
+    newItem.className = 'education-item';
+    newItem.innerHTML = `
+        <label>Название учебного заведения</label>
+        <input type="text" class="schoolName" placeholder="МГУ">
+
+        <label>Специальность</label>
+        <input type="text" class="speciality" placeholder="Программная инженерия">
+
+        <label>Год окончания</label>
+        <input type="number" class="graduationYear" placeholder="2024">
+        
+        <button type="button" onclick="removeEducation(this)">Удалить</button>
+    `;
+
+    container.appendChild(newItem);
+}
+
+function removeEducation(button) {
+    button.parentElement.remove();
 }

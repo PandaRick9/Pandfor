@@ -2,7 +2,7 @@ package by.baraznov.recruiting.util;
 
 
 import by.baraznov.recruiting.models.Person;
-import by.baraznov.recruiting.services.PersonDetailsService;
+import by.baraznov.recruiting.services.impl.PersonDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;

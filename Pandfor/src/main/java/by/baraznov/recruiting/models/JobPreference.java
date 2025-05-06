@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "jobpreference")
+@Table(name = "jobpreferences")
 @Setter
 @Getter
 @RequiredArgsConstructor

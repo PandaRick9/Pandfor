@@ -140,3 +140,27 @@ function addEducation() {
 function removeEducation(button) {
     button.parentElement.remove();
 }
+
+function handleBackButton() {
+    const loginPages = ['/auth/login', '/auth/registration'];
+    const referrer = document.referrer;
+
+    if (!referrer) {
+        window.location.href = '/job';
+        return;
+    }
+
+    const referrerUrl = new URL(referrer);
+    const refPath = referrerUrl.pathname;
+
+    if (loginPages.includes(refPath)) {
+        // Если пришли с /login или /registration → идём на главную
+        window.location.href = '/job';
+    } else if (window.history.length > 1) {
+        // Иначе идём назад
+        window.history.back();
+    } else {
+        // Если нет истории — тоже идём на главную
+        window.location.href = '/job';
+    }
+}

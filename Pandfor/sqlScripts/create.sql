@@ -1,3 +1,11 @@
+CREATE TABLE Photo
+(
+    photo_id     SERIAL PRIMARY KEY,
+    file_name    VARCHAR(255),
+    content_type VARCHAR(100),
+    data         BYTEA
+);
+
 CREATE TABLE User_Table
 (
     user_id    SERIAL PRIMARY KEY,
@@ -9,10 +17,10 @@ CREATE TABLE User_Table
 CREATE TABLE Company
 (
     company_id  SERIAL PRIMARY KEY,   -- Уникальный идентификатор компании
+    photo_id                INT UNIQUE REFERENCES Photo (photo_id),
     "name"      varchar(70) NOT NULL, -- Название компании
     description TEXT,                 -- Описание компании
-    city        VARCHAR(100),
-    photo       varchar(255)--фото
+    city        VARCHAR(100)
 );
 
 -- Работодатель
@@ -150,10 +158,3 @@ CREATE TABLE Attachment
 );
 
 
-CREATE TABLE Photo
-(
-    photo_id     SERIAL PRIMARY KEY,
-    file_name    VARCHAR(255),
-    content_type VARCHAR(100),
-    data         BYTEA
-);

@@ -38,5 +38,7 @@ public class Photo {
 
     @OneToOne(mappedBy = "photo")
     private PersonalInfo personalinfo;
+    @OneToOne(mappedBy = "photo")
+    private Company company;
 
 }

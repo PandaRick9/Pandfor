@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заполнение информации о компании</title>
+    <link rel="stylesheet" href="/static/css/addResumePage.css">
+</head>
+<body>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+<div class="container">
+    <h1>Информация о компании</h1>
+
+    <label for="companyName">Название компании</label>
+    <input type="text" id="companyName" placeholder="ООО Ромашка">
+
+    <label for="companyDescription">Описание компании</label>
+    <textarea id="companyDescription" placeholder="Чем занимается компания"></textarea>
+
+    <label for="companyCity">Город</label>
+    <input type="text" id="companyCity" placeholder="Москва">
+
+    <label>Фото</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <div class="button-row">
+        <button class="back" onclick="handleBackButton()">Назад</button>
+        <button class="next" onclick="submitCompanyInfo()">Сохранить</button>
+    </div>
+
+</div>
+
+<script src="/static/js/addCompanyPage.js"></script>
+</body>
+</html>

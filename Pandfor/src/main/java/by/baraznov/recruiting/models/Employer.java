@@ -30,7 +30,7 @@ public class Employer {
     private Integer employerId;
     @OneToMany(mappedBy = "employer")
     private List<Vacancy> vacancies;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "company_id")
     private Company company;
     @OneToOne

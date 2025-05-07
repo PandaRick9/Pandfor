@@ -61,6 +61,8 @@ public class PersonalInfo {
 
     @OneToMany(mappedBy = "personalInfo")
     private List<Education> education;
+
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")
     private Photo photo;

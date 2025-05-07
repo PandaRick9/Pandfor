@@ -1,11 +1,14 @@
 package by.baraznov.recruiting.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,12 +34,13 @@ public class Company {
     private String name;
     @Column(name = "description")
     private String description;
-    @Column(name = "photo")
-    private String photo;
     @Column(name = "city")
     private String city;
-    @OneToMany(mappedBy = "company")
-    private List<Employer> employers;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
+    @OneToOne(mappedBy = "company")
+    private Employer employers;
     @OneToMany(mappedBy = "company")
     private List<Vacancy> vacancies;
 }

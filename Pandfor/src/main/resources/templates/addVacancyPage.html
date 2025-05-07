@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление вакансии</title>
+    <link rel="stylesheet" href="/static/css/addResumePage.css">
+</head>
+<body>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+<div class="container">
+    <h1>Добавление вакансии</h1>
+
+    <!-- Шаг 1 -->
+    <div class="step" id="step1">
+        <h2>Основная информация</h2>
+        <label>Название вакансии</label>
+        <input type="text" id="title" placeholder="Frontend разработчик">
+
+        <label>Описание</label>
+        <textarea id="description" placeholder="Опишите обязанности и требования"></textarea>
+
+        <div class="button-row">
+            <button class="back" onclick="handleBackButton()">Назад</button>
+            <button class="next" onclick="nextStep(2)">Далее</button>
+        </div>
+    </div>
+
+    <!-- Шаг 2 -->
+    <div class="step" id="step2" style="display:none;">
+        <h2>Условия работы</h2>
+
+        <label>Тип занятости</label>
+        <select id="employmentType">
+            <option value="FULL_TIME">Полная занятость</option>
+            <option value="PART_TIME">Частичная занятость</option>
+            <option value="INTERNSHIP">Стажировка</option>
+        </select>
+
+        <label>График работы</label>
+        <select id="schedule">
+            <option value="FIVE_TWO">5/2</option>
+            <option value="TWO_TWO">2/2</option>
+            <option value="THREE_THREE">3/3</option>
+            <option value="ON_WEEKENDS">По выходным</option>
+        </select>
+
+        <label>Формат работы</label>
+        <select id="workFormat">
+            <option value="REMOTELY">Удаленно</option>
+            <option value="EMPLOYER_PLACE">На месте работодателя</option>
+            <option value="HYBRID">Гибрид</option>
+        </select>
+
+        <label>Требуемый опыт (лет)</label>
+        <select id="requiredExperienceYears">
+            <option value="NO_EXPERIENCE">Нет опыта</option>
+            <option value="ONE_THEE_YEAR">От 1 года до 3 лет</option>
+            <option value="THREE_SIX_YEAR">От 3 до 6 лет</option>
+            <option value="MORE_THE_SIX_YEAR">Более 6 лет</option>
+        </select>
+
+        <label>Зарплата</label>
+        <input type="number" id="salary" placeholder="Например: 60000">
+
+        <div class="button-row">
+            <button class="back" onclick="prevStep(1)">Назад</button>
+            <button class="next" onclick="nextStep(3)">Далее</button>
+        </div>
+    </div>
+
+    <!-- Шаг 3 -->
+    <div class="step" id="step3" style="display:none;">
+        <h2>Навыки</h2>
+
+        <label for="skillInput">Добавьте навык</label>
+        <div class="skill-input-row">
+            <input type="text" id="skillInput" placeholder="Например: JavaScript">
+
+            <select id="skillLevel">
+                <option value="BASIC">Начинающий</option>
+                <option value="INTERMEDIATE">Средний</option>
+                <option value="ADVANCED">Продвинутый</option>
+            </select>
+
+            <button type="button" onclick="addSkill()">Добавить</button>
+        </div>
+
+        <div id="skillsList"></div>
+
+        <div class="button-row">
+            <button class="back" onclick="prevStep(2)">Назад</button>
+            <button class="submit" onclick="submitVacancy()">Отправить</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/addVacancyPage.js"></script>
+</body>
+</html>

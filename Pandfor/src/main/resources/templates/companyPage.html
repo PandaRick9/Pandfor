@@ -22,7 +22,9 @@
       
     </div>
     <div class="right-section">
-      <button class="resume-btn">Создать резюме</button>
+      <form id="createResume" th:method="GET" th:action="@{/company/new}">
+        <button class="resume-btn">Создать вакансию</button>
+      </form>
       <button class="login-btn">Войти</button>
     </div>
   </header>

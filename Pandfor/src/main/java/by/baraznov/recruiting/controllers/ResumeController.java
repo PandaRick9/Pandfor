@@ -52,6 +52,7 @@ public class ResumeController {
     public String allResume() {
         return "resumePage";
     }
+
     @GetMapping("/new")
     public String addResume() {
         return "addResumePage";

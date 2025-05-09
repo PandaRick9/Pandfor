@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Заполнение информации о компании</title>
-    <link rel="stylesheet" href="/static/css/addResumePage.css">
+    <link rel="stylesheet" href="/css/addResumePage.css">
 </head>
 <body>
 <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -26,11 +26,11 @@
 
     <div class="button-row">
         <button class="back" onclick="handleBackButton()">Назад</button>
-        <button class="next" onclick="submitCompanyInfo()">Сохранить</button>
+        <button class="next" onclick="submitCompanyForm()">Сохранить</button>
     </div>
 
 </div>
 
-<script src="/static/js/addCompanyPage.js"></script>
+<script src="/js/addCompanyPage.js"></script>
 </body>
 </html>

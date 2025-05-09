@@ -48,55 +48,60 @@ function getCsrfToken() {
     const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
     return { token, header };
 }
-
 function submitVacancy() {
     const skills = Array.from(document.querySelectorAll('.skill-item')).map(el => ({
         name: el.getAttribute('data-skill-name'),
-        proficiencyLevel: el.getAttribute('data-skill-level'),
+        requiredLevel: el.getAttribute('data-skill-level'),
     }));
 
     const jsonPart = {
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
-        salary: parseFloat(document.getElementById('salary').value),
-        schedule: document.getElementById('schedule').value,
-        employmentType: document.getElementById('employmentType').value,
-        workFormat: document.getElementById('workFormat').value,
-        requiredExperienceYears: document.getElementById('requiredExperienceYears').value,
+        salary: document.getElementById('salary').value,
+        jobCondition: {
+            schedule: document.getElementById('schedule').value,
+            employmentType: document.getElementById('employmentType').value,
+            workFormat: document.getElementById('workFormat').value,
+            requiredExperienceYears: document.getElementById('requiredExperienceYears').value,
+        },
         skills: skills
     };
 
-    const { token, header } = getCsrfToken();
+    const formData = new FormData();
+    formData.append('vacancyData', new Blob([JSON.stringify(jsonPart)], { type: 'application/json' }));
+
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
     fetch('/vacancy/submit', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            [header]: token
+            [csrfHeader]: csrfToken
         },
-        body: JSON.stringify(jsonPart)
+        body: formData
     })
-    .then(response => {
-        if (response.ok) {
-            console.log('Вакансия успешно отправлена!');
-            if (response.redirected) {
-                window.location.href = response.url;
+        .then(response => {
+            if (response.ok) {
+                console.log('Вакансия успешно отправлена!');
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            } else {
+                console.error('Ошибка при отправке вакансии. Код: ', response.status);
             }
-        } else {
-            console.log('Ошибка при отправке вакансии. Код: ', response.status);
-        }
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-    });
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
 }
+
 
 function handleBackButton() {
     const loginPages = ['/auth/login', '/auth/registration'];
     const referrer = document.referrer;
 
     if (!referrer) {
-        window.location.href = '/job';
+        window.location.href = '/company';
         return;
     }
 
@@ -104,10 +109,10 @@ function handleBackButton() {
     const refPath = referrerUrl.pathname;
 
     if (loginPages.includes(refPath)) {
-        window.location.href = '/job';
+        window.location.href = '/company';
     } else if (window.history.length > 1) {
         window.history.back();
     } else {
-        window.location.href = '/job';
+        window.location.href = '/company';
     }
 }

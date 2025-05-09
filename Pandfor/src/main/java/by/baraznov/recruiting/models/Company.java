@@ -39,7 +39,7 @@ public class Company {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")
     private Photo photo;
-    @OneToOne(mappedBy = "company")
+    @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private Employer employers;
     @OneToMany(mappedBy = "company")
     private List<Vacancy> vacancies;

@@ -1,20 +1,16 @@
 package by.baraznov.recruiting.controllers;
 
-import by.baraznov.recruiting.dto.ResumeDTO;
 import by.baraznov.recruiting.dto.VacancyDTO;
 import by.baraznov.recruiting.mappers.VacancyMapper;
 import by.baraznov.recruiting.models.Company;
 import by.baraznov.recruiting.models.Employer;
 import by.baraznov.recruiting.models.JobCondition;
 import by.baraznov.recruiting.models.Person;
-import by.baraznov.recruiting.models.Resume;
-import by.baraznov.recruiting.models.ResumeSkill;
 import by.baraznov.recruiting.models.Skill;
 import by.baraznov.recruiting.models.Vacancy;
 import by.baraznov.recruiting.models.VacancySkill;
 import by.baraznov.recruiting.services.CompanyService;
 import by.baraznov.recruiting.services.EmployerService;
-import by.baraznov.recruiting.services.ResumeService;
 import by.baraznov.recruiting.services.SkillService;
 import by.baraznov.recruiting.services.VacancyService;
 import by.baraznov.recruiting.services.impl.CurrentUserProvider;
@@ -28,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,14 +38,18 @@ public class VacancyController {
     private final CurrentUserProvider currentUserProvider;
     private final EmployerService employerService;
     private final CompanyService companyService;
+
+    @GetMapping
+    public String allVacancy(Model model) {
+        model.addAttribute("vacancies", vacancyService.findAll());
+        return "vacancyPage";
+    }
+
     @GetMapping("/new")
     public String newVacancy() {
         return "addVacancyPage";
     }
-    @GetMapping
-    public String vacancyPage() {
-        return "companyPage";//TODO
-    }
+
     @PostMapping("/submit")
     public ResponseEntity<?> submitVacancy(
             @RequestPart("vacancyData") VacancyDTO vacancyDTO) {
@@ -68,7 +67,7 @@ public class VacancyController {
         vacancyService.save(vacancy);
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, "/vacancy")
+                .header(HttpHeaders.LOCATION, "/resume")
                 .build();
     }
     private List<VacancySkill> saveSkills(VacancyDTO vacancyDTO, Vacancy vacancy) {

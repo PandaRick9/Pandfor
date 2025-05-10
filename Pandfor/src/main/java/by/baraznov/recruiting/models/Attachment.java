@@ -8,10 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -25,8 +23,10 @@ public class Attachment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attachment_id")
     private Integer attachmentId;
-    @Column(name = "file_path")
-    private String filePath;
+    @Column(name = "file_name")
+    private String fileName;
+    @Column(name = "data", columnDefinition="bytea")
+    private byte[] data;
     @ManyToOne
     @JoinColumn(name = "reaction_id")
     private Reaction reaction;

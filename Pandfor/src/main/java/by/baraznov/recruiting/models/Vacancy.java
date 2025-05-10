@@ -3,6 +3,7 @@ package by.baraznov.recruiting.models;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,16 +43,16 @@ public class Vacancy {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private LocalDateTime createdAt;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employer_id")
     private Employer employer;
-    @OneToOne(mappedBy = "vacancy", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "vacancy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private JobCondition jobCondition;
     @OneToMany(mappedBy = "vacancy")
     private List<Reaction> reactions;
-    @OneToMany(mappedBy = "vacancy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vacancy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<VacancySkill> vacancySkills;
 }

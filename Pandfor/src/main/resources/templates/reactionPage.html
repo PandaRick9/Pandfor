@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Отклики на вакансию</title>
+  <link rel="stylesheet" href="/static/css/vacancyPageStyle.css"/>
+  <style>
+    .button-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .apply-btn, .reject-btn, .resume-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .apply-btn {
+      background-color: #507DBC;
+      color: white;
+    }
+    .apply-btn:hover {
+      background-color: #ffffff;
+    }
+    .reject-btn {
+      background-color: #ffffff;
+      color: #507DBC;
+    }
+    .reject-btn:hover {
+      background-color: #507DBC;
+      color: #ffffff;
+    }
+    .resume-btn {
+      background-color: #507DBC;
+      color: white;
+    }
+    .resume-btn:hover {
+      background-color: #ffffff;
+      color: #507DBC;
+    }
+    .match-percentage {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 5px;
+      color: #333;
+    }
+    .button-section {
+      margin-top: 5px;
+    }
+
+
+     .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding-left: 2rem;
+
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+
+    .main-content2 {
+    flex-grow: 1; /* Этот контейнер растягивается, чтобы занять оставшееся пространство */
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    width: 100%;
+  }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="left-section">
+    <a class="logo" href="/job">Pandfor</a>
+  </div>
+  <div class="right-section">
+    <button class="resume-btn" onclick="location.href='/vacancy/new'">Создать вакансию</button>
+    <button class="login-btn" onclick="location.href='/auth/login'">Войти</button>
+  </div>
+</header>
+
+<a href="/company/vacancies" class="back-button">← Назад ко всем вакансиям компании</a>
+<div class="main-content2">
+  <h2 class="found-vacancies">Откликов на «Frontend Developer»: 5</h2>
+
+  <div class="vacancy-list">
+
+    <div class="vacancy-card">
+      <div class="vacancy-header">
+        <h4 class="vacancy-title">Иван Иванов</h4>
+        <div class="vacancy-salary-details">
+          <span class="salary">15.05.2025 14:32</span>
+          <span class="detail-badge">NOT_VIEWED</span>
+        </div>
+      </div>
+
+      <div class="vacancy-location">
+        <p class="cover-letter">
+          Здравствуйте! Я опытный Frontend-разработчик с 3 годами опыта...
+        </p>
+        <div class="match-percentage">Подходит на 85%</div>
+      </div>
+      
+    
+      <div class="button-section">
+        <button class="resume-btn" onclick="viewResume('/uploads/resumes/ivan.pdf')">Просмотреть резюме</button>
+      </div>
+
+    
+      <div class="button-section button-row">
+        <button class="apply-btn" onclick="handleAccept(1)">Принять</button>
+        <button class="reject-btn" onclick="handleReject(1)">Отклонить</button>
+      </div>
+    </div>
+
+
+    <div class="vacancy-card">
+      <div class="vacancy-header">
+        <h4 class="vacancy-title">Мария Петрова</h4>
+        <div class="vacancy-salary-details">
+          <span class="salary">14.05.2025 09:17</span>
+          <span class="detail-badge">INVITATION</span>
+        </div>
+      </div>
+     
+      <div class="vacancy-location">
+        <p class="cover-letter">
+          Добрый день! Меня заинтересовала ваша вакансия. Имею опыт в React и Vue...
+        </p>
+        <div class="match-percentage">Подходит на 70%</div>
+      </div>
+      
+      <div class="button-section">
+        <button class="resume-btn" onclick="viewResume('/uploads/resumes/maria.pdf')">Просмотреть резюме</button>
+      </div>
+
+      <div class="button-section button-row">
+        <button class="apply-btn" onclick="handleAccept(2)">Принять</button>
+        <button class="reject-btn" onclick="handleReject(2)">Отклонить</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-left">
+    <h3>О компании</h3>
+    <p>Мы помогаем компаниям находить лучших IT-специалистов.</p>
+  </div>
+  <div class="footer-center">
+    <ul>
+      <li><a href="#">О нас</a></li>
+      <li><a href="#">Контакты</a></li>
+      <li><a href="#">Политика конфиденциальности</a></li>
+    </ul>
+  </div>
+  <div class="footer-right">
+    <div class="socials">
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function handleAccept(id) {
+    fetch(`/reaction/accept/${id}`, { method: 'POST' })
+      .then(() => alert('Отклик принят'))
+      .catch(err => console.error(err));
+  }
+  function handleReject(id) {
+    fetch(`/reaction/reject/${id}`, { method: 'POST' })
+      .then(() => alert('Отклик отклонён'))
+      .catch(err => console.error(err));
+  }
+  function viewResume(url) {
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>

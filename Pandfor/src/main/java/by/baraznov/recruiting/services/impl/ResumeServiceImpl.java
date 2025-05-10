@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,5 +21,10 @@ public class ResumeServiceImpl implements ResumeService {
         resume.setDateCreated(LocalDateTime.now());
         resume.setIsActive(true);
         resumesRepository.save(resume);
+    }
+
+    @Override
+    public List<Resume> findAll() {
+        return resumesRepository.findAll();
     }
 }

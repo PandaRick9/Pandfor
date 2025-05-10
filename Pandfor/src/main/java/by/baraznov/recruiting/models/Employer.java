@@ -2,6 +2,7 @@ package by.baraznov.recruiting.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +31,7 @@ public class Employer {
     private Integer employerId;
     @OneToMany(mappedBy = "employer")
     private List<Vacancy> vacancies;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
     @OneToOne

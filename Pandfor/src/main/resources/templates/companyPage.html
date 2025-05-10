@@ -22,6 +22,9 @@
       
     </div>
     <div class="right-section">
+      <form id="vacancyList" th:method="GET" th:action="@{/company/vacancy}">
+        <button class="resume-btn">Список вакансий</button>
+      </form>
       <form id="createResume" th:method="GET" th:action="@{/company/new}">
         <button class="resume-btn">Создать вакансию</button>
       </form>

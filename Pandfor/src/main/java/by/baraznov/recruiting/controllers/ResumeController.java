@@ -49,7 +49,8 @@ public class ResumeController {
 
 
     @GetMapping
-    public String allResume() {
+    public String allResume(Model model) {
+        model.addAttribute("resumes", resumeService.findAll());
         return "resumePage";
     }
 
@@ -97,7 +98,7 @@ public class ResumeController {
         info.setEducation(educationList);
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, "/resume")
+                .header(HttpHeaders.LOCATION, "/vacancy")
                 .build();
     }
     private List<ResumeSkill> saveSkills(ResumeDTO resumeRequest, Resume resume) {

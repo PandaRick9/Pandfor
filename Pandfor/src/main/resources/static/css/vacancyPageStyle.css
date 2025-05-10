@@ -43,7 +43,13 @@
   .logo {
     font-size: 1.5rem;
     font-weight: bold;
+    text-decoration: none;
+    color: white;
   }
+.logo:hover {
+  text-decoration: none;
+  color: white;
+}
   
   .header select,
   .header select option {
@@ -508,4 +514,93 @@
     padding: 0 0 2rem 0;
 
   }
-  
+
+
+
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 400px;
+  height: 530px;
+  max-width: 90%;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.modal-job-title {
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+.form-group input{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: #fff;
+}
+.form-group textarea {
+  width: 100%;
+  height: 250px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+  border-radius: 6px;
+  outline: none;
+}
+
+
+.form-group input[type="file"] {
+  display: block;
+}
+
+.primary-btn {
+  background-color: #507DBC;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.primary-btn:hover {
+  background-color: #416a99;
+}

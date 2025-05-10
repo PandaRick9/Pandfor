@@ -23,6 +23,11 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
+    public Vacancy findOne(Integer id) {
+        return vacancyRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public List<Vacancy> findAll() {
         return vacancyRepository.findAll();
     }

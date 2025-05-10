@@ -5,12 +5,15 @@ import by.baraznov.recruiting.mappers.VacancyMapper;
 import by.baraznov.recruiting.models.Company;
 import by.baraznov.recruiting.models.Employer;
 import by.baraznov.recruiting.models.JobCondition;
+import by.baraznov.recruiting.models.JobSeeker;
 import by.baraznov.recruiting.models.Person;
 import by.baraznov.recruiting.models.Skill;
 import by.baraznov.recruiting.models.Vacancy;
 import by.baraznov.recruiting.models.VacancySkill;
 import by.baraznov.recruiting.services.CompanyService;
 import by.baraznov.recruiting.services.EmployerService;
+import by.baraznov.recruiting.services.JobSeekerService;
+import by.baraznov.recruiting.services.ResumeService;
 import by.baraznov.recruiting.services.SkillService;
 import by.baraznov.recruiting.services.VacancyService;
 import by.baraznov.recruiting.services.impl.CurrentUserProvider;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -38,10 +42,15 @@ public class VacancyController {
     private final CurrentUserProvider currentUserProvider;
     private final EmployerService employerService;
     private final CompanyService companyService;
+    private final ResumeService resumeService;
+    private final JobSeekerService jobSeekerService;
 
     @GetMapping
     public String allVacancy(Model model) {
+        Person person = currentUserProvider.getCurrentPerson().getPerson();
+        JobSeeker jobSeeker = jobSeekerService.findByPerson(person).orElse(null);
         model.addAttribute("vacancies", vacancyService.findAll());
+        model.addAttribute("resumes", Objects.requireNonNull(jobSeeker).getResumes());
         return "vacancyPage";
     }
 

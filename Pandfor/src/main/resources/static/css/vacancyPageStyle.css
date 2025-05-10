@@ -535,7 +535,7 @@
   border-radius: 12px;
   padding: 24px;
   width: 400px;
-  height: 530px;
+  height: 600px;
   max-width: 90%;
   position: relative;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -604,3 +604,72 @@
 .primary-btn:hover {
   background-color: #416a99;
 }
+
+
+
+.apply-btn {
+  padding: 8px 16px;
+  background-color: #507DBC;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.apply-btn:hover {
+  background-color: #ffffff;
+  color: #507DBC;
+
+}
+
+
+.apply-btn1 {
+  padding: 8px 16px;
+  background-color: #507DBC;
+  color: white;
+  border-color: #507DBC;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.apply-btn1:hover {
+  background-color: #ffffff;
+  color: #507DBC;
+  border-color: #507DBC;
+}
+
+.form-select {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #507DBC;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #507DBC;
+}
+

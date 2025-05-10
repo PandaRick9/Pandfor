@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface VacancyService {
     void save(Vacancy vacancy);
+    Vacancy findOne(Integer id);
     List<Vacancy> findAll();
     List<Vacancy> findAllVacancies(Company company);
 }

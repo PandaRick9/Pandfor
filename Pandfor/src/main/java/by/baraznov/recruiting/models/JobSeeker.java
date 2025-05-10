@@ -3,6 +3,7 @@ package by.baraznov.recruiting.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +27,7 @@ public class JobSeeker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seeker_id")
     private Integer seekerId;
-    @OneToMany(mappedBy = "jobSeeker")
+    @OneToMany(mappedBy = "jobSeeker", fetch = FetchType.EAGER)
     private List<Resume> resumes;
     @OneToOne
     @JoinColumn(name = "user_id")

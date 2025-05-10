@@ -12,23 +12,61 @@ function closeModal() {
     document.getElementById('applyForm').reset();
 }
 
-function submitApplication(event) {
-    event.preventDefault();
-    const form = document.getElementById('applyForm');
-    const formData = new FormData(form);
+function getCsrfToken() {
+    const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
+    const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
+    return { token, header };
+}
 
-    fetch('/applications/submit', {
+
+
+function submitApplication() {
+    const coverLetter = document.getElementById('coverLetter').value;
+    const vacancyId = document.getElementById('vacancyId').value;
+    const resumeFile = document.getElementById('resumeFile').files[0];
+    const selectedResumeId = document.getElementById('selectedResume').value;
+
+    if (!coverLetter || !vacancyId) {
+        console.log('Пожалуйста, заполните все поля формы.');
+        return;
+    }
+
+    if (!resumeFile && !selectedResumeId) {
+        console.log('Пожалуйста, выберите файл или сохранённое резюме.');
+        return;
+    }
+
+    const jsonPart = {
+        vacancyId: vacancyId,
+        coverLetter: coverLetter,
+        selectedResumeId: selectedResumeId
+    };
+
+    const formData = new FormData();
+    formData.append('reactionData', new Blob([JSON.stringify(jsonPart)], { type: 'application/json' }));
+
+    if (resumeFile) {
+        formData.append('resumeFile', resumeFile);
+    }
+
+    const { token, header } = getCsrfToken();
+
+    fetch('/reaction/submit', {
         method: 'POST',
+        headers: {
+            [header]: token
+        },
         body: formData
-    }).then(resp => {
-        if (resp.ok) {
-            console.log('Отклик отправлен');
-            closeModal();
-        } else {
-            console.log('Ошибка при отправке отклика');
-        }
-    }).catch(err => {
-        console.error(err);
-        console.log('Ошибка сети');
-    });
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log('Отклик успешно отправлен!');
+                closeModal();
+            } else {
+                console.log('Ошибка при отправке отклика. Код:', response.status);
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка сети:', error);
+        });
 }

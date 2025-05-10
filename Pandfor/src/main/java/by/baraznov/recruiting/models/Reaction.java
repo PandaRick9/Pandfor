@@ -1,6 +1,7 @@
 package by.baraznov.recruiting.models;
 
 import by.baraznov.recruiting.models.enums.ReactionStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -44,8 +46,8 @@ public class Reaction {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "reaction")
-    private List<Attachment> attachments;
+    @OneToOne(mappedBy = "reaction", cascade = CascadeType.ALL)
+    private Attachment attachment;
 
     @ManyToOne
     @JoinColumn(name = "resume_id")

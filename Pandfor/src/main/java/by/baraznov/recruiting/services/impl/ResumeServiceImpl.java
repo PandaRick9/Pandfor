@@ -24,6 +24,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public Resume findOne(Integer id) {
+        return resumesRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public List<Resume> findAll() {
         return resumesRepository.findAll();
     }

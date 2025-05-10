@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class Attachment {
     private String fileName;
     @Column(name = "data", columnDefinition="bytea")
     private byte[] data;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "reaction_id")
     private Reaction reaction;
 }

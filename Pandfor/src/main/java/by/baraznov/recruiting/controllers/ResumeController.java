@@ -51,7 +51,7 @@ public class ResumeController {
     @GetMapping
     public String allResume(Model model) {
         model.addAttribute("resumes", resumeService.findAll());
-        return "resumePage";
+        return "allResumePage";
     }
 
     @GetMapping("/new")

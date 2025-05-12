@@ -51,7 +51,7 @@ public class VacancyController {
         JobSeeker jobSeeker = jobSeekerService.findByPerson(person).orElse(null);
         model.addAttribute("vacancies", vacancyService.findAll());
         model.addAttribute("resumes", Objects.requireNonNull(jobSeeker).getResumes());
-        return "vacancyPage";
+        return "allVacancyPage";
     }
 
     @GetMapping("/new")

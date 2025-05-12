@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Отклики на вакансию</title>
-  <link rel="stylesheet" href="/static/css/vacancyPageStyle.css"/>
+  <link rel="stylesheet" th:href="@{/css/vacancyPageStyle.css}"/>
   <style>
     .button-row {
       display: flex;
@@ -85,68 +85,50 @@
   </div>
 </header>
 
-<a href="/company/vacancies" class="back-button">← Назад ко всем вакансиям компании</a>
+<a href="/company/vacancy" class="back-button">← Ко всем вакансиям компании</a>
+
 <div class="main-content2">
-  <h2 class="found-vacancies">Откликов на «Frontend Developer»: 5</h2>
+  <h2 class="found-vacancies" th:text="'Откликов на «' + ${title} + '»: ' + ${#lists.size(reactions)}"> Откликов на «Frontend Developer»: 5</h2>
 
   <div class="vacancy-list">
+    <th:block th:each="reaction, iterStat : ${reactions}">
+      <div class="vacancy-card">
+        <div class="vacancy-header">
+          <h4 class="vacancy-title" th:text="${reaction.firstName} + ' ' + ${reaction.lastName}">Иван Иванов</h4>
+          <div class="vacancy-salary-details">
+            <span th:text="${#temporals.format(reaction.createdAt, 'dd.MM.yyyy HH:mm')}">15.05.2025 14:32</span>
 
-    <div class="vacancy-card">
-      <div class="vacancy-header">
-        <h4 class="vacancy-title">Иван Иванов</h4>
-        <div class="vacancy-salary-details">
-          <span class="salary">15.05.2025 14:32</span>
-          <span class="detail-badge">NOT_VIEWED</span>
+            <span class="detail-badge" th:text="${reaction.status}">NOT_VIEWED</span>
+          </div>
+        </div>
+        <div class="vacancy-location">
+          <p class="cover-letter"
+             th:text="${#strings.length(reaction.coverLetter) > 50} ? ${#strings.substring(reaction.coverLetter, 0, 50)} + '…' : ${reaction.coverLetter}">
+            Пример текста...
+          </p>
+          <div class="match-percentage" th:text="'Подходит на ' + ${matchPercentage[iterStat.index]} + '%'" >Подходит на 85%</div>
+
+        </div>
+        <div class="button-section">
+          <button class="resume-btn"
+                  th:onclick="'window.location.href=\'/resume/' + ${reaction.resumeId} + '\';'">
+            Просмотреть резюме
+          </button>
+        </div>
+        <div class="button-section button-row">
+          <form th:action="@{/reaction/accept}" method="post" style="display:inline;">
+            <input type="hidden" name="resumeId" th:value="${reaction.resumeId}">
+            <button type="submit" class="apply-btn">Принять</button>
+          </form>
+          <form th:action="@{/reaction/reject}" method="post" style="display:inline;">
+            <input type="hidden" name="resumeId" th:value="${reaction.resumeId}">
+            <button type="submit" class="reject-btn">Отклонить</button>
+          </form>
         </div>
       </div>
-
-      <div class="vacancy-location">
-        <p class="cover-letter">
-          Здравствуйте! Я опытный Frontend-разработчик с 3 годами опыта...
-        </p>
-        <div class="match-percentage">Подходит на 85%</div>
-      </div>
-      
-    
-      <div class="button-section">
-        <button class="resume-btn" onclick="viewResume('/uploads/resumes/ivan.pdf')">Просмотреть резюме</button>
-      </div>
-
-    
-      <div class="button-section button-row">
-        <button class="apply-btn" onclick="handleAccept(1)">Принять</button>
-        <button class="reject-btn" onclick="handleReject(1)">Отклонить</button>
-      </div>
-    </div>
-
-
-    <div class="vacancy-card">
-      <div class="vacancy-header">
-        <h4 class="vacancy-title">Мария Петрова</h4>
-        <div class="vacancy-salary-details">
-          <span class="salary">14.05.2025 09:17</span>
-          <span class="detail-badge">INVITATION</span>
-        </div>
-      </div>
-     
-      <div class="vacancy-location">
-        <p class="cover-letter">
-          Добрый день! Меня заинтересовала ваша вакансия. Имею опыт в React и Vue...
-        </p>
-        <div class="match-percentage">Подходит на 70%</div>
-      </div>
-      
-      <div class="button-section">
-        <button class="resume-btn" onclick="viewResume('/uploads/resumes/maria.pdf')">Просмотреть резюме</button>
-      </div>
-
-      <div class="button-section button-row">
-        <button class="apply-btn" onclick="handleAccept(2)">Принять</button>
-        <button class="reject-btn" onclick="handleReject(2)">Отклонить</button>
-      </div>
-    </div>
-
+    </th:block>
   </div>
+
 </div>
 
 <footer class="footer">
@@ -172,19 +154,28 @@
 </footer>
 
 <script>
-  function handleAccept(id) {
-    fetch(`/reaction/accept/${id}`, { method: 'POST' })
-      .then(() => alert('Отклик принят'))
-      .catch(err => console.error(err));
-  }
-  function handleReject(id) {
-    fetch(`/reaction/reject/${id}`, { method: 'POST' })
-      .then(() => alert('Отклик отклонён'))
-      .catch(err => console.error(err));
-  }
-  function viewResume(url) {
-    window.open(url, '_blank');
-  }
+  document.querySelectorAll('.resume-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      window.location.href = `/company/vacancy/${id}`;
+    });
+  });
+  document.querySelectorAll('.apply-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      fetch(`/candidate/${id}/accept`, { method: 'POST' })
+              .then(() => alert('Кандидат принят!'))
+              .catch(() => alert('Ошибка при принятии кандидата'));
+    });
+  });
+  document.querySelectorAll('.reject-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      fetch(`/candidate/${id}/reject`, { method: 'POST' })
+              .then(() => alert('Кандидат отклонён'))
+              .catch(() => alert('Ошибка при отклонении кандидата'));
+    });
+  });
 </script>
 
 </body>

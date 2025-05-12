@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,14 +43,13 @@ public class Reaction {
     @Enumerated(EnumType.STRING)
     private ReactionStatus status;
     @Column(name = "created_at")
-    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     @OneToOne(mappedBy = "reaction", cascade = CascadeType.ALL)
     private Attachment attachment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "resume_id")
     private Resume resume;
     @ManyToOne

@@ -52,7 +52,8 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return "signUpPage";
         }
-        registrationService.register(person, true);
+
+        registrationService.register(person, person.getRole().equals("job_seeker"));
         return "redirect:/auth/login";
     }
 }

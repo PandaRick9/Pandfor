@@ -10,7 +10,7 @@
     <div class="login-wrapper">
         <div class="top-bar">
           <button class="back-btn" onclick="window.history.back()">←</button>
-          <img src="logo.png" alt="Логотип" class="logo-img">
+          <img src="/images/signIn.png" alt="Логотип" class="logo-img">
         </div>
       
         <h2>Регистрация</h2>
@@ -24,14 +24,14 @@
             <div th:if="${#fields.hasErrors('password')}" style="color: red; margin-top: 10px;">
                 <span th:text="${#strings.arrayJoin(#fields.errors('password'), '. ')}"></span>
             </div>
-          <input type="password" placeholder="Подтвердите пароль" required>
+            <input type="password" placeholder="Подтвердите пароль" required>
             <div class="role-selection">
                 <label>
-                    <input type="radio" name="role" value="job_seeker" required>
+                    <input type="radio" th:field="*{role}" name="role" value="job_seeker" required>
                     Я ищу работу
                 </label>
                 <label>
-                    <input type="radio" name="role" value="employer" required>
+                    <input type="radio" th:field="*{role}" name="role" value="employer" required>
                     Я ищу сотрудников
                 </label>
             </div>

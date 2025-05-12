@@ -17,14 +17,17 @@
       
         <form class="login-form" th:method="post" th:action="@{/auth/registration}" th:object="${person}">
           <input type="text" id="login" th:field="*{login}"  placeholder="Введите логин" required>
-            <div th:if="${#fields.hasErrors('login')}" style="color: red; margin-top: 10px;">
+            <div th:if="${#fields.hasErrors('login')}" style="color: red; margin-top: 5px;margin-bottom: 10px;">
                 <span th:text="${#strings.arrayJoin(#fields.errors('login'), '. ')}"></span>
             </div>
             <input type="password" th:field="*{password}" id="password" placeholder="Введите пароль"/>
-            <div th:if="${#fields.hasErrors('password')}" style="color: red; margin-top: 10px;">
+            <div th:if="${#fields.hasErrors('password')}" style="color: red; margin-top: 5px;margin-bottom: 10px;">
                 <span th:text="${#strings.arrayJoin(#fields.errors('password'), '. ')}"></span>
             </div>
-            <input type="password" placeholder="Подтвердите пароль" required>
+            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="Подтвердите пароль" required>
+            <div th:if="${#fields.hasErrors('confirmPassword')}" style="color: red; margin-top: 5px;margin-bottom: 10px;">
+                <span th:text="${#strings.arrayJoin(#fields.errors('confirmPassword'), '. ')}"></span>
+            </div>
             <div class="role-selection">
                 <label>
                     <input type="radio" th:field="*{role}" name="role" value="job_seeker" required>

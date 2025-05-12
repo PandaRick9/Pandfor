@@ -28,5 +28,6 @@ public class PersonValidator implements Validator {
             return;
         }
         errors.rejectValue("login", "", "Такой логин уже существует");
+
     }
 }

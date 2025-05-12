@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class Person {
     private String password;
     @Column(name = "role")
     private String role;
+    @Transient
+    private String confirmPassword;
     @OneToOne(mappedBy = "person")
     private Employer employer;
     @OneToOne(mappedBy = "person")

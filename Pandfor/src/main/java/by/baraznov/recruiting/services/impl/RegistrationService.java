@@ -16,6 +16,7 @@ public class RegistrationService {
     @Transactional
     public void register(Person person, boolean isJobSeeker){
         person.setPassword( passwordEncoder.encode(person.getPassword()));
+
         if(isJobSeeker){
             person.setRole("ROLE_JOBSEEKER");
         }else {

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редактирование вакансии</title>
+  <link rel="stylesheet" href="/static/css/infoPageStyle.css">
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="left-section">
+      <div class="logo">PandFor</div>
+    </div>
+    <div class="right-section">
+      <a href="/vacancy/view/1" class="resume-btn">Назад к вакансии</a>
+      <form action="/auth/logout" method="POST">
+        <button class="login-btn">Выйти</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="main-content edit-container">
+    <!-- Форма редактирования -->
+    <form action="/vacancy/update/1" method="POST">
+      <input type="hidden" name="companyId" value="1">
+      <input type="hidden" name="employerId" value="1">
+
+      <!-- Основная информация -->
+      <section class="edit-section">
+        <h2>Основная информация</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="title">Название вакансии</label>
+            <input type="text" id="title" class="form-control" name="title" value="Frontend-разработчик (React)">
+          </div>
+          <div class="form-group">
+            <label for="salary">Зарплата (₽)</label>
+            <input type="number" id="salary" class="form-control" name="salary" value="150000">
+          </div>
+        </div>
+      </section>
+
+      <!-- Описание вакансии -->
+      <section class="edit-section">
+        <h2>Описание вакансии</h2>
+        <div class="form-group">
+          <textarea id="description" class="form-control" name="description">Ищем опытного Frontend-разработчика для работы над современными веб-приложениями. Вам предстоит разрабатывать новые функции и улучшать существующий код.</textarea>
+        </div>
+      </section>
+
+      <!-- Условия работы -->
+      <section class="edit-section">
+        <h2>Условия работы</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="schedule">График работы</label>
+            <select id="schedule" class="form-control" name="schedule">
+              <option value="FULL_DAY">5/2</option>
+              <option value="SHIFT">2/2</option>
+              <option value="FLEXIBLE">Гибкий график</option>
+              <option value="REMOTE">Удалённая работа</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="employmentType">Тип занятости</label>
+            <select id="employmentType" class="form-control" name="employmentType">
+              <option value="FULL">Полная занятость</option>
+              <option value="PART">Частичная занятость</option>
+              <option value="INTERNSHIP">Стажировка</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="workFormat">Формат работы</label>
+            <select id="workFormat" class="form-control" name="workFormat">
+              <option value="OFFICE">Офис</option>
+              <option value="REMOTE" selected>Удалённо</option>
+              <option value="HYBRID">Гибрид</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="experience">Требуемый опыт</label>
+            <select id="experience" class="form-control" name="experience">
+              <option value="NO_EXPERIENCE">Нет опыта</option>
+              <option value="ONE_TO_THREE">1-3 года</option>
+              <option value="THREE_TO_SIX" selected>3-6 лет</option>
+              <option value="OVER_SIX">Более 6 лет</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="edit-section">
+      <h2>Навыки</h2>
+      <div class="skills-edit-container">
+        <div class="skill-edit-item">
+          <span>JavaScript</span>
+          <select class="skill-level-select">
+            <option>Начальный</option>
+            <option selected>Средний</option>
+            <option>Продвинутый</option>
+            <option>Эксперт</option>
+          </select>
+          <button class="skill-remove-btn" type="button">×</button>
+        </div>
+        <div class="skill-edit-item">
+          <span>React</span>
+          <select class="skill-level-select">
+            <option>Начальный</option>
+            <option>Средний</option>
+            <option selected>Продвинутый</option>
+            <option>Эксперт</option>
+          </select>
+          <button class="skill-remove-btn" type="button">×</button>
+        </div>
+        <div class="skill-edit-item">
+          <span>HTML/CSS</span>
+          <select class="skill-level-select">
+            <option>Начальный</option>
+            <option>Средний</option>
+            <option>Продвинутый</option>
+            <option selected>Эксперт</option>
+          </select>
+          <button class="skill-remove-btn" type="button">×</button>
+        </div>
+      </div>
+      <div class="add-skill-form">
+        <input type="text" class="add-skill-input" placeholder="Новый навык">
+        <select class="skill-level-select">
+          <option>Начальный</option>
+          <option selected>Средний</option>
+          <option>Продвинутый</option>
+          <option>Эксперт</option>
+        </select>
+        <button type="button" class="add-skill-btn">Добавить</button>
+      </div>
+    </section>
+
+      <!-- Кнопки действий -->
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" onclick="history.back()">Отмена</button>
+        <button type="submit" class="save-btn">Сохранить изменения</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <h3>О компании</h3>
+      <p>Мы помогаем компаниям находить лучших IT-специалистов.</p>
+    </div>
+    <div class="footer-center">
+      <ul>
+        <li><a href="#">О нас</a></li>
+        <li><a href="#">Контакты</a></li>
+        <li><a href="#">Политика конфиденциальности</a></li>
+      </ul>
+    </div>
+    <div class="footer-right">
+      <div class="socials">
+        <a href="#">Facebook</a>
+        <a href="#">Twitter</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() { 
+
+    const addSkillBtn = document.querySelector('.add-skill-btn');
+      
+      addSkillBtn.addEventListener('click', function() {
+        const skillInput = document.querySelector('.add-skill-input');
+        const levelSelect = document.querySelector('.add-skill-form .skill-level-select');
+        
+        if (skillInput.value.trim()) {
+          const skillsContainer = document.querySelector('.skills-edit-container');
+          const newSkill = document.createElement('div');
+          newSkill.className = 'skill-edit-item';
+          newSkill.innerHTML = `
+            <span>${skillInput.value}</span>
+            <select class="skill-level-select">
+              <option>Начальный</option>
+              <option>Средний</option>
+              <option>Продвинутый</option>
+              <option>Эксперт</option>
+            </select>
+            <button class="skill-remove-btn" type="button">×</button>
+          `;
+          
+          // Устанавливаем выбранный уровень
+          newSkill.querySelector('.skill-level-select').value = levelSelect.value;
+          
+          skillsContainer.appendChild(newSkill);
+          skillInput.value = '';
+          
+          // Добавляем обработчик удаления
+          newSkill.querySelector('.skill-remove-btn').addEventListener('click', function() {
+            skillsContainer.removeChild(newSkill);
+          });
+        }
+      });
+      
+      // Удаление навыков
+      document.querySelectorAll('.skill-remove-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          this.parentElement.remove();
+        });
+      });
+    });
+  </script>
+</body>
+</html>

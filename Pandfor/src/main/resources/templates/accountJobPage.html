@@ -33,9 +33,6 @@
       </div>
       <div class="personal-details">
         <h1 class="user-fullname" th:text="*{lastName() + ' ' + firstName()}">Иван Иванов</h1>
-        <div class="user-description">
-          <p th:text="*{workExperienceSummary}">Frontend-разработчик с 5-летним опытом работы.</p>
-        </div>
         <div class="user-contacts">
           <p><strong>Email:</strong> <span th:text="*{email()}">ivanov@example.com</span></p>
           <p><strong>Телефон:</strong> <span th:text="*{phone()}">+7 (999) 123-45-67</span></p>
@@ -62,7 +59,9 @@
           <div class="resume-actions">
             <button class="action-btn edit">Просмотреть</button>
             <button class="action-btn view">Редактировать</button>
+            <form id="del" th:method="DELETE" th:action="@{/resume/{id}(id=${resume.id()})}">
             <button class="action-btn delete">Удалить</button>
+            </form>
           </div>
         </div>
 

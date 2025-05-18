@@ -110,10 +110,9 @@
 
         </div>
         <div class="button-section">
-          <button class="resume-btn"
-                  th:onclick="'window.location.href=\'/resume/' + ${reaction.resumeId} + '\';'">
-            Просмотреть резюме
-          </button>
+          <form th:action="@{/company/reaction/{id}(id=${reaction.resumeId()})}" method="GET">
+          <button class="resume-btn">Просмотреть резюме</button>
+          </form>
         </div>
         <div class="button-section button-row">
           <form th:action="@{/reaction/accept}" method="post" style="display:inline;">

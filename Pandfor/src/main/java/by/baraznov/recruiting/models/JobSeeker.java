@@ -1,6 +1,7 @@
 package by.baraznov.recruiting.models;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -27,6 +28,21 @@ public class JobSeeker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seeker_id")
     private Integer seekerId;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "patronymic")
+    private String patronymic;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "city")
+    private String city;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "photo_id")
+    private Photo photo;
     @OneToMany(mappedBy = "jobSeeker", fetch = FetchType.EAGER)
     private List<Resume> resumes;
     @OneToOne

@@ -10,7 +10,6 @@ public record JobSeekerProfileDto(
         String email,
         String phone,
         String city,
-        String workExperienceSummary,
         String photoUrl,
         List<ResumeAccountPageDTO> resumes
 ) {

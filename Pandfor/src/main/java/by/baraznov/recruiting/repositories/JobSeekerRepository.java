@@ -19,17 +19,16 @@ public interface JobSeekerRepository extends JpaRepository<JobSeeker, Integer> {
 
     @Query("""
             SELECT new by.baraznov.recruiting.dto.JobSeekerBasicInfoDto(
-                pi.firstName, 
-                pi.lastName, 
-                pi.email, 
-                pi.phone, 
-                pi.city, 
-                pi.workExperienceSummary,
-                pi.photo.id
+                js.firstName, 
+                js.lastName, 
+                js.email, 
+                js.phone, 
+                js.city, 
+                js.photo.id
             )
             FROM JobSeeker js
             JOIN js.person p
-            JOIN PersonalInfo pi ON pi.resume = (SELECT r FROM Resume r WHERE r.jobSeeker = js)
+            
             WHERE p.userId = :userId
             """)
     Optional<JobSeekerBasicInfoDto> findBasicInfoByUserId(Integer userId);

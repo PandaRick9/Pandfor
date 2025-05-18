@@ -14,8 +14,8 @@ import java.util.List;
 public interface ReactionRepository extends JpaRepository<Reaction, Integer> {
     @Query("""
     select new by.baraznov.recruiting.dto.ReactionShortDTO(
-        r.resume.personalInfo.firstName,
-         r.resume.personalInfo.lastName,
+        r.resume.jobSeeker.firstName,
+         r.resume.jobSeeker.lastName,
         r.status,
         r.createdAt,
         r.coverLetter,

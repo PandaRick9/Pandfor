@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание профиля соискателя</title>
+    <link rel="stylesheet" th:href="@{/css/addResumeStyle.css}">
+</head>
+<body>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+<div class="container">
+    <h1>Личная информация</h1>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="firstName">Имя</label>
+            <input type="text" id="firstName" placeholder="Иван" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Фамилия</label>
+            <input type="text" id="lastName" placeholder="Иванов" required>
+        </div>
+        <div class="form-group">
+            <label for="patronymic">Отчество</label>
+            <input type="text" id="patronymic" placeholder="Иванович" required>
+        </div>
+    </div>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="example@mail.com" required>
+
+    <label for="phone">Телефон</label>
+    <input type="tel" id="phone" placeholder="+375..." required>
+
+
+    <label for="city">Город</label>
+    <input type="text" id="city" placeholder="Минск" required>
+
+    <label>Фото профиля</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <div class="button-row">
+        <button class="back" onclick="handleBackButton()">Назад</button>
+        <button class="next" onclick="submitSeekerForm()">Сохранить</button>
+    </div>
+</div>
+
+<script src="/js/addJobSeekerPage.js"></script>
+</body>
+</html>

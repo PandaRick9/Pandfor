@@ -7,6 +7,7 @@ import by.baraznov.recruiting.dto.MatchPercentageDTO;
 import by.baraznov.recruiting.dto.MatchResumeSkillDTO;
 import by.baraznov.recruiting.dto.MatchVacancySkillDTO;
 import by.baraznov.recruiting.dto.ReactionShortDTO;
+import by.baraznov.recruiting.dto.resumePage.ResumeDto;
 import by.baraznov.recruiting.mappers.CompanyMapper;
 import by.baraznov.recruiting.models.Company;
 import by.baraznov.recruiting.models.Employer;
@@ -18,6 +19,7 @@ import by.baraznov.recruiting.services.CompanyService;
 import by.baraznov.recruiting.services.EmployerService;
 import by.baraznov.recruiting.services.PhotoService;
 import by.baraznov.recruiting.services.ReactionService;
+import by.baraznov.recruiting.services.ResumeService;
 import by.baraznov.recruiting.services.VacancyService;
 import by.baraznov.recruiting.services.impl.CurrentUserProvider;
 import lombok.AllArgsConstructor;
@@ -51,6 +53,7 @@ public class CompanyController {
     private final EmployerService employerService;
     private final VacancyService vacancyService;
     private final ReactionService reactionService;
+    private final ResumeService resumeService;
 
     @GetMapping("/new")
     public String newCompany() {
@@ -78,7 +81,12 @@ public class CompanyController {
         return "reactionPage";
     }
 
-
+    @GetMapping("/reaction/{id}")
+    public String reactionView(@PathVariable Integer id, Model model){
+        /*ResumeDto resume = resumeService.getResumeById(id);
+        model.addAttribute("resume", resume);*/
+        return "resumePage";
+    }
 
 
     @PostMapping(value = "/submit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

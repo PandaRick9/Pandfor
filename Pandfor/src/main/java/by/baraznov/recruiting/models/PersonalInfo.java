@@ -34,20 +34,8 @@ public class PersonalInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "info_id")
     private Integer infoId;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    @Column(name = "patronymic")
-    private String patronymic;
     @Column(name = "birth_date")
     private LocalDate birthDate;
-    @Column(name = "phone")
-    private String phone;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "city")
-    private String city;
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -59,7 +47,7 @@ public class PersonalInfo {
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
-    @OneToMany(mappedBy = "personalInfo")
+    @OneToMany(mappedBy = "personalInfo",  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Education> education;
 
 

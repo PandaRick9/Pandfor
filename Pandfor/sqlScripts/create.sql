@@ -39,6 +39,15 @@ CREATE TABLE JobSeeker
 (
     seeker_id SERIAL PRIMARY KEY, -- Уникальный ID соискателя
     user_id   INT REFERENCES User_Table (user_id)
+        first_name varchar(50),
+    last_name  varchar(50),
+    patronymic  varchar(50),
+    phone      varchar(20),
+    email      varchar(50),
+    city       varchar(50),
+    photo_id   integer
+        constraint jobseeker_photo_id
+            references photo
 );
 
 -- Резюме
@@ -57,13 +66,7 @@ CREATE TABLE PersonalInfo
     info_id                 SERIAL PRIMARY KEY,                       -- Уникальный ID личной информации
     resume_id               INT UNIQUE REFERENCES Resume (resume_id), -- Привязка к резюме (один к одному)
     photo_id                INT UNIQUE REFERENCES Photo (photo_id),
-    first_name              VARCHAR(100),                             -- Имя
-    last_name               VARCHAR(100),                             -- Фамилия
-    patronymic              VARCHAR(100),                             -- Отчество
     birth_date              DATE,                                     -- Дата рождения
-    phone                   VARCHAR(20),                              -- Телефон
-    email                   VARCHAR(100),                             -- Email
-    city                    VARCHAR(100),                             -- Город проживания
     gender                  VARCHAR(20),                              -- Пол
     work_experience_summary TEXT                                      -- Краткое описание опыта работы
 );

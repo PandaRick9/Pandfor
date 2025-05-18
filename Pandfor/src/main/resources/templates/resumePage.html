@@ -1,187 +1,154 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Резюме</title>
-  <link rel="stylesheet" href="/static/css/infoPageStyle.css" />
- 
+  <link rel="stylesheet" href="/static/css/infoPageStyle.css"/>
 </head>
 <body>
 
-  <header class="header">
-    <div class="left-section">
-      <div class="logo">PandFor</div>
-       
+<header class="header">
+  <div class="left-section">
+    <div class="logo">PandFor</div>
+  </div>
+  <div class="right-section">
+    <form id="createResume" th:action="@{/resume/new}" method="GET">
+      <button class="resume-btn">Создать резюме</button>
+    </form>
+    <form id="login" th:action="@{/auth/login}" method="GET">
+      <button class="login-btn">Войти</button>
+    </form>
+  </div>
+</header>
+
+<main class="main-content resume-container" th:object="${resume}">
+  <section class="resume-section resume-header">
+    <div class="resume-photo">
+      <img th:if="*{personalInfo.photo != null}"
+           th:src="@{'/photos/' + ${resume.personalInfo.photo.id}}"
+           src="/static/images/default-avatar.jpg"
+           alt="Фото соискателя" class="photo-img">
+      <img th:unless="*{personalInfo.photo != null}"
+           src="/static/images/default-avatar.jpg"
+           alt="Фото соискателя" class="photo-img">
     </div>
-    <div class="right-section">
-      <form id="createResume" action="/resume/new" method="GET">
-        <button class="resume-btn">Создать резюме</button>
-      </form>
-      <form id="login" action="/auth/login" method="GET">
-        <button class="login-btn">Войти</button>
-      </form>
-    </div>
-  </header>
-
-  <main class="main-content resume-container">
-    <section class="resume-section resume-header">
-      <div class="resume-photo">
-        <img src="https://via.placeholder.com/150" alt="Фото соискателя" class="photo-img">
-      </div>
-      <div class="resume-title">
-        <h1>Frontend-разработчик (React)</h1>
-        <div class="resume-meta">
-          <span>Иван Иванов</span>
-          <span>Москва</span>
-          <span>ivanov@example.com</span>
-          <span>+7 (999) 123-45-67</span>
-        </div>
-      </div>
-      <!-- <div class="resume-status active">
-        <span>Активно</span>
-      </div> -->
-    </section>
-
-    <section class="resume-section">
-      <h2>Личная информация</h2>
-      <div class="personal-info-grid">
-        <div class="info-item">
-          <span class="info-label">Дата рождения:</span>
-          <span>15.05.1990</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Пол:</span>
-          <span>Мужской</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="resume-section">
-      <h2>Предпочтения по работе</h2>
-      <div class="preferences-grid">
-        <div class="pref-item">
-          <span class="pref-label">Желаемая зарплата:</span>
-          <span>150 000 ₽</span>
-        </div>
-        <div class="pref-item">
-          <span class="pref-label">График работы:</span>
-          <span>5/2</span>
-        </div>
-        <div class="pref-item">
-          <span class="pref-label">Тип занятости:</span>
-          <span>Полная занятость</span>
-        </div>
-        <div class="pref-item">
-          <span class="pref-label">Формат работы:</span>
-          <span>Гибрид</span>
-        </div>
-        <div class="pref-item">
-          <span class="pref-label">Опыт работы:</span>
-          <span>5 лет</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="resume-section">
-      <h2>Опыт работы</h2>
-      <div class="work-experience">
-        • Frontend-разработчик в компании "ТехноЛаб" (2018-2023)
-        - Разработка SPA-приложений на React
-        - Оптимизация производительности веб-приложений
-        - Взаимодействие с backend-разработчиками
-        
-        • Верстальщик в студии "ВебПро" (2015-2018)
-        - Верстка адаптивных сайтов
-        - Интеграция с CMS
-      </div>
-    </section>
-
-
-    <section class="resume-section">
-      <h2>Образование</h2>
-      <div class="education-list">
-        <div class="education-item">
-          <h3>Московский Технический Университет</h3>
-          <div class="education-details">
-            <span>Прикладная информатика</span>
-            <span>Год окончания: 2014</span>
-          </div>
-        </div>
-        <div class="education-item">
-          <h3>Курсы "Веб-разработка PRO"</h3>
-          <div class="education-details">
-            <span>Frontend-разработка</span>
-            <span>Год окончания: 2015</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="resume-section">
-      <h2>Навыки</h2>
-      <div class="skills-container">
-        <div class="skill-item">
-          <span>JavaScript</span>
-          <div class="skill-level">
-            <span>Профессионал</span>
-          </div>
-        </div>
-        <div class="skill-item">
-          <span>React</span>
-          <div class="skill-level">
-            <span>Профессионал</span>
-          </div>
-        </div>
-        <div class="skill-item">
-          <span>HTML/CSS</span>
-          <div class="skill-level">
-            <span>Эксперт</span>
-          </div>
-        </div>
-        <div class="skill-item">
-          <span>TypeScript</span>
-          <div class="skill-level">
-            <span>Средний</span>
-          </div>
-        </div>
-        <div class="skill-item">
-          <span>Redux</span>
-          <div class="skill-level">
-            <span>Продвинутый</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <div class="resume-date">
-      Резюме создано: <span>15.03.2023</span>
-    </div>
-  </main>
-
-
-  <footer class="footer">
-    <div class="footer-left">
-      <h3>О компании</h3>
-      <p>Мы помогаем компаниям находить лучших IT-специалистов.</p>
-    </div>
-    <div class="footer-center">
-      <ul>
-        <li><a href="#">О нас</a></li>
-        <li><a href="#">Контакты</a></li>
-        <li><a href="#">Политика конфиденциальности</a></li>
-      </ul>
-    </div>
-    <div class="footer-right">
-      <div class="socials">
-        <a href="#">Facebook</a>
-        <a href="#">Twitter</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Instagram</a>
+    <div class="resume-title">
+      <h1 th:text="*{title}">Frontend-разработчик (React)</h1>
+      <div class="resume-meta">
+        <span th:text="*{personalInfo.firstName + ' ' + personalInfo.lastName}">Иван Иванов</span>
+        <span th:text="*{personalInfo.city}">Москва</span>
+        <span th:text="*{personalInfo.email}">ivanov@example.com</span>
+        <span th:text="*{personalInfo.phone}">+7 (999) 123-45-67</span>
       </div>
     </div>
-  </footer>
+  </section>
+
+  <section class="resume-section">
+    <h2>Личная информация</h2>
+    <div class="personal-info-grid">
+      <div class="info-item">
+        <span class="info-label">Дата рождения:</span>
+        <span th:text="${#temporals.format(resume.personalInfo.birthDate, 'dd.MM.yyyy')}">15.05.1990</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Пол:</span>
+        <span th:text="*{personalInfo.gender}">Мужской</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="resume-section">
+    <h2>Предпочтения по работе</h2>
+    <div class="preferences-grid">
+      <div class="pref-item">
+        <span class="pref-label">Желаемая зарплата:</span>
+        <span th:text="*{jobPreference.salary != null} ? ${#numbers.formatInteger(jobPreference.salary, 1, 'POINT') + ' ₽'} : 'Не указана'">150 000 ₽</span>
+      </div>
+      <div class="pref-item">
+        <span class="pref-label">График работы:</span>
+        <span th:text="*{jobPreference.schedule}">5/2</span>
+      </div>
+      <div class="pref-item">
+        <span class="pref-label">Тип занятости:</span>
+        <span th:text="*{jobPreference.employmentType}">Полная занятость</span>
+      </div>
+      <div class="pref-item">
+        <span class="pref-label">Формат работы:</span>
+        <span th:text="*{jobPreference.workFormat}">Гибрид</span>
+      </div>
+      <div class="pref-item">
+        <span class="pref-label">Опыт работы:</span>
+        <span th:text="*{jobPreference.experienceYears}">5 лет</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="resume-section">
+    <h2>Опыт работы</h2>
+    <div class="work-experience" th:text="*{personalInfo.workExperienceSummary}">
+      • Frontend-разработчик в компании "ТехноЛаб" (2018-2023)
+      - Разработка SPA-приложений на React
+      - Оптимизация производительности веб-приложений
+      - Взаимодействие с backend-разработчиками
+
+      • Верстальщик в студии "ВебПро" (2015-2018)
+      - Верстка адаптивных сайтов
+      - Интеграция с CMS
+    </div>
+  </section>
+
+  <section class="resume-section">
+    <h2>Образование</h2>
+    <div class="education-list" th:each="education : ${resume.educations}">
+      <div class="education-item">
+        <h3 th:text="${education.institutionName}">Московский Технический Университет</h3>
+        <div class="education-details">
+          <span th:text="${education.speciality}">Прикладная информатика</span>
+          <span th:text="'Год окончания: ' + ${education.graduationYear}">Год окончания: 2014</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="resume-section">
+    <h2>Навыки</h2>
+    <div class="skills-container" th:each="skill : ${resume.resumeSkills}">
+      <div class="skill-item">
+        <span th:text="${skill.skill.name}">JavaScript</span>
+        <div class="skill-level">
+          <span th:text="${skill.proficiencyLevel}">Профессионал</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="resume-date">
+    Резюме создано: <span th:text="${#temporals.format(resume.dateCreated, 'dd.MM.yyyy')}">15.03.2023</span>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-left">
+    <h3>О компании</h3>
+    <p>Мы помогаем компаниям находить лучших IT-специалистов.</p>
+  </div>
+  <div class="footer-center">
+    <ul>
+      <li><a href="#">О нас</a></li>
+      <li><a href="#">Контакты</a></li>
+      <li><a href="#">Политика конфиденциальности</a></li>
+    </ul>
+  </div>
+  <div class="footer-right">
+    <div class="socials">
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>

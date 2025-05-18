@@ -24,7 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -61,8 +63,7 @@ public class ResumeController {
 
     @PostMapping(value = "/submit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> submitResume(
-            @RequestPart("resumeData") ResumeDTO resumeRequest,
-            @RequestPart(value = "photo", required = false) MultipartFile photoFile) throws IOException {
+            @RequestPart("resumeData") ResumeDTO resumeRequest) throws IOException {
 
         Resume resume = resumeMapper.toEntity(resumeRequest);
 
@@ -75,7 +76,6 @@ public class ResumeController {
 
         resume.setResumeSkills(saveSkills(resumeRequest,resume));
 
-        savePhoto(photoFile,info);
 
         Person person = currentUserProvider.getCurrentPerson().getPerson();
 
@@ -119,14 +119,10 @@ public class ResumeController {
                 })
                 .collect(Collectors.toList());
     }
-    private void savePhoto(MultipartFile photoFile, PersonalInfo info) throws IOException {
-        if (photoFile != null && !photoFile.isEmpty()) {
-            Photo photo = new Photo();
-            photo.setFileName(photoFile.getOriginalFilename());
-            photo.setContentType(photoFile.getContentType());
-            photo.setData(photoFile.getBytes());
-            info.setPhoto(photo);
-            photoService.save(photo);
-        }
+
+    @DeleteMapping("/{id}")
+    public String deleteResume(@PathVariable Integer id) {
+        resumeService.delete(id);
+        return "redirect:/account/job";
     }
 }

@@ -61,14 +61,8 @@ function submitForm() {
     const jsonPart = {
         title: document.getElementById('jobTitle').value,
         personalInfo: {
-            lastName: document.getElementById('lastName').value,
-            firstName: document.getElementById('firstName').value,
-            patronymic: document.getElementById('patronymic').value,
             gender: document.getElementById('gender').value,
             birthDate: document.getElementById('birthDate').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value,
-            city: document.getElementById('city').value,
             workExperienceSummary: document.getElementById('workDescription').value,
         },
         educationList: educationItems,
@@ -85,10 +79,7 @@ function submitForm() {
     const formData = new FormData();
     formData.append('resumeData', new Blob([JSON.stringify(jsonPart)], { type: 'application/json' }));
 
-    const photoFile = document.getElementById('photo').files[0];
-    if (photoFile) {
-        formData.append('photo', photoFile);
-    }
+
 
     const { token, header } = getCsrfToken();
 

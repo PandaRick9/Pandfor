@@ -2,20 +2,18 @@ package by.baraznov.recruiting.mappers;
 
 import by.baraznov.recruiting.dto.EducationDTO;
 import by.baraznov.recruiting.dto.JobPreferenceDTO;
+import by.baraznov.recruiting.dto.JobSeekerDto;
 import by.baraznov.recruiting.dto.PersonalInfoDTO;
 import by.baraznov.recruiting.dto.ResumeDTO;
 import by.baraznov.recruiting.dto.ResumeSkillDTO;
 import by.baraznov.recruiting.models.Education;
 import by.baraznov.recruiting.models.JobPreference;
+import by.baraznov.recruiting.models.JobSeeker;
 import by.baraznov.recruiting.models.PersonalInfo;
 import by.baraznov.recruiting.models.Resume;
 import by.baraznov.recruiting.models.ResumeSkill;
-import by.baraznov.recruiting.models.Skill;
-import by.baraznov.recruiting.repositories.SkillRepository;
-import lombok.AllArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,10 +33,9 @@ public interface ResumeMapper {
     List<Education> toEducationList(List<EducationDTO> dtoList);
 
 
-
     JobPreference toEntity(JobPreferenceDTO dto);
 
-
+    JobSeeker toEntity(JobSeekerDto dto);
 
 
     @Mapping(target = "resumeSkillId", ignore = true)

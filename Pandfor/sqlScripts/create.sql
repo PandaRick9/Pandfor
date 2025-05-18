@@ -65,7 +65,6 @@ CREATE TABLE PersonalInfo
 (
     info_id                 SERIAL PRIMARY KEY,                       -- Уникальный ID личной информации
     resume_id               INT UNIQUE REFERENCES Resume (resume_id), -- Привязка к резюме (один к одному)
-    photo_id                INT UNIQUE REFERENCES Photo (photo_id),
     birth_date              DATE,                                     -- Дата рождения
     gender                  VARCHAR(20),                              -- Пол
     work_experience_summary TEXT                                      -- Краткое описание опыта работы

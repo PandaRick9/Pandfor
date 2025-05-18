@@ -25,19 +25,12 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "photo_id")
     private Integer id;
-
     @Column(name = "file_name")
     private String fileName;
-
     @Column(name = "content_type")
     private String contentType;
-
-
     @Column(name = "data", columnDefinition="bytea")
     private byte[] data;
-
-    @OneToOne(mappedBy = "photo")
-    private PersonalInfo personalinfo;
     @OneToOne(mappedBy = "photo")
     private Company company;
     @OneToOne(mappedBy = "photo")

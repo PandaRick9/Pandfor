@@ -6,10 +6,11 @@ import by.baraznov.recruiting.models.enums.Schedule;
 import by.baraznov.recruiting.models.enums.WorkFormat;
 
 public record JobPreferenceDto(
-        Integer salary,
+        Integer id,
         Schedule schedule,
         EmploymentType employmentType,
         WorkFormat workFormat,
-        ExperienceYear experienceYears
+        Integer desiredSalary,
+        ExperienceYear experienceYear
 ) {
 }

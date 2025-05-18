@@ -3,16 +3,13 @@ package by.baraznov.recruiting.dto.resumePage;
 import by.baraznov.recruiting.models.enums.Gender;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record PersonalInfoDto(
-        String firstName,
-        String lastName,
-        String email,
-        String phone,
-        String city,
+        Integer id,
         LocalDate birthDate,
         Gender gender,
         String workExperienceSummary,
-        PhotoDto photo
+        List<EducationDto> education
 ) {
 }

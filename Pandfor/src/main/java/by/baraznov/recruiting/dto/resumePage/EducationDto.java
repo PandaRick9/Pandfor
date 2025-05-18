@@ -1,8 +1,9 @@
 package by.baraznov.recruiting.dto.resumePage;
 
 public record EducationDto(
-        String institutionName,
-        String speciality,
-        Integer graduationYear
+        Integer id,
+        String institution,
+        String specialization,
+        Integer graduationDate
 ){
 }

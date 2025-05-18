@@ -111,6 +111,7 @@
         </div>
         <div class="button-section">
           <form th:action="@{/company/reaction/{id}(id=${reaction.resumeId()})}" method="GET">
+            <input type="hidden" name="fromVacancy" th:value="${vacancyId}">
           <button class="resume-btn">Просмотреть резюме</button>
           </form>
         </div>

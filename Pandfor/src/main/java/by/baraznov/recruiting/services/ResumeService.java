@@ -12,4 +12,5 @@ public interface ResumeService {
     List<Resume> findAll();
     void delete(Integer id);
 
+    ResumeDto getResumeById(Integer id);
 }

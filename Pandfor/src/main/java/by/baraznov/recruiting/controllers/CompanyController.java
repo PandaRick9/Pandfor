@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -78,13 +79,15 @@ public class CompanyController {
         model.addAttribute("reactions", reactionShortDTOList);
         model.addAttribute("title", vacancyService.findOne(id).getTitle());
         model.addAttribute("matchPercentage", calculateMatchPercentage(vacancyService.findAllMatchPercentage(id)));
+        model.addAttribute("vacancyId", id);
         return "reactionPage";
     }
 
     @GetMapping("/reaction/{id}")
-    public String reactionView(@PathVariable Integer id, Model model){
-        /*ResumeDto resume = resumeService.getResumeById(id);
-        model.addAttribute("resume", resume);*/
+    public String reactionView(@PathVariable Integer id,  @RequestParam(required = false) Integer fromVacancy, Model model){
+        ResumeDto resume = resumeService.getResumeById(id);
+        model.addAttribute("fromVacancy", fromVacancy);
+        model.addAttribute("resume", resume);
         return "resumePage";
     }
 

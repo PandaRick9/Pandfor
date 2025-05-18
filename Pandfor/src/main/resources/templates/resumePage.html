@@ -4,7 +4,21 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Резюме</title>
-  <link rel="stylesheet" href="/static/css/infoPageStyle.css"/>
+  <link rel="stylesheet" th:href="@{/css/infoPageStyle.css}"/>
+  <style>
+    .back-button-container {
+      width: 100%;
+      padding: 20px 0 0 2rem;
+      box-sizing: border-box;
+    }
+    .back-button {
+      display: inline-block;
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,99 +37,105 @@
 </header>
 
 <main class="main-content resume-container" th:object="${resume}">
+  <div class="back-button-container" th:if="${fromVacancy != null}">
+    <a th:href="@{'/company/vacancy/' + ${fromVacancy}}" class="back-button">← Ко всем откликам</a>
+  </div>
   <section class="resume-section resume-header">
     <div class="resume-photo">
-      <img th:if="*{personalInfo.photo != null}"
-           th:src="@{'/photos/' + ${resume.personalInfo.photo.id}}"
+      <img th:if="*{jobSeeker.photo != null}"
+           th:src="@{'/photos/' + ${resume.jobSeeker.photo.id}}"
            src="/static/images/default-avatar.jpg"
            alt="Фото соискателя" class="photo-img">
-      <img th:unless="*{personalInfo.photo != null}"
+      <img th:unless="*{jobSeeker.photo != null}"
            src="/static/images/default-avatar.jpg"
            alt="Фото соискателя" class="photo-img">
     </div>
     <div class="resume-title">
       <h1 th:text="*{title}">Frontend-разработчик (React)</h1>
       <div class="resume-meta">
-        <span th:text="*{personalInfo.firstName + ' ' + personalInfo.lastName}">Иван Иванов</span>
-        <span th:text="*{personalInfo.city}">Москва</span>
-        <span th:text="*{personalInfo.email}">ivanov@example.com</span>
-        <span th:text="*{personalInfo.phone}">+7 (999) 123-45-67</span>
+        <span th:text="*{jobSeeker.firstName + ' ' + jobSeeker.lastName +
+                      (jobSeeker.patronymic != null ? ' ' + jobSeeker.patronymic : '')}">
+          Иван Иванов
+        </span>
+        <span th:text="*{jobSeeker.city}">Москва</span>
+        <span th:text="*{jobSeeker.email}">ivanov@example.com</span>
+        <span th:text="*{jobSeeker.phone}">+7 (999) 123-45-67</span>
       </div>
+    </div>
+    <div class="resume-status" th:classappend="${resume.isActive} ? 'active' : 'inactive'">
+      <span th:text="${resume.isActive} ? 'Активно' : 'Не активно'">Активно</span>
     </div>
   </section>
 
-  <section class="resume-section">
+  <section class="resume-section" th:if="${resume.personalInfo != null}">
     <h2>Личная информация</h2>
     <div class="personal-info-grid">
-      <div class="info-item">
+      <div class="info-item" th:if="${resume.personalInfo.birthDate != null}">
         <span class="info-label">Дата рождения:</span>
         <span th:text="${#temporals.format(resume.personalInfo.birthDate, 'dd.MM.yyyy')}">15.05.1990</span>
       </div>
-      <div class="info-item">
+      <div class="info-item" th:if="${resume.personalInfo.gender != null}">
         <span class="info-label">Пол:</span>
-        <span th:text="*{personalInfo.gender}">Мужской</span>
+        <span th:text="${resume.personalInfo.gender}">Мужской</span>
       </div>
     </div>
   </section>
 
-  <section class="resume-section">
+  <section class="resume-section" th:if="${resume.jobPreference != null}">
     <h2>Предпочтения по работе</h2>
     <div class="preferences-grid">
-      <div class="pref-item">
+      <div class="pref-item" th:if="${resume.jobPreference.desiredSalary != null}">
         <span class="pref-label">Желаемая зарплата:</span>
-        <span th:text="*{jobPreference.salary != null} ? ${#numbers.formatInteger(jobPreference.salary, 1, 'POINT') + ' ₽'} : 'Не указана'">150 000 ₽</span>
+        <span th:text="${#numbers.formatInteger(resume.jobPreference.desiredSalary, 1, 'POINT') + ' ₽'}">150 000 ₽</span>
       </div>
-      <div class="pref-item">
+      <div class="pref-item" th:if="${resume.jobPreference.schedule != null}">
         <span class="pref-label">График работы:</span>
-        <span th:text="*{jobPreference.schedule}">5/2</span>
+        <span th:text="${resume.jobPreference.schedule}">5/2</span>
       </div>
-      <div class="pref-item">
+      <div class="pref-item" th:if="${resume.jobPreference.employmentType != null}">
         <span class="pref-label">Тип занятости:</span>
-        <span th:text="*{jobPreference.employmentType}">Полная занятость</span>
+        <span th:text="${resume.jobPreference.employmentType}">Полная занятость</span>
       </div>
-      <div class="pref-item">
+      <div class="pref-item" th:if="${resume.jobPreference.workFormat != null}">
         <span class="pref-label">Формат работы:</span>
-        <span th:text="*{jobPreference.workFormat}">Гибрид</span>
+        <span th:text="${resume.jobPreference.workFormat}">Гибрид</span>
       </div>
-      <div class="pref-item">
+      <div class="pref-item" th:if="${resume.jobPreference.experienceYear != null}">
         <span class="pref-label">Опыт работы:</span>
-        <span th:text="*{jobPreference.experienceYears}">5 лет</span>
+        <span th:text="${resume.jobPreference.experienceYear}">5 лет</span>
       </div>
     </div>
   </section>
 
-  <section class="resume-section">
+  <section class="resume-section" th:if="${resume.personalInfo != null and resume.personalInfo.workExperienceSummary != null}">
     <h2>Опыт работы</h2>
-    <div class="work-experience" th:text="*{personalInfo.workExperienceSummary}">
+    <div class="work-experience" th:text="${resume.personalInfo.workExperienceSummary}" >
+      <!--th:utext="${#strings.replace(#strings.escapeXml(resume.personalInfo.workExperienceSummary),T(java.lang.System).getProperty('line.separator'),'<br>')}"-->
       • Frontend-разработчик в компании "ТехноЛаб" (2018-2023)
       - Разработка SPA-приложений на React
       - Оптимизация производительности веб-приложений
       - Взаимодействие с backend-разработчиками
-
-      • Верстальщик в студии "ВебПро" (2015-2018)
-      - Верстка адаптивных сайтов
-      - Интеграция с CMS
     </div>
   </section>
 
-  <section class="resume-section">
+  <section class="resume-section" th:if="${resume.personalInfo != null and !resume.personalInfo.education.isEmpty()}">
     <h2>Образование</h2>
-    <div class="education-list" th:each="education : ${resume.educations}">
-      <div class="education-item">
-        <h3 th:text="${education.institutionName}">Московский Технический Университет</h3>
+    <div class="education-list">
+      <div class="education-item" th:each="edu : ${resume.personalInfo.education}">
+        <h3 th:text="${edu.institution}">Московский Технический Университет</h3>
         <div class="education-details">
-          <span th:text="${education.speciality}">Прикладная информатика</span>
-          <span th:text="'Год окончания: ' + ${education.graduationYear}">Год окончания: 2014</span>
+          <span th:text="${edu.specialization}">Прикладная информатика</span>
+          <span th:text="'Год окончания: ' + ${edu.graduationDate}">Год окончания: 2014</span>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="resume-section">
+  <section class="resume-section" th:if="${!resume.resumeSkills.isEmpty()}">
     <h2>Навыки</h2>
-    <div class="skills-container" th:each="skill : ${resume.resumeSkills}">
-      <div class="skill-item">
-        <span th:text="${skill.skill.name}">JavaScript</span>
+    <div class="skills-container">
+      <div class="skill-item" th:each="skill : ${resume.resumeSkills}">
+        <span th:text="${skill.skillName()}">JavaScript</span>
         <div class="skill-level">
           <span th:text="${skill.proficiencyLevel}">Профессионал</span>
         </div>

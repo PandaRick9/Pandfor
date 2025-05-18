@@ -50,8 +50,4 @@ public class PersonalInfo {
     @OneToMany(mappedBy = "personalInfo",  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Education> education;
 
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "photo_id")
-    private Photo photo;
 }

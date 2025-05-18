@@ -36,6 +36,10 @@ public class Company {
     private String description;
     @Column(name = "city")
     private String city;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "phone")
+    private String phone;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")
     private Photo photo;

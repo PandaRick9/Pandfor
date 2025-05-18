@@ -1,112 +1,104 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Личный кабинет компании | PandFor</title>
-  <link rel="stylesheet" href="/static/css/accountCompanyPageStyle.css">
+  <link rel="stylesheet" th:href="@{/css/accountCompanyPageStyle.css}">
 </head>
 <body>
-  <header class="header">
-    <div class="left-section">
-      <div class="logo">PandFor</div>
+<header class="header">
+  <div class="left-section">
+    <div class="logo">PandFor</div>
+  </div>
+  <div class="right-section">
+    <div class="user-info">
+      <span class="user-name" th:text="${profile.name()}">ТехноЛаб</span>
+     <!-- <img th:if="${profile.photoId()}" th:src="@{'/photos/' + ${profile.photoId()}}"
+           src="/static/images/default-company-logo.png" alt="Логотип компании" class="user-avatar">-->
     </div>
-    <div class="right-section">
-      <div class="user-info">
-        <span class="user-name">ТехноЛаб</span>
-        <img src="images/company-logo.jpg" alt="Логотип компании" class="user-avatar">
-      </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <!-- Информация о компании -->
+  <section class="company-info-section" th:object="${profile}">
+    <div class="company-logo-container">
+      <img th:if="*{photoId()}" th:src="@{'/photos/' + *{photoId()}}"
+           src="/static/images/default-avatar.png" alt="Логотип компании" class="company-logo">
     </div>
-  </header>
-
-  <main class="main-content">
-    <!-- Информация о компании -->
-    <section class="company-info-section">
-      <div class="company-logo-container">
-        <img src="images/company-logo.jpg" alt="Логотип компании" class="company-logo">
+    <div class="company-details">
+      <h1 class="company-name" th:text="*{name()}">ТехноЛаб</h1>
+      <div class="company-description">
+        <p th:text="*{description()}">Разрабатываем инновационные IT-решения с 2010 года.</p>
       </div>
-      <div class="company-details">
-        <h1 class="company-name">ТехноЛаб</h1>
-        <div class="company-description">
-          <p>Разрабатываем инновационные IT-решения с 2010 года. В нашей команде более 50 специалистов.</p>
-        </div>
-        <div class="company-contacts">
-          <p><strong>Email:</strong> hr@technolab.ru</p>
-          <p><strong>Телефон:</strong> +7 (495) 123-45-67</p>
-          <p><strong>Город:</strong> Москва</p>
-        </div>
-        <button class="view-btn">Редактировать информацию</button>
+      <div class="company-contacts">
+        <p><strong>Email:</strong> <span th:text="*{email()}">hr@technolab.ru</span></p>
+        <p><strong>Телефон:</strong> <span th:text="*{phone()}">+7 (495) 123-45-67</span></p>
+        <p><strong>Город:</strong> <span th:text="*{city()}">Москва</span></p>
       </div>
-    </section>
+      <button class="view-btn">Редактировать информацию</button>
+    </div>
+  </section>
 
-    <!-- Секция вакансий -->
-    <section class="vacancies-section">
-      <div class="section-header">
-        <h2 class="section-title">Мои вакансии</h2>
-        <button class="resume-btn">+ Создать вакансию</button>
-      </div>
-      
-      <div class="vacancies-list">
-        <div class="vacancy-card">
-          <div class="vacancy-header">
-            <h3 class="vacancy-title">Frontend-разработчик (React)</h3>
-            <span class="vacancy-status active">Активна</span>
-          </div>
-          <div class="vacancy-meta">
-            <span>Зарплата: от 150 000 ₽</span>
-            <span>Дата публикации: 15.03.2023</span>
-            <span>Откликов: 12</span>
-          </div>
-          <div class="vacancy-actions">
-            <button class="view-btn">Просмотреть</button>
-            <button class="edit-btn">Редактировать</button>
-            <button class="delete-btn">Удалить</button>
-          </div>
+  <!-- Секция вакансий -->
+  <section class="vacancies-section">
+    <div class="section-header">
+      <h2 class="section-title">Мои вакансии</h2>
+      <form id="vacancy" th:method="GET" th:action="@{/vacancy/new}">
+      <button class="resume-btn">+ Создать вакансию</button>
+      </form>
+    </div>
+
+    <div class="vacancies-list">
+      <div class="vacancy-card" th:each="vacancy : ${profile.vacancies()}">
+        <div class="vacancy-header">
+          <h3 class="vacancy-title" th:text="${vacancy.title()}">Frontend-разработчик (React)</h3>
         </div>
-
-        <div class="vacancy-card">
-          <div class="vacancy-header">
-            <h3 class="vacancy-title">Backend Developer (Node.js)</h3>
-            <span class="vacancy-status inactive">Не активна</span>
-          </div>
-          <div class="vacancy-meta">
-            <span>Зарплата: от 180 000 ₽</span>
-            <span>Дата публикации: 10.02.2023</span>
-            <span>Откликов: 8</span>
-          </div>
-          <div class="vacancy-actions">
-            <button class="view-btn">Просмотреть</button>
-            <button class="edit-btn">Редактировать</button>
-            <button class="delete-btn">Удалить</button>
-          </div>
+        <div class="vacancy-meta">
+            <span th:if="${vacancy.salary() != null}"
+                  th:text="'Зарплата: от ' + ${#numbers.formatInteger(vacancy.salary(), 1, 'POINT')} + ' ₽'">Зарплата: от 150 000 ₽</span>
+          <span th:text="'Дата публикации: ' + ${#temporals.format(vacancy.createdAt(), 'dd.MM.yyyy')}">15.03.2023</span>
+          <span th:text="'Откликов: ' + ${vacancy.responsesCount()}">12</span>
         </div>
-      </div>
-    </section>
-
-     <section class="account-section danger-zone">
-        <h2 class="section-title">Управление аккаунтом</h2>
-        <div class="account-actions">
-          <button class="logout-btn">Выйти из аккаунта</button>
-          <button class="delete-account-btn">Удалить аккаунт</button>
+        <div class="vacancy-actions">
+          <button class="view-btn">Просмотреть</button>
+          <button class="edit-btn">Редактировать</button>
+          <form id="del" th:method="DELETE" th:action="@{/vacancy/{id}(id=${vacancy.id()})}">
+          <button class="delete-btn">Удалить</button>
+          </form>
         </div>
-      </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>PandFor Business</h3>
-        <p>Платформа для поиска сотрудников</p>
-      </div>
-      <div class="footer-section">
-        <h4>Контакты</h4>
-        <a href="mailto:business@pandfor.ru">business@pandfor.ru</a>
-        <a href="tel:+78001234568">8 (800) 123-45-68</a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2023 PandFor. Все права защищены.</p>
+  </section>
+
+  <!-- Секция управления аккаунтом -->
+  <section class="account-section danger-zone">
+    <h2 class="section-title">Управление аккаунтом</h2>
+    <div class="account-actions">
+      <form th:action="@{/logout}" method="post">
+        <button type="submit" class="logout-btn">Выйти из аккаунта</button>
+      </form>
+      <button class="delete-account-btn">Удалить аккаунт</button>
     </div>
-  </footer>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>PandFor Business</h3>
+      <p>Платформа для поиска сотрудников</p>
+    </div>
+    <div class="footer-section">
+      <h4>Контакты</h4>
+      <a href="mailto:business@pandfor.ru">business@pandfor.ru</a>
+      <a href="tel:+78001234568">8 (800) 123-45-68</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2023 PandFor. Все права защищены.</p>
+  </div>
+</footer>
 </body>
 </html>

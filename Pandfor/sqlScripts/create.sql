@@ -19,6 +19,8 @@ CREATE TABLE Company
     company_id  SERIAL PRIMARY KEY,   -- Уникальный идентификатор компании
     photo_id                INT UNIQUE REFERENCES Photo (photo_id),
     "name"      varchar(70) NOT NULL, -- Название компании
+    phone                   VARCHAR(20),                              -- Телефон
+    email                   VARCHAR(100),                             -- Email
     description TEXT,                 -- Описание компании
     city        VARCHAR(100)
 );
@@ -125,7 +127,7 @@ CREATE TABLE JobConditions
     schedule                  VARCHAR(100),                               -- График (полный день и т.д.)
     employment_type           VARCHAR(100),                               -- Тип занятости
     work_format               VARCHAR(100),                               -- Формат (офис, удалёнка и т.п.)
-    required_experience_years INT                                         -- Необходимый опыт (в годах)
+    required_experience_years VARCHAR(100)                                         -- Необходимый опыт (в годах)
 );
 
 -- Навыки, требуемые для вакансии
@@ -154,7 +156,8 @@ CREATE TABLE Attachment
 (
     attachment_id SERIAL PRIMARY KEY,                    -- Уникальный ID файла
     reaction_id   INT REFERENCES Reaction (reaction_id), -- Привязка к отклику
-    file_path     TEXT                                   -- Путь к файлу
+    file_name     text,
+    data          bytea
 );
 
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface VacancyService {
     void save(Vacancy vacancy);
+    void delete(Integer id);
     Vacancy findOne(Integer id);
     List<Vacancy> findAll();
     List<VacancyCardDTO> findAllVacancies(Integer companyId);

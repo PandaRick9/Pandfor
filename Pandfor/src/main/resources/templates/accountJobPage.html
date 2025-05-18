@@ -1,129 +1,111 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Личный кабинет</title>
-  <link rel="stylesheet" href="/static/css/accountJobPageStyle.css">
+  <title>Личный кабинет соискателя | PandFor</title>
+  <link rel="stylesheet" th:href="@{/css/accountJobPageStyle.css}">
 </head>
 <body>
-  <header class="header">
-    <div class="left-section">
-      <div class="logo">PandFor</div>
-      <nav class="nav">
-        <a href="/job" class="nav-link">Поиск работы</a>
-        <a href="/resumes" class="nav-link active">Мои резюме</a>
-      </nav>
+<header class="header">
+  <div class="left-section">
+    <div class="logo">PandFor</div>
+    <nav class="nav">
+      <a href="/job" class="nav-link">Поиск работы</a>
+      <a href="/resumes" class="nav-link active">Мои резюме</a>
+    </nav>
+  </div>
+  <div class="right-section">
+    <div class="user-info">
+      <span class="user-name" th:text="${profile.firstName() + ' ' + profile.lastName()}">Иван Иванов</span>
+
     </div>
-    <div class="right-section">
-      <div class="user-info">
-        <span class="user-name">Иван Иванов</span>
-        <img src="images/avatar.jpg" alt="Аватар" class="user-avatar">
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="account-container">
+
+    <section class="personal-info-section" th:object="${profile}">
+      <div class="user-avatar-container">
+        <img th:if="${profile.photoUrl()}" th:src="${profile.photoUrl()}"
+             src="/static/images/default-avatar.jpg" alt="Аватар" class="user-avatar">
+      </div>
+      <div class="personal-details">
+        <h1 class="user-fullname" th:text="*{lastName() + ' ' + firstName()}">Иван Иванов</h1>
+        <div class="user-description">
+          <p th:text="*{workExperienceSummary}">Frontend-разработчик с 5-летним опытом работы.</p>
+        </div>
+        <div class="user-contacts">
+          <p><strong>Email:</strong> <span th:text="*{email()}">ivanov@example.com</span></p>
+          <p><strong>Телефон:</strong> <span th:text="*{phone()}">+7 (999) 123-45-67</span></p>
+          <p><strong>Город:</strong> <span th:text="*{city()}">Москва</span></p>
+        </div>
+        <button class="view-btn">Редактировать информацию</button>
+      </div>
+    </section>
+
+    <!-- Секция резюме -->
+    <section class="account-section">
+      <h2 class="section-title">Мои резюме</h2>
+      <div class="resumes-list">
+        <div class="resume-card" th:each="resume : ${profile.resumes()}">
+          <div class="resume-header">
+            <h3 class="resume-title" th:text="${resume.title()}">Frontend-разработчик (React)</h3>
+            <span th:class="${resume.isActive()} ? 'resume-status active' : 'resume-status inactive'"
+                  th:text="${resume.isActive()} ? 'Активно' : 'Не активно'">Активно</span>
+          </div>
+          <div class="resume-meta">
+            <span th:text="'Обновлено: ' + ${#temporals.format(resume.updatedDate(), 'dd.MM.yyyy')}">15.03.2023</span>
+            <span th:text="'Откликов: ' + ${resume.viewsCount()}">24</span>
+          </div>
+          <div class="resume-actions">
+            <button class="action-btn edit">Просмотреть</button>
+            <button class="action-btn view">Редактировать</button>
+            <button class="action-btn delete">Удалить</button>
+          </div>
+        </div>
+
+        <button class="add-resume-btn">+ Создать новое резюме</button>
+      </div>
+    </section>
+
+    <!-- Секция управления аккаунтом -->
+    <section class="account-section danger-zone">
+      <h2 class="section-title">Управление аккаунтом</h2>
+      <div class="account-actions">
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" class="logout-btn">Выйти из аккаунта</button>
+        </form>
+        <button class="delete-account-btn">Удалить аккаунт</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>PandFor</h3>
+      <p>Платформа для поиска работы и сотрудников</p>
+    </div>
+    <div class="footer-section">
+      <h4>Контакты</h4>
+      <a href="mailto:info@pandfor.ru">info@pandfor.ru</a>
+      <a href="tel:+78001234567">8 (800) 123-45-67</a>
+    </div>
+    <div class="footer-section">
+      <h4>Соцсети</h4>
+      <div class="social-links">
+        <a href="#" class="social-link">VK</a>
+        <a href="#" class="social-link">Telegram</a>
+        <a href="#" class="social-link">HH</a>
       </div>
     </div>
-  </header>
-
-  <main class="main-content">
-    <div class="account-container">
-      <!-- Секция личной информации -->
-      <section class="account-section">
-        <h2 class="section-title">Личная информация</h2>
-        <div class="personal-info">
-          <div class="info-row">
-            <span class="info-label">Имя:</span>
-            <span class="info-value">Иван</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Фамилия:</span>
-            <span class="info-value">Иванов</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Email:</span>
-            <span class="info-value">ivanov@example.com</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Телефон:</span>
-            <span class="info-value">+7 (999) 123-45-67</span>
-          </div>
-        
-        </div>
-      </section>
-
-      <!-- Секция резюме -->
-      <section class="account-section">
-        <h2 class="section-title">Мои резюме</h2>
-        <div class="resumes-list">
-          <div class="resume-card">
-            <div class="resume-header">
-              <h3 class="resume-title">Frontend-разработчик (React)</h3>
-              <span class="resume-status active">Активно</span>
-            </div>
-            <div class="resume-meta">
-              <span>Обновлено: 15.03.2023</span>
-              <span>Просмотров: 24</span>
-            </div>
-            <div class="resume-actions">
-              <button class="action-btn edit">Просмотреть</button>
-              <button class="action-btn view">Редактировать</button>
-              <button class="action-btn delete">Удалить</button>
-            </div>
-          </div>
-
-          <div class="resume-card">
-            <div class="resume-header">
-              <h3 class="resume-title">Fullstack Developer</h3>
-              <span class="resume-status inactive">Не активно</span>
-            </div>
-            <div class="resume-meta">
-              <span>Обновлено: 10.02.2023</span>
-              <span>Просмотров: 8</span>
-            </div>
-            <div class="resume-actions">
-              <button class="action-btn edit">Просмотреть</button>
-              <button class="action-btn view">Редактировать</button>
-              <button class="action-btn delete">Удалить</button>
-            </div>
-          </div>
-
-          <button class="add-resume-btn">+ Создать новое резюме</button>
-        </div>
-      </section>
-
-      <!-- Секция управления аккаунтом -->
-      <section class="account-section danger-zone">
-        <h2 class="section-title">Управление аккаунтом</h2>
-        <div class="account-actions">
-          <button class="logout-btn">Выйти из аккаунта</button>
-          <button class="delete-account-btn">Удалить аккаунт</button>
-        </div>
-      </section>
-      
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>PandFor</h3>
-        <p>Платформа для поиска работы и сотрудников</p>
-      </div>
-      <div class="footer-section">
-        <h4>Контакты</h4>
-        <a href="mailto:info@pandfor.ru">info@pandfor.ru</a>
-        <a href="tel:+78001234567">8 (800) 123-45-67</a>
-      </div>
-      <div class="footer-section">
-        <h4>Соцсети</h4>
-        <div class="social-links">
-          <a href="#" class="social-link">VK</a>
-          <a href="#" class="social-link">Telegram</a>
-          <a href="#" class="social-link">HH</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2023 PandFor. Все права защищены.</p>
-    </div>
-  </footer>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2023 PandFor. Все права защищены.</p>
+  </div>
+</footer>
 </body>
 </html>

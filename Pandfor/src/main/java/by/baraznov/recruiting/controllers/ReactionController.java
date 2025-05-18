@@ -31,7 +31,6 @@ public class ReactionController {
     public ResponseEntity<?> submitReaction(
             @RequestPart("reactionData") ReactionDTO reactionDTO,
             @RequestPart("resumeFile") MultipartFile resumeFile) throws IOException {
-        System.out.println("БФАВБЫВБА");
         Reaction reaction = new Reaction();
         reaction.setVacancy(vacancyService.findOne(reactionDTO.getVacancyId()));
         reaction.setCoverLetter(reactionDTO.getCoverLetter());

@@ -34,6 +34,12 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
+    @Transactional
+    public void delete(Integer id) {
+        vacancyRepository.deleteById(id);
+    }
+
+    @Override
     public Vacancy findOne(Integer id) {
         return vacancyRepository.findById(id).orElse(null);
     }

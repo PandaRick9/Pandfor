@@ -87,7 +87,13 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Integer> {
     """)
     List<MatchJobPreferenceDTO> findJobPreferencesByVacancyId(@Param("vacancyId") Integer vacancyId);
 
-
+    @Query("""
+        SELECT v FROM Vacancy v
+        LEFT JOIN FETCH v.reactions
+        JOIN FETCH v.jobCondition
+        WHERE v.company = :company
+        """)
+    List<Vacancy> findAllByCompanyWithDetails(Company company);
 
 
 }

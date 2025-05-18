@@ -2,7 +2,9 @@ function submitCompanyForm() {
     const jsonPart = {
         name: document.getElementById('companyName').value,
         description: document.getElementById('companyDescription').value,
-        city: document.getElementById('companyCity').value
+        city: document.getElementById('companyCity').value,
+        email:document.getElementById('companyEmail').value,
+        phone:document.getElementById('companyPhone').value
     };
 
     const formData = new FormData();

@@ -43,16 +43,16 @@ public class Vacancy {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private LocalDateTime createdAt;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employer;
-    @OneToOne(mappedBy = "vacancy", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "vacancy",  cascade = CascadeType.ALL, orphanRemoval = true)
     private JobCondition jobCondition;
-    @OneToMany(mappedBy = "vacancy")
+    @OneToMany(mappedBy = "vacancy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reaction> reactions;
-    @OneToMany(mappedBy = "vacancy", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vacancy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VacancySkill> vacancySkills;
 }

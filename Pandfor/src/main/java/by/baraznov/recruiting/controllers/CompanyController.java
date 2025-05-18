@@ -86,6 +86,8 @@ public class CompanyController {
             @RequestPart("companyData") CompanyDTO companyData,
             @RequestPart(value = "photo", required = false) MultipartFile photo) throws IOException {
         Company company = companyMapper.toEntity(companyData);
+        company.setEmail(companyData.getEmail());
+        company.setPhone(companyData.getPhone());
         savePhoto(photo, company);
         company = companyService.save(company);
 

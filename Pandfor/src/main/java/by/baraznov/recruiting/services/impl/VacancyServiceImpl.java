@@ -8,11 +8,16 @@ import by.baraznov.recruiting.dto.MatchVacancySkillDTO;
 import by.baraznov.recruiting.dto.ResumeSkillDTO;
 import by.baraznov.recruiting.dto.VacancyCardDTO;
 import by.baraznov.recruiting.dto.VacancySkillDTO;
+import by.baraznov.recruiting.dto.vacancyPage.CompanyDto;
+import by.baraznov.recruiting.dto.vacancyPage.JobConditionDto;
+import by.baraznov.recruiting.dto.vacancyPage.VacancyDto;
+import by.baraznov.recruiting.dto.vacancyPage.VacancySkillDto;
 import by.baraznov.recruiting.models.Company;
 import by.baraznov.recruiting.models.Vacancy;
 import by.baraznov.recruiting.models.VacancySkill;
 import by.baraznov.recruiting.repositories.VacancyRepository;
 import by.baraznov.recruiting.services.VacancyService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +81,27 @@ public class VacancyServiceImpl implements VacancyService {
         }
 
         return result;
+    }
+
+    @Override
+    public VacancyDto getVacancyPageDetails(Integer vacancyId) {
+        VacancyDto vacancy = vacancyRepository.findBasicVacancyInfoById(vacancyId)
+                .orElseThrow(() -> new EntityNotFoundException("Вакансия не найдена"));
+
+        CompanyDto company = vacancyRepository.findCompanyDetailsByVacancyId(vacancyId).orElse(null);
+        JobConditionDto jobCondition = vacancyRepository.findJobConditionsByVacancyId(vacancyId).orElse(null);
+        List<VacancySkillDto> skills = vacancyRepository.findRequiredSkillsByVacancyId(vacancyId);
+
+        return new VacancyDto(
+                vacancy.vacancyId(),
+                vacancy.title(),
+                vacancy.description(),
+                vacancy.salary(),
+                vacancy.createdAt(),
+                company,
+                jobCondition,
+                skills
+        );
     }
 
 }

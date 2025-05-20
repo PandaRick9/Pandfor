@@ -1,11 +1,19 @@
 :root {
   --primary: #507DBC;
-  --light: #A1C6EA;
+  --primary-light: #A1C6EA;
+  --primary-dark: #2A4E77;
   --white: #ffffff;
-  --text: #333;
-  --background: #F4F8FB;
+  --light-gray: #F4F8FB;
+  --medium-gray: #E0E6ED;
+  --dark-gray: #333333;
+  --text: #333333;
+  --text-light: #666666;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+  --transition: all 0.3s ease;
 }
 
+/* Base Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,184 +21,207 @@
 }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: var(--background);
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
   color: var(--text);
+  background-color: var(--light-gray);
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 
-.main-content {
+/* Main Content */
+.company-main {
   flex: 1;
-  max-width: 1860px;
-  margin: 0 0;
-  padding: 2rem 2rem;
-}
-
-/* Search Section */
-.search-section {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.search-bar {
-  display: flex;
+  max-width: 1200px;
   width: 100%;
-}
-
-.search-bar input {
-  flex: 1;
-  padding: 0.75rem;
-  border-radius: 2px;
-  margin-right: 10px;
-  border: 2px solid var(--primary);
-  font-size: 1rem;
-}
-
-#search-btn {
-  background-color: var(--primary);
-  color: var(--white);
-  border: none;
-  padding: 0.75rem 2rem;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.featured {
-  background-color: var(--primary);
-  padding: 1rem;
-  border-radius: 10px;
-  color: var(--white);
-}
-
-/* Vacancies */
-.vacancies {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.vacancy-card {
-  background-color: var(--light);
-  color: var(--text);
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.05);
-}
-
-
-
-
-
-.filters {
-  background-color: var(--white);
+  margin: 0 auto;
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.company-section {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.company-section h2 {
+  color: var(--primary);
   margin-bottom: 1.5rem;
+  font-size: 1.8rem;
 }
 
-.filters h2 {
-  margin-bottom: 20px;
-}
-
-.filters-container {
+/* Hero Section */
+.company-hero {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 3rem;
+  padding: 3rem;
+  background-color: var(--primary-light);
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
 }
 
-.filter-column {
+.hero-logo {
+  width: 200px;
+  height: 200px;
+  border-radius: 20%;
+  overflow: hidden;
+  border: 5px solid var(--white);
+  box-shadow: var(--shadow);
+}
+
+.hero-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-text h1 {
+  font-size: 2.2rem;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.hero-meta {
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+/* About Section */
+.about-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.about-content p {
+  margin-bottom: 1rem;
+}
+
+.achievements {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.achievement-item {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  flex: 1;
-}
-.filter-column-search{
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  flex: 1;
-  margin-right: 2rem;
 }
 
-
-.filter-box h4 {
-  margin-bottom: 10px;
+.achievement-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary);
 }
 
-.filter-box input {
-  width: 100%;
-  margin-top: 5px;
-  padding: 5px;
+.achievement-text {
+  color: var(--text-light);
 }
 
-.filter-box button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  cursor: pointer;
+/* Map Section */
+.map-wrapper {
+  margin-top: 1.5rem;
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
-.filter-submit{
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
+.map-note {
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+  color: var(--text-light);
 }
 
-.salary-inputs {
+/* Contact Section */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.contact-card {
+  background-color: var(--light-gray);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  transition: var(--transition);
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.contact-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.contact-card h3 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.social-links {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 100%;
+  margin-top: 1rem;
 }
 
-.salary-inputs input {
-  width: 100%;
+.social-link {
   padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+  border-radius: 6px;
+  transition: var(--transition);
 }
 
-.filter-box label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  font-size: 16px;
-}
-.filter-box input[type="checkbox"],
-.filter-box input[type="radio"] {
-  width: 16px;
-  height: 16px;
-}
-.filter-box input[type="text"],
-.filter-box input[type="number"] {
-  width: 100%;
-  margin-top: 5px;
-  padding: 10px;
-  font-size: 16px;
+.social-link:hover {
+  color: var(--white);
 }
 
+.fb:hover { background-color: #3b5998; }
+.in:hover { background-color: #0077b5; }
+.ig:hover { background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d); }
 
+@media (max-width: 768px) {
+  .company-hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .hero-logo {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .achievements {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  
 
-
-
-
-
-
-
-
-
+}
 
 
 
@@ -407,3 +438,4 @@ body {
   background-color: var(--light);
   color: var(--text);
 }
+

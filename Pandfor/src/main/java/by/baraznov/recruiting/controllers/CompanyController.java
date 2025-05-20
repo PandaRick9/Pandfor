@@ -83,13 +83,7 @@ public class CompanyController {
         return "reactionPage";
     }
 
-    @GetMapping("/reaction/{id}")
-    public String reactionView(@PathVariable Integer id,  @RequestParam(required = false) Integer fromVacancy, Model model){
-        ResumeDto resume = resumeService.getResumeById(id);
-        model.addAttribute("fromVacancy", fromVacancy);
-        model.addAttribute("resume", resume);
-        return "resumePage";
-    }
+
 
 
     @PostMapping(value = "/submit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

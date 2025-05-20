@@ -21,10 +21,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,16 +48,34 @@ public class VacancyController {
     private final CurrentUserProvider currentUserProvider;
     private final EmployerService employerService;
     private final CompanyService companyService;
-    private final ResumeService resumeService;
     private final JobSeekerService jobSeekerService;
+
+    @ModelAttribute("role")
+    public String addRoleToModel() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .findFirst()
+                    .orElse("ROLE_GUEST");
+        }
+        return "ROLE_GUEST";
+    }
+
 
     @GetMapping
     public String allVacancy(Model model) {
         Person person = currentUserProvider.getCurrentPerson().getPerson();
         JobSeeker jobSeeker = jobSeekerService.findByPerson(person).orElse(null);
         model.addAttribute("vacancies", vacancyService.findAll());
-        model.addAttribute("resumes", Objects.requireNonNull(jobSeeker).getResumes());
+        model.addAttribute("resumes", jobSeeker.getResumes());
         return "allVacancyPage";
+    }
+
+    @GetMapping("/{id}")
+    public String vacancy(@PathVariable Integer id, Model model) {
+        model.addAttribute("vacancy", vacancyService.getVacancyPageDetails(id));
+        return "vacancyPage";
     }
 
     @GetMapping("/new")

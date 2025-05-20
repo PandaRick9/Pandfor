@@ -19,7 +19,8 @@ public interface ReactionRepository extends JpaRepository<Reaction, Integer> {
         r.status,
         r.createdAt,
         r.coverLetter,
-        r.resume.resumeId
+        r.resume.resumeId,
+        r.reactionId
     )
     from Reaction r
     where r.vacancy.vacancyId = :vacancyId

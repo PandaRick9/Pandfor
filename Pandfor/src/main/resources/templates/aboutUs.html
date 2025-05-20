@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>О компании | PandFor</title>
+  <link rel="stylesheet" th:href="@{/css/aboutUs.css}"/>
+</head>
+<body>
+
+<header th:insert="~{header :: header}"></header>
+
+  <main class="company-main">
+    <section class="company-hero">
+      <div class="hero-logo">
+        <img src="/images/company-logo.png" alt="Логотип PandFor">
+      </div>
+      <div class="hero-text">
+        <h1>PandFor - инновационный HR-сервис</h1>
+        <p class="hero-meta">Основан в 2015 году • Более 500 успешных трудоустройств</p>
+      </div>
+    </section>
+
+    <section class="company-section about-section">
+      <h2>Наша история</h2>
+      <div class="about-content">
+        <p>PandFor начал свою работу в 2015 году с небольшой команды энтузиастов в Минске. Сегодня мы - международная платформа с офисами в 5 странах мира.</p>
+        <p>Наше название происходит от слов "Pandora" и "Forge", что символизирует открытие новых возможностей и ковку карьерных успехов.</p>
+        
+        <div class="achievements">
+          <div class="achievement-item">
+            <span class="achievement-number">500+</span>
+            <span class="achievement-text">трудоустройств</span>
+          </div>
+          <div class="achievement-item">
+            <span class="achievement-number">120+</span>
+            <span class="achievement-text">компаний-партнеров</span>
+          </div>
+          <div class="achievement-item">
+            <span class="achievement-number">98%</span>
+            <span class="achievement-text">довольных клиентов</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="company-section map-section">
+    <h2>Наш символический офис у подножия вулкана Рано-Рараку</h2>
+    <div class="map-wrapper">
+      <iframe
+        src="https://www.google.com/maps?q=-27.1250,-109.2765&z=12&hl=ru&output=embed"
+        width="100%"
+        height="450"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <p class="map-note">Рано-Рараку - место где создаются наши каменные решения для вашего бизнеса</p>
+    </div>
+  </section>
+
+    <section class="company-section contact-section">
+      <h2>Свяжитесь с нами</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <h3>Email</h3>
+          <a href="mailto:contact@pandfor.com">contact@pandfor.com</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">📞</div>
+          <h3>Телефон</h3>
+          <a href="tel:+56987654321">+56 9 8765 4321</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">🏢</div>
+          <h3>Адрес</h3>
+          <address>Остров Пасхи, Hanga Roa</address>
+        </div>
+        <div class="contact-card social-card">
+          <div class="contact-icon">🌐</div>
+          <h3>Социальные сети</h3>
+          <div class="social-links">
+            <a href="https://t.me/Derfect9" target="_blank" class="social-link fb">Telegram</a>
+            <a href="https://linkedin.com/company/pandfor" target="_blank" class="social-link in">LinkedIn</a>
+            <a href="https://www.instagram.com/hak_men9/?hl=ru" target="_blank" class="social-link ig">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer th:insert="~{footer :: footer}"></footer>
+<script src="/js/jobPageScript.js"></script>
+</body>
+</html>

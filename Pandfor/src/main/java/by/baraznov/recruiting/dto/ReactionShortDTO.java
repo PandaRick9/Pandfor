@@ -11,7 +11,8 @@ public record ReactionShortDTO(
         ReactionStatus status,
         LocalDateTime createdAt,
         String coverLetter,
-        Integer resumeId
+        Integer resumeId,
+        Integer reactionId
 )
 {
 }

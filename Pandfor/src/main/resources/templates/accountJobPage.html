@@ -7,21 +7,7 @@
   <link rel="stylesheet" th:href="@{/css/accountJobPageStyle.css}">
 </head>
 <body>
-<header class="header">
-  <div class="left-section">
-    <div class="logo">PandFor</div>
-    <nav class="nav">
-      <a href="/job" class="nav-link">Поиск работы</a>
-      <a href="/resumes" class="nav-link active">Мои резюме</a>
-    </nav>
-  </div>
-  <div class="right-section">
-    <div class="user-info">
-      <span class="user-name" th:text="${profile.firstName() + ' ' + profile.lastName()}">Иван Иванов</span>
-
-    </div>
-  </div>
-</header>
+<header th:insert="~{header :: header}"></header>
 
 <main class="main-content">
   <div class="account-container">
@@ -30,6 +16,7 @@
       <div class="user-avatar-container">
         <img th:if="${profile.photoUrl()}" th:src="${profile.photoUrl()}"
              src="/static/images/default-avatar.jpg" alt="Аватар" class="user-avatar">
+        <img th:unless="${profile.photoUrl()}" th:src="@{/images/default-avatar.png}" alt="Аватар" class="user-avatar">
       </div>
       <div class="personal-details">
         <h1 class="user-fullname" th:text="*{lastName() + ' ' + firstName()}">Иван Иванов</h1>
@@ -82,29 +69,9 @@
   </div>
 </main>
 
-<footer class="footer">
-  <div class="footer-content">
-    <div class="footer-section">
-      <h3>PandFor</h3>
-      <p>Платформа для поиска работы и сотрудников</p>
-    </div>
-    <div class="footer-section">
-      <h4>Контакты</h4>
-      <a href="mailto:info@pandfor.ru">info@pandfor.ru</a>
-      <a href="tel:+78001234567">8 (800) 123-45-67</a>
-    </div>
-    <div class="footer-section">
-      <h4>Соцсети</h4>
-      <div class="social-links">
-        <a href="#" class="social-link">VK</a>
-        <a href="#" class="social-link">Telegram</a>
-        <a href="#" class="social-link">HH</a>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2023 PandFor. Все права защищены.</p>
-  </div>
-</footer>
+<footer th:insert="~{footer :: footer}"></footer>
+
+
+<script src="/js/jobPageScript.js"></script>
 </body>
 </html>

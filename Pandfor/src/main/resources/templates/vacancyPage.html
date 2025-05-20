@@ -1,160 +1,99 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Вакансия</title>
-  <link rel="stylesheet" href="/static/css/infoPageStyle.css" />
+  <title th:text="${vacancy.title()} + ' | Вакансия'">Вакансия</title>
+  <link rel="stylesheet" th:href="@{/css/infoPageStyle.css}"/>
 </head>
 <body>
 
-  <header class="header">
-    <div class="left-section">
-      <div class="logo">PandFor</div>
-      
-    </div>
-    <div class="right-section">
-      <form id="createResume" action="/resume/new" method="GET">
-        <button class="resume-btn">Создать резюме</button>
-      </form>
-      <form id="login" action="/auth/login" method="GET">
-        <button class="login-btn">Войти</button>
-      </form>
-    </div>
-  </header>
 
-  <main class="main-content vacancy-container">
-    <section class="vacancy-section resume-header">
+<header th:insert="~{header :: header}"></header>
+
+<main class="main-content vacancy-container">
+  <section class="vacancy-section resume-header">
     <div class="resume-photo company-logo">
-        <img src="https://via.placeholder.com/150" alt="Логотип компании" class="photo-img">
+      <img th:if="${vacancy.company()?.photoUrl() != null}"
+           th:src="${vacancy.company().photoUrl()}"
+           alt="Логотип компании" class="photo-img">
+      <img th:unless="${vacancy.company()?.photoUrl() != null}"
+           th:src="@{/images/default-company.png}"
+           alt="Логотип компании" class="photo-img">
     </div>
     <div class="resume-title">
-        <h1>Frontend-разработчик (React)</h1>
-        <div class="resume-meta">
-        <span>ТехноЛаб</span>
-        <span>Москва</span>
-        <span class="salary">от 150 000 ₽</span>
-        </div>
+      <h1 th:text="${vacancy.title()}">Frontend-разработчик (React)</h1>
+      <div class="resume-meta">
+        <span th:text="${vacancy.company()?.name()}">ТехноЛаб</span>
+        <span th:text="${vacancy.company()?.city()}">Москва</span>
+        <span class="salary"
+              th:if="${vacancy.salary() != null}"
+              th:text="'от ' + ${#numbers.formatInteger(vacancy.salary(), 1, 'POINT')} + ' ₽'">
+            от 150 000 ₽
+          </span>
+      </div>
     </div>
-    </section>
+  </section>
 
-    <section class="vacancy-section">
+  <section class="vacancy-section" th:if="${vacancy.jobCondition() != null}">
     <h2>Условия работы</h2>
     <div class="preferences-grid">
-        <div class="pref-item">
+      <div class="pref-item" th:if="${vacancy.jobCondition().schedule() != null}">
         <span class="pref-label">График работы:</span>
-        <span>5/2</span>
-        </div>
-        <div class="pref-item">
+        <span th:text="${vacancy.jobCondition().schedule()}">5/2</span>
+      </div>
+      <div class="pref-item" th:if="${vacancy.jobCondition().employmentType() != null}">
         <span class="pref-label">Тип занятости:</span>
-        <span>Полная занятость</span>
-        </div>
-        <div class="pref-item">
+        <span th:text="${vacancy.jobCondition().employmentType()}">Полная занятость</span>
+      </div>
+      <div class="pref-item" th:if="${vacancy.jobCondition().workFormat() != null}">
         <span class="pref-label">Формат работы:</span>
-        <span>Гибрид</span>
-        </div>
-        <div class="pref-item">
+        <span th:text="${vacancy.jobCondition().workFormat()}">Гибрид</span>
+      </div>
+      <div class="pref-item" th:if="${vacancy.jobCondition().requiredExperienceYears() != null}">
         <span class="pref-label">Требуемый опыт:</span>
-        <span>3-6 лет</span>
-        </div>
-    </div>
-    </section>
-
-    <section class="vacancy-section">
-      <h2>Описание вакансии</h2>
-      <div class="description">
-        Ищем опытного Frontend-разработчика для работы над современными веб-приложениями. 
-        Вам предстоит разрабатывать новые функции и улучшать существующий код.
-        
-        Основные задачи:
-        - Разработка пользовательских интерфейсов на React
-        - Оптимизация производительности приложений
-        - Участие в код-ревью
-        - Взаимодействие с командой backend-разработчиков
-      </div>
-    </section>
-
-    <section class="vacancy-section">
-      <h2>О компании</h2>
-      <div class="description">
-        ТехноЛаб - ведущая IT-компания, специализирующаяся на разработке инновационных решений 
-        для бизнеса. У нас работают более 200 специалистов, и мы продолжаем расти.
-        
-        Мы предлагаем:
-        - Современный офис в центре Москвы
-        - Гибкий график работы
-        - Возможности для профессионального роста
-        - Корпоративное обучение
-      </div>
-    </section>
-
-
-    <section class="vacancy-section">
-      <h2>Требуемые навыки</h2>
-      <div class="skills-container">
-        <div class="skill-item">
-          <span>JavaScript</span>
-          <div class="skill-level">
-            <span>Профи</span>
-          </div>
-        </div>
-        <div class="skill-item">
-          <span>React</span>
-          <div class="skill-level">
-            <span>Профи</span>
-          </div>
-        </div>
-        <div class="skill-item">
-          <span>TypeScript</span>
-          <div class="skill-level">
-            <span>Средний</span>
-          </div>
-        </div>
-        <div class="skill-item">
-          <span>Redux</span>
-          <div class="skill-level">
-            <span>Продвинутый</span>
-          </div>
-        </div>
-        <div class="skill-item">
-          <span>HTML/CSS</span>
-          <div class="skill-level">
-            <span>Продвинутый</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <button class="apply-btn">Откликнуться на вакансию</button>
-
-
-    <div class="vacancy-date">
-      Вакансия опубликована: <span>15.03.2023</span>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-left">
-      <h3>О компании</h3>
-      <p>Мы помогаем компаниям находить лучших IT-специалистов.</p>
-    </div>
-    <div class="footer-center">
-      <ul>
-        <li><a href="#">О нас</a></li>
-        <li><a href="#">Контакты</a></li>
-        <li><a href="#">Политика конфиденциальности</a></li>
-      </ul>
-    </div>
-    <div class="footer-right">
-      <div class="socials">
-        <a href="#">Facebook</a>
-        <a href="#">Twitter</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Instagram</a>
+        <span th:text="${vacancy.jobCondition().requiredExperienceYears()}">3-6 лет</span>
       </div>
     </div>
-  </footer>
+  </section>
+
+  <section class="vacancy-section" th:if="${vacancy.description() != null and !vacancy.description().isEmpty()}">
+    <h2>Описание вакансии</h2>
+    <div class="description" th:text="${vacancy.description()}">
+      Ищем опытного Frontend-разработчика для работы над современными веб-приложениями...
+    </div>
+  </section>
+
+  <section class="vacancy-section" th:if="${vacancy.company()?.description() != null and !vacancy.company().description().isEmpty()}">
+    <h2>О компании</h2>
+    <div class="description" th:text="${vacancy.company().description()}">
+      ТехноЛаб - ведущая IT-компания...
+    </div>
+  </section>
+
+  <section class="vacancy-section" th:if="${not #lists.isEmpty(vacancy.skills())}">
+    <h2>Требуемые навыки</h2>
+    <div class="skills-container">
+      <div class="skill-item" th:each="skill : ${vacancy.skills()}">
+        <span th:text="${skill.skillName()}">JavaScript</span>
+        <div class="skill-level">
+          <span th:text="${skill.requiredLevel()}">Профи</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="vacancy-date" th:if="${vacancy.createdAt() != null}">
+    Вакансия опубликована:
+    <span th:text="${#temporals.format(vacancy.createdAt(), 'dd.MM.yyyy')}">15.03.2023</span>
+  </div>
+</main>
+
+<footer th:insert="~{footer :: footer}"></footer>
+
+
+<script src="/js/jobPageScript.js"></script>
 
 </body>
 </html>

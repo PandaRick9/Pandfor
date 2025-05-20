@@ -67,12 +67,7 @@
   </style>
 </head>
 <body>
-
-<header class="header">
-  <div class="left-section">
-    <a class="logo" href="/job">Pandfor</a>
-  </div>
-</header>
+<header th:insert="~{header :: header}"></header>
 
 <a href="/company" class="back-button">← На главную страницу</a>
 
@@ -101,12 +96,10 @@
 
 </div>
 
-<footer class="footer">
-  <div class="footer-left">
-    <h3>О компании</h3>
-    <p>Мы помогаем компаниям находить лучших IT-специалистов.</p>
-  </div>
-</footer>
+<footer th:insert="~{footer :: footer}"></footer>
+
+
+<script src="/js/jobPageScript.js"></script>
 
 </body>
 </html>

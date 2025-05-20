@@ -9,4 +9,8 @@ import java.util.List;
 public interface ReactionService {
     void save(Reaction reaction);
     List<ReactionShortDTO> findAllByVacancy(Integer vacancyId);
+
+    void acceptReaction(Integer reactionId);
+
+    void rejectReaction(Integer reactionId);
 }

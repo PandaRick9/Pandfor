@@ -2,6 +2,7 @@ package by.baraznov.recruiting.services;
 
 import by.baraznov.recruiting.dto.MatchPercentageDTO;
 import by.baraznov.recruiting.dto.VacancyCardDTO;
+import by.baraznov.recruiting.dto.vacancyPage.VacancyDto;
 import by.baraznov.recruiting.models.Company;
 import by.baraznov.recruiting.models.Vacancy;
 
@@ -14,4 +15,5 @@ public interface VacancyService {
     List<Vacancy> findAll();
     List<VacancyCardDTO> findAllVacancies(Integer companyId);
     List<MatchPercentageDTO> findAllMatchPercentage(Integer vacancyId);
+    VacancyDto getVacancyPageDetails(Integer vacancyId);
 }

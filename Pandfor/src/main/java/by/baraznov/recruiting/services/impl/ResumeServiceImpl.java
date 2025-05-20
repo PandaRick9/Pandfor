@@ -53,6 +53,7 @@ public class ResumeServiceImpl implements ResumeService {
         resumesRepository.deleteById(id);
     }
 
+
     @Override
     public ResumeDto getResumeById(Integer id) {
         Resume resume = resumesRepository.findByIdWithBasicDetails(id)

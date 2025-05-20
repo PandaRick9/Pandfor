@@ -4,23 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Редактирование резюме</title>
-  <link rel="stylesheet" href="/static/css/infoPageStyle.css">
+  <link rel="stylesheet" href="/css/infoPageStyle.css">
 </head>
 <body>
-
-  <header class="header">
-    <div class="left-section">
-      <div class="logo">PandFor</div>
-    </div>
-    <div class="right-section">
-      <form id="backToResume" action="/resume/view" method="GET">
-        <button type="submit" class="resume-btn">Назад к резюме</button>
-      </form>
-      <form id="logout" action="/auth/logout" method="POST">
-        <button class="login-btn">Выйти</button>
-      </form>
-    </div>
-  </header>
+<header th:insert="~{header :: header}"></header>
 
   <main class="main-content edit-container">
     <section class="edit-section edit-header">
@@ -244,27 +231,10 @@
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="footer-left">
-      <h3>О компании</h3>
-      <p>Мы помогаем компаниям находить лучших IT-специалистов.</p>
-    </div>
-    <div class="footer-center">
-      <ul>
-        <li><a href="#">О нас</a></li>
-        <li><a href="#">Контакты</a></li>
-        <li><a href="#">Политика конфиденциальности</a></li>
-      </ul>
-    </div>
-    <div class="footer-right">
-      <div class="socials">
-        <a href="#">Facebook</a>
-        <a href="#">Twitter</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Instagram</a>
-      </div>
-    </div>
-  </footer>
+  <footer th:insert="~{footer :: footer}"></footer>
+
+
+  <script src="/js/jobPageScript.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() { 

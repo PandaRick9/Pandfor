@@ -65,7 +65,7 @@
 
 
     .main-content2 {
-    flex-grow: 1; /* Этот контейнер растягивается, чтобы занять оставшееся пространство */
+    flex-grow: 1;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-bottom: 2rem;
@@ -75,15 +75,8 @@
 </head>
 <body>
 
-<header class="header">
-  <div class="left-section">
-    <a class="logo" href="/job">Pandfor</a>
-  </div>
-  <div class="right-section">
-    <button class="resume-btn" onclick="location.href='/vacancy/new'">Создать вакансию</button>
-    <button class="login-btn" onclick="location.href='/auth/login'">Войти</button>
-  </div>
-</header>
+
+<header th:insert="~{header :: header}"></header>
 
 <a href="/company/vacancy" class="back-button">← Ко всем вакансиям компании</a>
 
@@ -110,18 +103,20 @@
 
         </div>
         <div class="button-section">
-          <form th:action="@{/company/reaction/{id}(id=${reaction.resumeId()})}" method="GET">
+          <form th:action="@{/reaction/{id}(id=${reaction.resumeId()})}" method="GET">
             <input type="hidden" name="fromVacancy" th:value="${vacancyId}">
           <button class="resume-btn">Просмотреть резюме</button>
           </form>
         </div>
         <div class="button-section button-row">
           <form th:action="@{/reaction/accept}" method="post" style="display:inline;">
-            <input type="hidden" name="resumeId" th:value="${reaction.resumeId}">
+            <input type="hidden" name="reactionId" th:value="${reaction.reactionId}">
+            <input type="hidden" name="fromVacancy" th:value="${vacancyId}">
             <button type="submit" class="apply-btn">Принять</button>
           </form>
           <form th:action="@{/reaction/reject}" method="post" style="display:inline;">
-            <input type="hidden" name="resumeId" th:value="${reaction.resumeId}">
+            <input type="hidden" name="reactionId" th:value="${reaction.reactionId}">
+            <input type="hidden" name="fromVacancy" th:value="${vacancyId}">
             <button type="submit" class="reject-btn">Отклонить</button>
           </form>
         </div>
@@ -131,52 +126,11 @@
 
 </div>
 
-<footer class="footer">
-  <div class="footer-left">
-    <h3>О компании</h3>
-    <p>Мы помогаем компаниям находить лучших IT-специалистов.</p>
-  </div>
-  <div class="footer-center">
-    <ul>
-      <li><a href="#">О нас</a></li>
-      <li><a href="#">Контакты</a></li>
-      <li><a href="#">Политика конфиденциальности</a></li>
-    </ul>
-  </div>
-  <div class="footer-right">
-    <div class="socials">
-      <a href="#">Facebook</a>
-      <a href="#">Twitter</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Instagram</a>
-    </div>
-  </div>
-</footer>
+<footer th:insert="~{footer :: footer}"></footer>
 
-<script>
-  document.querySelectorAll('.resume-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.id;
-      window.location.href = `/company/vacancy/${id}`;
-    });
-  });
-  document.querySelectorAll('.apply-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.id;
-      fetch(`/candidate/${id}/accept`, { method: 'POST' })
-              .then(() => alert('Кандидат принят!'))
-              .catch(() => alert('Ошибка при принятии кандидата'));
-    });
-  });
-  document.querySelectorAll('.reject-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.id;
-      fetch(`/candidate/${id}/reject`, { method: 'POST' })
-              .then(() => alert('Кандидат отклонён'))
-              .catch(() => alert('Ошибка при отклонении кандидата'));
-    });
-  });
-</script>
+
+<script src="/js/jobPageScript.js"></script>
+
 
 </body>
 </html>

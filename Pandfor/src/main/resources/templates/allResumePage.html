@@ -7,16 +7,7 @@
   <link rel="stylesheet" th:href="@{/css/vacancyPageStyle.css}" />
 </head>
 <body>
-
-<header class="header">
-  <div class="left-section">
-    <div ><a class="logo" th:href="@{/company}">PandFor</a></div>
-  </div>
-  <div class="right-section">
-    <button class="resume-btn">Создать резюме</button>
-    <button class="login-btn">Войти</button>
-  </div>
-</header>
+<header th:insert="~{header :: header}"></header>
 
 <div class="main-content">
 
@@ -143,27 +134,10 @@
   </div>
 </div>
 
-<footer class="footer">
-  <div class="footer-left">
-    <h3>О компании</h3>
-    <p>Мы помогаем специалистам находить лучшие вакансии в IT.</p>
-  </div>
-  <div class="footer-center">
-    <ul>
-      <li><a href="#">О нас</a></li>
-      <li><a href="#">Контакты</a></li>
-      <li><a href="#">Политика конфиденциальности</a></li>
-    </ul>
-  </div>
-  <div class="footer-right">
-    <div class="socials">
-      <a href="#">Facebook</a>
-      <a href="#">Twitter</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Instagram</a>
-    </div>
-  </div>
-</footer>
+<footer th:insert="~{footer :: footer}"></footer>
+
+
+<script src="/js/jobPageScript.js"></script>
 
 </body>
 </html>

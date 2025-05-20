@@ -31,4 +31,20 @@ public class ReactionServiceImpl implements ReactionService {
     public List<ReactionShortDTO> findAllByVacancy(Integer vacancyId) {
         return reactionRepository.findAllByVacancyId(vacancyId);
     }
+
+    @Override
+    @Transactional
+    public void acceptReaction(Integer reactionId) {
+        Reaction reaction = reactionRepository.findById(reactionId).orElse(null);
+        reaction.setStatus(ReactionStatus.INVITATION);
+        reactionRepository.save(reaction);
+    }
+
+    @Override
+    @Transactional
+    public void rejectReaction(Integer reactionId) {
+        Reaction reaction = reactionRepository.findById(reactionId).orElse(null);
+        reaction.setStatus(ReactionStatus.REJECTION);
+        reactionRepository.save(reaction);
+    }
 }

@@ -1,0 +1,77 @@
+<!-- header.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="header">
+    <div th:switch="${role}">
+        <div th:case="'ROLE_COMPANY'">
+            <header class="header">
+                <div class="left-section">
+                    <a th:href="@{/company}" class="logo">PandFor</a>
+                    <div class="dropdown">
+                        <button class="dropbtn">Ищу сотрудника</button>
+                    </div>
+                </div>
+                <div class="right-section">
+                    <form id="resumesList" th:method="GET" th:action="@{/resume}">
+                        <button class="resume-btn">Резюме</button>
+                    </form>
+                    <form id="vacancyList" th:method="GET" th:action="@{/company/vacancy}">
+                        <button class="resume-btn">Список вакансий</button>
+                    </form>
+                    <form id="createVacancy" th:method="GET" th:action="@{/company/new}">
+                        <button class="resume-btn">Создать вакансию</button>
+                    </form>
+                    <form id="accountCompany" th:method="GET" th:action="@{/account/company}">
+                        <button class="resume-btn">Личный кабинет</button>
+                    </form>
+                </div>
+            </header>
+        </div>
+        <div th:case="'ROLE_JOBSEEKER'">
+            <header class="header">
+                <div class="left-section">
+                    <a th:href="@{/job}" class="logo">PandFor</a>
+                    <div class="dropdown">
+                        <button class="dropbtn">Ищу работу</button>
+                    </div>
+                </div>
+                <div class="right-section">
+                    <form id="vacanciesList" th:method="GET" th:action="@{/vacancy}">
+                        <button class="resume-btn">Вакансии</button>
+                    </form>
+                    <form id="createResume" th:method="GET" th:action="@{/jobseeker/new}">
+                        <button class="resume-btn">Создать резюме</button>
+                    </form>
+                    <form id="account" th:method="GET" th:action="@{/account/job}">
+                        <button class="login-btn">Личный кабинет</button>
+                    </form>
+                </div>
+            </header>
+        </div>
+        <div th:case="*">
+            <header class="header">
+                <div class="left-section">
+                    <a class="logo" th:href="@{/job}">PandFor</a>
+                    <div class="dropdown">
+                        <button class="dropbtn">Ищу работу</button>
+                        <div class="dropdown-content">
+                            <a th:href="@{/job}">Ищу работу</a>
+                            <a th:href="@{/company}">Ищу сотрудника</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-section">
+                    <form id="login" th:method="GET" th:action="@{/auth/login}">
+                        <button class="login-btn">Войти</button>
+                    </form>
+                </div>
+            </header>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

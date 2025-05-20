@@ -27,6 +27,8 @@ import java.util.Optional;
 
 @Repository
 public interface VacancyRepository extends JpaRepository<Vacancy, Integer> {
+    List<Vacancy> findByTitleStartingWith(String search);
+
     @Query("""
         select new by.baraznov.recruiting.dto.VacancyCardDTO(
             v.vacancyId,

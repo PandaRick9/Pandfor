@@ -70,3 +70,11 @@ function submitApplication() {
             console.error('Ошибка сети:', error);
         });
 }
+
+
+
+function showResumeAlert() {
+    if (confirm('Для отклика на вакансию необходимо создать резюме. Хотите перейти к созданию резюме?')) {
+        window.location.href = '/jobseeker/new';
+    }
+}

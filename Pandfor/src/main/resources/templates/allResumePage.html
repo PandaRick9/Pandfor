@@ -1,137 +1,200 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="https://thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Все резюме</title>
-  <link rel="stylesheet" th:href="@{/css/vacancyPageStyle.css}" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Все резюме</title>
+    <link rel="stylesheet" th:href="@{/css/vacancyPageStyle.css}"/>
 </head>
 <body>
 <header th:insert="~{header :: header}"></header>
 
 <div class="main-content">
 
-  <div class="search-section">
-    <div class="search-bar">
-      <input type="text" placeholder="Поиск резюме..." id="search-input">
-      <button id="search-btn">Найти</button>
+    <div class="search-section">
+        <form class="search-bar" th:method="POST" th:action="@{/search/resume}">
+            <input name="query" type="text" placeholder="Поиск резюме..." id="search-input">
+            <button type="submit" id="search-btn">Найти</button>
+        </form>
     </div>
-  </div>
 
-  <h2 class="found-vacancies">Найдено: 200 резюме</h2>
+    <h2 class="found-vacancies" th:text="'Найдено: ' + ${resumes.size()} + ' резюме'"></h2>
 
-  <div class="content">
-    <section class="filters">
-      <h2>Фильтры</h2>
-      <div class="filters-container">
+    <div class="content">
 
-        <div class="filter-column">
-          <div class="filter-box">
-            <h4>Опыт работы</h4>
-            <div class="filter-options">
-              <label><input type="checkbox" name="experience"> Нет опыта</label>
-              <label><input type="checkbox" name="experience"> 1–3 года</label>
-              <label><input type="checkbox" name="experience"> 3–6 лет</label>
-              <label><input type="checkbox" name="experience"> Более 6 лет</label>
-            </div>
-          </div>
-          <div class="filter-box">
-            <h4>Желаемый формат</h4>
-            <div class="filter-options">
-              <label><input type="checkbox" name="format"> Офис</label>
-              <label><input type="checkbox" name="format"> Удалёнка</label>
-              <label><input type="checkbox" name="format"> Гибрид</label>
-            </div>
-          </div>
-          <div class="filter-box">
-            <h4>Желаемая занятость</h4>
-            <div class="filter-options">
-              <label><input type="checkbox" name="employment"> Полная</label>
-              <label><input type="checkbox" name="employment"> Частичная</label>
-              <label><input type="checkbox" name="employment"> Стажировка</label>
-            </div>
-          </div>
-          <div class="filter-box">
-            <h4>Профессия</h4>
-            <div class="salary-inputs">
-              <input type="text" placeholder="Например, Frontend Developer">
-            </div>
-          </div>
-          <div class="filter-box">
-            <h4>Город</h4>
-            <div class="salary-inputs">
-              <input type="text" placeholder="Город">
-            </div>
-          </div>
-          <div class="filter-box">
-            <h4>Желаемая зарплата</h4>
-            <div class="salary-inputs">
-              <input type="number" placeholder="Минимум">
-              <input type="number" placeholder="Максимум">
-            </div>
-          </div>
-          <div class="filter-box">
-            <button type="submit" class="filter-submit">Применить фильтры</button>
-          </div>
-        </div>
+        <div class="content">
+            <section class="filters">
+                <h2>Фильтры</h2>
+                <form th:method="GET" th:action="@{/filters/resume}" id="filters-form">
+                    <div class="filters-container">
 
-      </div>
-    </section>
+                        <div class="filter-column">
+                            <div class="filter-box">
+                                <h4>Формат работы</h4>
+                                <div class="filter-options">
+                                    <label>
+                                        <input type="checkbox" name="workFormats" value="EMPLOYER_PLACE">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.WorkFormat).EMPLOYER_PLACE.label}">В офисе</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="workFormats" value="REMOTELY">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.WorkFormat).REMOTELY.label}">Удалённо</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="workFormats" value="HYBRID">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.WorkFormat).HYBRID.label}">Гибридный формат</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="filter-box">
+                                <h4>График работы</h4>
+                                <div class="filter-options">
+                                    <label>
+                                        <input type="checkbox" name="schedules" value="FIVE_TWO">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.Schedule).FIVE_TWO.label}">5/2</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="schedules" value="TWO_TWO">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.Schedule).TWO_TWO.label}">2/2</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="schedules" value="THREE_THREE">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.Schedule).THREE_THREE.label}">3/3</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="schedules" value="ON_WEEKENDS">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.Schedule).ON_WEEKENDS.label}">По выходным</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="filter-box">
+                                <h4>Требуемый опыт</h4>
+                                <div class="filter-options">
+                                    <label>
+                                        <input type="radio" name="experience" value="IT_DOESNT_METTER">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).IT_DOESNT_METTER.label}">Не имеет значения</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="experience" value="NO_EXPERIENCE">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).NO_EXPERIENCE.label}">Нет опыта</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="experience" value="ONE_THEE_YEAR">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).ONE_THEE_YEAR.label}">От 1 года до 3 лет</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="experience" value="THREE_SIX_YEAR">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).THREE_SIX_YEAR.label}">От 3 до 6 лет</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="experience" value="MORE_THE_SIX_YEAR">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).MORE_THE_SIX_YEAR.label}">Более 6 лет</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="filter-box">
+                                <h4>Тип занятости</h4>
+                                <div class="filter-options">
+                                    <label>
+                                        <input type="checkbox" name="employmentTypes" value="FULL_TIME">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.EmploymentType).FULL_TIME.label}">Полная занятость</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="employmentTypes" value="PART_TIME">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.EmploymentType).PART_TIME.label}">Частичная занятость</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="employmentTypes" value="INTERNSHIP">
+                                        <span th:text="${T(by.baraznov.recruiting.models.enums.EmploymentType).INTERNSHIP.label}">Стажировка</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="filter-box">
+                                <h4>Название резюме</h4>
+                                <div class="text-inputs">
+                                    <input type="text" name="companyName" placeholder="Название резюме"
+                                           th:value="${param.companyName}">
+                                </div>
+                            </div>
+                            <div class="filter-box">
+                                <h4>Город</h4>
+                                <div class="text-inputs">
+                                    <input type="text" name="city" placeholder="Город"
+                                           th:value="${param.city}">
+                                </div>
+                            </div>
+                            <div class="filter-box">
+                                <h4>Уровень дохода</h4>
+                                <div class="salary-inputs">
+                                    <input type="number" name="minSalary" placeholder="Минимум"
+                                           th:value="${param.minSalary}">
+                                    <input type="number" name="maxSalary" placeholder="Максимум"
+                                           th:value="${param.maxSalary}">
+                                </div>
+                            </div>
+                            <div class="filter-box">
+                                <button type="submit" class="filter-submit">Применить фильтры</button>
+                            </div>
+                        </div>
 
-    <div class="vacancy-list">
+                    </div>
+                </form>
+            </section>
 
-      <div th:each="resume : ${resumes}">
-        <div class="vacancy-card">
-          <div class="vacancy-header">
-            <h4 class="vacancy-title"
-                th:text="|${resume.title} — ${resume.personalInfo.lastName} ${resume.personalInfo.firstName}|">
-              Frontend Developer — Иван Иванов
-            </h4>
-            <div class="vacancy-salary-details">
+        <div class="vacancy-list">
+
+            <div th:each="resume : ${resumes}">
+                <div class="vacancy-card">
+                    <div class="vacancy-header">
+                        <h4 class="vacancy-title"
+                            th:text="|${resume.title} — ${resume.jobSeeker.lastName} ${resume.jobSeeker.firstName}|">
+                            Frontend Developer — Иван Иванов
+                        </h4>
+                        <div class="vacancy-salary-details">
         <span class="salary"
-              th:text="|Желаемая зарплата: ${resume.jobPreference.desiredSalary} Br|">
-          Желаемая зарплата: 3000–3500 Br
-        </span>
-              <span class="detail-badge"
-                    th:text="|Опыт ${resume.jobPreference.experienceYear}|">
-          Опыт 2 года
-        </span>
-              <span class="detail-badge"
-                    th:text="${resume.jobPreference.employmentType}">
-          Полная занятость
-        </span>
-            </div>
-          </div>
+              th:if="${resume.jobPreference != null and resume.jobPreference.desiredSalary != null}"
+              th:text="|Желаемая зарплата: ${resume.jobPreference.desiredSalary} Br|">  Желаемая зарплата: 3000–3500 Br</span>
+                            <span class="salary"
+                                  th:unless="${resume.jobPreference != null and resume.jobPreference.desiredSalary != null}">  Зарплата не указана</span>
 
-          <div class="vacancy-company">
-      <span class="company-name"
-            th:text="${resume.personalInfo.city}">
-        Минск
+                            <span class="detail-badge"
+                                  th:if="${resume.jobPreference != null and resume.jobPreference.experienceYear != null}"
+                                  th:text="|Опыт ${resume.jobPreference.experienceYear}|">  Опыт 2 года</span>
+                            <span class="detail-badge"
+                                  th:text="${resume.jobPreference.employmentType}">Полная занятость </span>
+                        </div>
+                    </div>
+
+                    <div class="vacancy-company">
+  <span class="company-name"
+        th:text="${resume.jobSeeker.city}">
+    Минск
+  </span>
+                    </div>
+
+                    <div class="vacancy-location">
+  <span class="city">
+    Навыки:
+    <span th:if="${resume.resumeSkills != null and !resume.resumeSkills.isEmpty()}">
+      <span th:each="rs, iterStat : ${resume.resumeSkills}">
+        <span th:if="${iterStat.index < 3}">
+          <span th:text="${rs.skill.name}">React</span>
+          <span th:if="${iterStat.index + 1 < #lists.size(resume.resumeSkills) and iterStat.index < 2}">, </span>
+        </span>
       </span>
-          </div>
-
-          <div class="vacancy-location">
-              <span class="city">
-                Навыки:
-                <span th:each="rs, iterStat : ${resume.resumeSkills}">
-                  <span th:if="${iterStat.index < 3}">
-                    <span th:text="${rs.skill.name}">React</span>
-                    <span th:if="${iterStat.index + 1 < #lists.size(resume.resumeSkills) and iterStat.index < 2}">, </span>
-                  </span>
-                </span>
-              </span>
-          </div>
-
-
-          <button class="apply-btn">Посмотреть резюме</button>
+    </span>
+    <span th:unless="${resume.resumeSkills != null and !resume.resumeSkills.isEmpty()}">
+      Не указаны
+    </span>
+  </span>
+                    </div>
+                    <form th:action="@{/resume/{id}(id=${resume.resumeId})}" method="get">
+                        <button class="apply-btn">Посмотреть резюме</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-
-
-
-
     </div>
-  </div>
 </div>
 
 <footer th:insert="~{footer :: footer}"></footer>

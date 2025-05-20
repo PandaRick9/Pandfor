@@ -13,10 +13,10 @@
   <div class="account-container">
 
     <section class="personal-info-section" th:object="${profile}">
-      <div class="user-avatar-container">
+      <div class="hero-logo">
         <img th:if="${profile.photoUrl()}" th:src="${profile.photoUrl()}"
-             src="/static/images/default-avatar.jpg" alt="Аватар" class="user-avatar">
-        <img th:unless="${profile.photoUrl()}" th:src="@{/images/default-avatar.png}" alt="Аватар" class="user-avatar">
+             src="/static/images/default-avatar.jpg" alt="Аватар">
+        <img th:unless="${profile.photoUrl()}" th:src="@{/images/default-avatar.png}" alt="Аватар" >
       </div>
       <div class="personal-details">
         <h1 class="user-fullname" th:text="*{lastName() + ' ' + firstName()}">Иван Иванов</h1>

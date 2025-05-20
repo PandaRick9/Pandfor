@@ -38,8 +38,8 @@ CREATE TABLE Employer
 CREATE TABLE JobSeeker
 (
     seeker_id SERIAL PRIMARY KEY, -- Уникальный ID соискателя
-    user_id   INT REFERENCES User_Table (user_id)
-        first_name varchar(50),
+    user_id   INT REFERENCES User_Table (user_id),
+   first_name varchar(50),
     last_name  varchar(50),
     patronymic  varchar(50),
     phone      varchar(20),

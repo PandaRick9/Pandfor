@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -66,9 +67,15 @@ public class VacancyController {
     @GetMapping
     public String allVacancy(Model model) {
         Person person = currentUserProvider.getCurrentPerson().getPerson();
-        JobSeeker jobSeeker = jobSeekerService.findByPerson(person).orElse(null);
         model.addAttribute("vacancies", vacancyService.findAll());
-        model.addAttribute("resumes", jobSeeker.getResumes());
+        Optional<JobSeeker> jobSeekerOptional = jobSeekerService.findByPerson(person);
+        if (jobSeekerOptional.isPresent()) {
+            JobSeeker jobSeeker = jobSeekerOptional.get();
+            model.addAttribute("resumes", jobSeeker.getResumes());
+            model.addAttribute("hasResumes", !jobSeeker.getResumes().isEmpty());
+        } else {
+            model.addAttribute("hasResumes", false);
+        }
         return "allVacancyPage";
     }
 

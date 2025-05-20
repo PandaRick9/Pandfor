@@ -14,72 +14,123 @@
 <div class="main-content">
 
     <div class="search-section">
-        <div class="search-bar">
-            <input type="text" placeholder="Поиск резюме..." id="search-input">
-            <button id="search-btn">Найти</button>
-        </div>
+        <form class="search-bar" th:method="POST" th:action="@{/search/vacancy}">
+            <input type="text" name="query" placeholder="Поиск вакансии..." id="search-input">
+            <button type="submit" id="search-btn">Найти</button>
+        </form>
     </div>
 
-    <h2 class="found-vacancies">Найдено: 354 вакансии</h2>
+    <h2 class="found-vacancies" th:text="'Найдено: ' + ${vacancies.size()} + ' вакансий'"></h2>
+
 
     <div class="content">
         <section class="filters">
             <h2>Фильтры</h2>
+            <form th:method="GET" th:action="@{/filters/vacancy}" id="filters-form">
             <div class="filters-container">
 
                 <div class="filter-column">
                     <div class="filter-box">
                         <h4>Формат работы</h4>
                         <div class="filter-options">
-                            <label><input type="checkbox" name="format"> На месте работодателя</label>
-                            <label><input type="checkbox" name="format"> Удалённо</label>
-                            <label><input type="checkbox" name="format"> Гибрид</label>
+                            <label>
+                                <input type="checkbox" name="workFormats" value="EMPLOYER_PLACE">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.WorkFormat).EMPLOYER_PLACE.label}">В офисе</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="workFormats" value="REMOTELY">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.WorkFormat).REMOTELY.label}">Удалённо</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="workFormats" value="HYBRID">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.WorkFormat).HYBRID.label}">Гибридный формат</span>
+                            </label>
                         </div>
                     </div>
                     <div class="filter-box">
                         <h4>График работы</h4>
                         <div class="filter-options">
-                            <label><input type="checkbox" name="schedule"> 5/2</label>
-                            <label><input type="checkbox" name="schedule"> 2/2</label>
-                            <label><input type="checkbox" name="schedule"> 3/3</label>
-                            <label><input type="checkbox" name="schedule"> По выходным</label>
+                            <label>
+                                <input type="checkbox" name="schedules" value="FIVE_TWO">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.Schedule).FIVE_TWO.label}">5/2</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="schedules" value="TWO_TWO">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.Schedule).TWO_TWO.label}">2/2</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="schedules" value="THREE_THREE">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.Schedule).THREE_THREE.label}">3/3</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="schedules" value="ON_WEEKENDS">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.Schedule).ON_WEEKENDS.label}">По выходным</span>
+                            </label>
                         </div>
                     </div>
                     <div class="filter-box">
                         <h4>Требуемый опыт</h4>
                         <div class="filter-options">
-                            <label><input type="radio" name="experience"> Не имеет значения</label>
-                            <label><input type="radio" name="experience"> Нет опыта</label>
-                            <label><input type="radio" name="experience"> От 1 года до 3 лет</label>
-                            <label><input type="radio" name="experience"> От 3 до 6 лет</label>
-                            <label><input type="radio" name="experience"> Более 6 лет</label>
+                            <label>
+                                <input type="radio" name="experience" value="IT_DOESNT_METTER">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).IT_DOESNT_METTER.label}">Не имеет значения</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="experience" value="NO_EXPERIENCE">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).NO_EXPERIENCE.label}">Нет опыта</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="experience" value="ONE_THEE_YEAR">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).ONE_THEE_YEAR.label}">От 1 года до 3 лет</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="experience" value="THREE_SIX_YEAR">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).THREE_SIX_YEAR.label}">От 3 до 6 лет</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="experience" value="MORE_THE_SIX_YEAR">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.ExperienceYear).MORE_THE_SIX_YEAR.label}">Более 6 лет</span>
+                            </label>
                         </div>
                     </div>
                     <div class="filter-box">
                         <h4>Тип занятости</h4>
                         <div class="filter-options">
-                            <label><input type="checkbox" name="employment"> Полная занятость</label>
-                            <label><input type="checkbox" name="employment"> Частичная занятость</label>
-                            <label><input type="checkbox" name="employment"> Стажировка</label>
+                            <label>
+                                <input type="checkbox" name="employmentTypes" value="FULL_TIME">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.EmploymentType).FULL_TIME.label}">Полная занятость</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="employmentTypes" value="PART_TIME">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.EmploymentType).PART_TIME.label}">Частичная занятость</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="employmentTypes" value="INTERNSHIP">
+                                <span th:text="${T(by.baraznov.recruiting.models.enums.EmploymentType).INTERNSHIP.label}">Стажировка</span>
+                            </label>
                         </div>
                     </div>
                     <div class="filter-box">
                         <h4>Название компании</h4>
-                        <div class="salary-inputs">
-                            <input type="text" placeholder="Название компании">
+                        <div class="text-inputs">
+                            <input type="text" name="companyName" placeholder="Название компании"
+                                   th:value="${param.companyName}">
                         </div>
                     </div>
                     <div class="filter-box">
                         <h4>Город</h4>
-                        <div class="salary-inputs">
-                            <input type="text" placeholder="Город">
+                        <div class="text-inputs">
+                            <input type="text" name="city" placeholder="Город"
+                                   th:value="${param.city}">
                         </div>
                     </div>
                     <div class="filter-box">
                         <h4>Уровень дохода</h4>
                         <div class="salary-inputs">
-                            <input type="number" placeholder="Минимум">
-                            <input type="number" placeholder="Максимум">
+                            <input type="number" name="minSalary" placeholder="Минимум"
+                                   th:value="${param.minSalary}">
+                            <input type="number" name="maxSalary" placeholder="Максимум"
+                                   th:value="${param.maxSalary}">
                         </div>
                     </div>
                     <div class="filter-box">
@@ -88,6 +139,7 @@
                 </div>
 
             </div>
+            </form>
         </section>
 
 
@@ -125,7 +177,8 @@
                 </form>
                 <button class="apply-btn"
                         th:attr="data-id=${vacancy.vacancyId}"
-                        onclick="openModal(this)">
+                        th:classappend="${role == 'ROLE_JOBSEEKER' and hasResumes} ? '' : 'disabled-btn'"
+                        th:onclick="${role == 'ROLE_JOBSEEKER' and hasResumes} ? 'openModal(this)' : 'showResumeAlert()'">
                     Откликнуться
                 </button>
             </div>
@@ -138,32 +191,44 @@
                 <h2>Отклик на вакансию</h2>
                 <p id="modalJobTitle" class="modal-job-title">Название вакансии</p>
 
+                <!-- Для соискателей с резюме -->
+                <div th:if="${hasResumes}">
+                    <form id="applyForm" enctype="multipart/form-data" th:action="@{/reaction/submit}" method="post" onsubmit="submitApplication(); return false;">
+                        <!-- Форма отклика -->
+                        <div class="form-group">
+                            <label for="coverLetter">Сопроводительное письмо</label>
+                            <textarea id="coverLetter" name="coverLetter" class="form-textarea" placeholder="Ваше сопроводительное письмо…" required></textarea>
+                        </div>
 
-                <form id="applyForm" enctype="multipart/form-data" th:action="@{/reaction/submit}" method="post" onsubmit="submitApplication(); return false;">
-                    <div class="form-group">
-                        <label for="coverLetter">Сопроводительное письмо</label>
-                        <textarea id="coverLetter" name="coverLetter" class="form-textarea" placeholder="Ваше сопроводительное письмо…" required></textarea>
-                    </div>
+                        <div class="form-group">
+                            <label for="resumeFile">Файл с резюме (PDF или DOCX)</label>
+                            <input type="file" id="resumeFile" name="resumeFile" class="form-input" accept=".pdf,.doc,.docx">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="resumeFile">Файл с резюме (PDF или DOCX)</label>
-                        <input type="file" id="resumeFile" name="resumeFile" class="form-input" accept=".pdf,.doc,.docx">
-                    </div>
+                        <div class="form-group">
+                            <label for="selectedResume">Выберите резюме из сохранённых</label>
+                            <select id="selectedResume" name="selectedResumeId" class="form-select">
+                                <th:block th:each="resume : ${resumes}">
+                                    <option th:value="${resume.resumeId}" th:text="${resume.title}">Резюме</option>
+                                </th:block>
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="selectedResume">Выберите резюме из сохранённых</label>
-                        <select id="selectedResume" name="selectedResumeId" class="form-select">
-                            <th:block th:each="resume : ${resumes}">
-                                <option th:value="${resume.resumeId}" th:text="${resume.title}">Резюме</option>
-                            </th:block>
-                        </select>
-                    </div>
+                        <input type="hidden" id="vacancyId" name="vacancyId" th:value="${vacancyId}">
+                        <button type="submit" class="apply-btn1">Отправить отклик</button>
+                    </form>
+                </div>
 
-                    <input type="hidden" id="vacancyId" name="vacancyId" th:value="${vacancyId}">
-                    <button type="submit" class="apply-btn1">Отправить отклик</button>
-                </form>
+                <!-- Для соискателей без резюме -->
+                <div th:if="${role == 'ROLE_JOBSEEKER' and !hasResumes}" class="auth-message">
+                    <p>Для отклика на вакансию необходимо создать резюме.</p>
+                    <a th:href="@{/jobseeker/new}" class="create-resume-btn">Создать резюме</a>
+                </div>
 
-
+                <!-- Для не-соискателей -->
+                <div th:if="${role != 'ROLE_JOBSEEKER'}" class="auth-message">
+                    <p>Откликаться на вакансии могут только соискатели.</p>
+                </div>
             </div>
         </div>
 

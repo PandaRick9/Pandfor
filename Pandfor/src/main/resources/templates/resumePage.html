@@ -28,6 +28,9 @@
   <div class="back-button-container" th:if="${fromVacancy != null}">
     <a th:href="@{'/company/vacancy/' + ${fromVacancy}}" class="back-button">← Ко всем откликам</a>
   </div>
+  <div class="back-button-container" th:unless="${fromVacancy != null}">
+    <a th:href="@{'/resume'}" class="back-button">← Ко всем резюме</a>
+  </div>
   <section class="resume-section resume-header">
     <div class="resume-photo">
       <img th:if="*{jobSeeker.photo != null}"

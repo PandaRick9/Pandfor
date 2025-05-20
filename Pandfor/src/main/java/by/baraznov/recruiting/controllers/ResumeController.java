@@ -1,6 +1,7 @@
 package by.baraznov.recruiting.controllers;
 
 import by.baraznov.recruiting.dto.ResumeDTO;
+import by.baraznov.recruiting.dto.resumePage.ResumeDto;
 import by.baraznov.recruiting.mappers.ResumeMapper;
 import by.baraznov.recruiting.models.Education;
 import by.baraznov.recruiting.models.JobPreference;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,9 +68,24 @@ public class ResumeController {
 
     @GetMapping
     public String allResume(Model model) {
-        model.addAttribute("resumes", resumeService.findAll());
+        List<Resume> resumes = resumeService.findAll();
+        List<Resume> validResumes = resumes.stream()
+                .filter(r -> r.getJobSeeker() != null)
+                .collect(Collectors.toList());
+
+        model.addAttribute("resumes", validResumes);
         return "allResumePage";
     }
+
+    @GetMapping("/{id}")
+    public String resumeView(@PathVariable Integer id,  Model model){
+        ResumeDto resume = resumeService.getResumeById(id);
+        model.addAttribute("fromVacancy", null);
+        model.addAttribute("resume", resume);
+        return "resumePage";
+    }
+
+
 
     @GetMapping("/new")
     public String addResume() {

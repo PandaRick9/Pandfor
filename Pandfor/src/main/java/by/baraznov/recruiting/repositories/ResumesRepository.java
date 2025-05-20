@@ -12,6 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface ResumesRepository extends JpaRepository<Resume, Integer> {
+
+    List<Resume> findByTitleStartingWith(String search);
+
     @Query("""
         SELECT r FROM Resume r
         LEFT JOIN FETCH r.jobSeeker js

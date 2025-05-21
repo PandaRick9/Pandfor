@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="https://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,25 +8,25 @@
 </head>
 <body>
 <header th:insert="~{header :: header}"></header>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<main class="main-content edit-container">
+  <form id="resume-form" method="post" enctype="multipart/form-data">
+    <input type="hidden" id="resume-id" name="id" value="">
 
-  <main class="main-content edit-container">
+
+    <!-- Основная информация -->
     <section class="edit-section edit-header">
-      <div class="photo-upload">
-        <img src="https://via.placeholder.com/150" alt="Фото профиля" class="photo-edit">
-        <div class="photo-controls">
-          <button type="button" class="change-photo-btn">Изменить фото</button>
-        </div>
-        <input type="file" id="photo-input" accept="image/*" style="display: none;">
-      </div>
       <div class="resume-title">
         <div class="form-group">
           <label for="resume-title">Название резюме</label>
-          <input type="text" id="resume-title" class="form-control" value="Frontend-разработчик (React)">
+          <input type="text" id="resume-title" name="title" class="form-control" required>
+          <div class="error-message" id="title-error"></div>
         </div>
         <div class="status-toggle">
           <span>Статус резюме:</span>
           <label class="toggle-switch">
-            <input type="checkbox" checked>
+            <input type="checkbox" id="is-active" name="isActive">
             <span class="toggle-slider"></span>
           </label>
           <span>Активно</span>
@@ -34,308 +34,140 @@
       </div>
     </section>
 
+    <!-- Личная информация -->
     <section class="edit-section">
       <h2>Личная информация</h2>
       <div class="form-grid">
         <div class="form-group">
           <label for="first-name">Имя</label>
-          <input type="text" id="first-name" class="form-control" value="Иван">
+          <input type="text" id="first-name" name="jobSeeker.firstName" class="form-control" required>
         </div>
         <div class="form-group">
           <label for="last-name">Фамилия</label>
-          <input type="text" id="last-name" class="form-control" value="Иванов">
+          <input type="text" id="last-name" name="jobSeeker.lastName" class="form-control" required>
         </div>
         <div class="form-group">
           <label for="patronymic">Отчество</label>
-          <input type="text" id="patronymic" class="form-control" value="Иванович">
+          <input type="text" id="patronymic" name="jobSeeker.patronymic" class="form-control">
         </div>
         <div class="form-group">
           <label for="birth-date">Дата рождения</label>
-          <input type="date" id="birth-date" class="form-control" value="1990-05-15">
+          <input type="date" id="birth-date" name="personalInfo.birthDate" class="form-control">
         </div>
         <div class="form-group">
           <label for="gender">Пол</label>
-          <select id="gender" class="form-control">
+          <select id="gender" name="personalInfo.gender" class="form-control">
             <option value="MALE">Мужской</option>
             <option value="FEMALE">Женский</option>
-            <option value="OTHER">Другой</option>
           </select>
         </div>
         <div class="form-group">
           <label for="city">Город</label>
-          <input type="text" id="city" class="form-control" value="Москва">
+          <input type="text" id="city" name="jobSeeker.city" class="form-control">
         </div>
         <div class="form-group">
           <label for="phone">Телефон</label>
-          <input type="tel" id="phone" class="form-control" value="+7 (999) 123-45-67">
+          <input type="tel" id="phone" name="jobSeeker.phone" class="form-control">
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" class="form-control" value="ivanov@example.com">
+          <input type="email" id="email" name="jobSeeker.email" class="form-control">
         </div>
       </div>
     </section>
 
+    <!-- Предпочтения по работе -->
     <section class="edit-section">
       <h2>Предпочтения по работе</h2>
       <div class="form-grid">
         <div class="form-group">
-          <label for="desired-salary">Желаемая зарплата (₽)</label>
-          <input type="number" id="desired-salary" class="form-control" value="150000">
+          <label for="desired-salary">Желаемая зарплата (Br)</label>
+          <input type="number" id="desired-salary" name="jobPreference.desiredSalary" class="form-control">
         </div>
         <div class="form-group">
           <label for="schedule">График работы</label>
-          <select id="schedule" class="form-control">
-            <option value="FULL_DAY">5/2</option>
-            <option value="SHIFT">2/2</option>
-            <option value="FLEXIBLE">Гибкий график</option>
-            <option value="REMOTE">Удалённая работа</option>
+          <select id="schedule" name="jobPreference.schedule" class="form-control">
+            <option value="FIVE_TWO">5/2</option>
+            <option value="TWO_TWO">2/2</option>
+            <option value="THREE_THREE">3/3</option>
+            <option value="ON_WEEKENDS">По выходным</option>
           </select>
         </div>
         <div class="form-group">
           <label for="employment-type">Тип занятости</label>
-          <select id="employment-type" class="form-control">
-            <option value="FULL">Полная занятость</option>
-            <option value="PART">Частичная занятость</option>
+          <select id="employment-type" name="jobPreference.employmentType" class="form-control">
+            <option value="FULL_TIME">Полная занятость</option>
+            <option value="PART_TIME">Частичная занятость</option>
             <option value="INTERNSHIP">Стажировка</option>
           </select>
         </div>
         <div class="form-group">
           <label for="work-format">Формат работы</label>
-          <select id="work-format" class="form-control">
-            <option value="OFFICE">Офис</option>
-            <option value="REMOTE" selected>Удалённо</option>
-            <option value="HYBRID">Гибрид</option>
+          <select id="work-format" name="jobPreference.workFormat" class="form-control">
+            <option value="REMOTELY">Удаленно</option>
+            <option value="HYBRID">Гибридный формат</option>
+            <option value="EMPLOYER_PLACE">В офисе</option>
           </select>
         </div>
         <div class="form-group">
           <label for="experience">Опыт работы</label>
-          <select id="experience" class="form-control">
+          <select id="experience" name="jobPreference.experienceYear" class="form-control">
             <option value="NO_EXPERIENCE">Нет опыта</option>
-            <option value="ONE_TO_THREE">1-3 года</option>
-            <option value="THREE_TO_SIX" selected>3-6 лет</option>
-            <option value="OVER_SIX">Более 6 лет</option>
+            <option value="ONE_THEE_YEAR">От 1 до 3 лет</option>
+            <option value="THREE_SIX_YEAR">От 3 до 6 лет</option>
+            <option value="MORE_THE_SIX_YEAR">Более 6 лет</option>
+            <option value="IT_DOESNT_METTER">Не имеет значения</option>
           </select>
         </div>
       </div>
     </section>
 
-
+    <!-- Опыт работы -->
     <section class="edit-section">
       <h2>Опыт работы</h2>
       <div class="form-group">
         <label for="work-experience">Описание опыта работы</label>
-        <textarea id="work-experience" class="form-control">• Frontend-разработчик в компании "ТехноЛаб" (2018-2023)
-- Разработка SPA-приложений на React
-- Оптимизация производительности веб-приложений
-- Взаимодействие с backend-разработчиками
-
-• Верстальщик в студии "ВебПро" (2015-2018)
-- Верстка адаптивных сайтов
-- Интеграция с CMS</textarea>
+        <textarea id="work-experience" name="personalInfo.workExperienceSummary" class="form-control"></textarea>
       </div>
     </section>
 
-
+    <!-- Образование -->
     <section class="edit-section">
       <h2>Образование</h2>
-      <div class="education-list">
-        <div class="education-edit-item">
-          <button class="remove-btn" type="button">×</button>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="edu-institution-1">Учебное заведение</label>
-              <input type="text" id="edu-institution-1" class="form-control" value="Московский Технический Университет">
-            </div>
-            <div class="form-group">
-              <label for="edu-specialization-1">Специальность</label>
-              <input type="text" id="edu-specialization-1" class="form-control" value="Прикладная информатика">
-            </div>
-            <div class="form-group">
-              <label for="edu-graduation-1">Год окончания</label>
-              <input type="number" id="edu-graduation-1" class="form-control" value="2014">
-            </div>
-          </div>
-        </div>
-        <div class="education-edit-item">
-          <button class="remove-btn" type="button">×</button>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="edu-institution-2">Учебное заведение</label>
-              <input type="text" id="edu-institution-2" class="form-control" value="Курсы 'Веб-разработка PRO'">
-            </div>
-            <div class="form-group">
-              <label for="edu-specialization-2">Специальность</label>
-              <input type="text" id="edu-specialization-2" class="form-control" value="Frontend-разработка">
-            </div>
-            <div class="form-group">
-              <label for="edu-graduation-2">Год окончания</label>
-              <input type="number" id="edu-graduation-2" class="form-control" value="2015">
-            </div>
-          </div>
-        </div>
+      <div class="education-list" id="education-list">
+        <!-- Образование будет добавляться динамически -->
       </div>
-      <button type="button" class="add-education-btn">+ Добавить образование</button>
+      <button type="button" id="add-education-btn" class="add-education-btn">+ Добавить образование</button>
     </section>
 
- 
+    <!-- Навыки -->
     <section class="edit-section">
       <h2>Навыки</h2>
-      <div class="skills-edit-container">
-        <div class="skill-edit-item">
-          <span>JavaScript</span>
-          <select class="skill-level-select">
-            <option>Начальный</option>
-            <option selected>Средний</option>
-            <option>Продвинутый</option>
-            <option>Эксперт</option>
-          </select>
-          <button class="skill-remove-btn" type="button">×</button>
-        </div>
-        <div class="skill-edit-item">
-          <span>React</span>
-          <select class="skill-level-select">
-            <option>Начальный</option>
-            <option>Средний</option>
-            <option selected>Продвинутый</option>
-            <option>Эксперт</option>
-          </select>
-          <button class="skill-remove-btn" type="button">×</button>
-        </div>
-        <div class="skill-edit-item">
-          <span>HTML/CSS</span>
-          <select class="skill-level-select">
-            <option>Начальный</option>
-            <option>Средний</option>
-            <option>Продвинутый</option>
-            <option selected>Эксперт</option>
-          </select>
-          <button class="skill-remove-btn" type="button">×</button>
-        </div>
+      <div class="skills-edit-container" id="skills-container">
+        <!-- Навыки будут добавляться динамически -->
       </div>
       <div class="add-skill-form">
-        <input type="text" class="add-skill-input" placeholder="Новый навык">
-        <select class="skill-level-select">
-          <option>Начальный</option>
-          <option selected>Средний</option>
-          <option>Продвинутый</option>
-          <option>Эксперт</option>
+        <input type="text" id="new-skill-name" class="add-skill-input" placeholder="Новый навык">
+        <select id="new-skill-level" class="skill-level-select">
+          <option value="BASIC">Базовый</option>
+          <option value="INTERMEDIATE">Средний</option>
+          <option value="ADVANCED">Продвинутый</option>
         </select>
-        <button type="button" class="add-skill-btn">Добавить</button>
+        <button type="button" id="add-skill-btn" class="add-skill-btn">Добавить</button>
       </div>
     </section>
 
     <div class="form-actions">
-      <button type="button" class="cancel-btn">Отмена</button>
+      <a href="#" id="cancel-btn" class="cancel-btn">Отмена</a>
       <button type="submit" class="save-btn">Сохранить изменения</button>
     </div>
-  </main>
+  </form>
+</main>
 
-  <footer th:insert="~{footer :: footer}"></footer>
+<footer th:insert="~{footer :: footer}"></footer>
 
 
-  <script src="/js/jobPageScript.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() { 
-      const photoEdit = document.querySelector('.photo-edit');
-      const photoInput = document.getElementById('photo-input');
-      
-      photoEdit.addEventListener('click', function() {
-        photoInput.click();
-      });
-      
-      photoInput.addEventListener('change', function(e) {
-        if (e.target.files && e.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            photoEdit.src = event.target.result;
-          };
-          reader.readAsDataURL(e.target.files[0]);
-        }
-      });
-      
-      // Добавление образования
-      const addEducationBtn = document.querySelector('.add-education-btn');
-      const educationList = document.querySelector('.education-list');
-      
-      addEducationBtn.addEventListener('click', function() {
-        const newItem = document.createElement('div');
-        newItem.className = 'education-edit-item';
-        newItem.innerHTML = `
-          <button class="remove-btn" type="button">×</button>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Учебное заведение</label>
-              <input type="text" class="form-control" placeholder="Название учебного заведения">
-            </div>
-            <div class="form-group">
-              <label>Специальность</label>
-              <input type="text" class="form-control" placeholder="Специальность">
-            </div>
-            <div class="form-group">
-              <label>Год окончания</label>
-              <input type="number" class="form-control" placeholder="Год окончания">
-            </div>
-          </div>
-        `;
-        educationList.appendChild(newItem);
-        
-        // Добавляем обработчик удаления
-        newItem.querySelector('.remove-btn').addEventListener('click', function() {
-          educationList.removeChild(newItem);
-        });
-      });
-      
-      // Удаление элементов образования
-      document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          this.parentElement.remove();
-        });
-      });
-      
-      // Добавление навыков
-      const addSkillBtn = document.querySelector('.add-skill-btn');
-      
-      addSkillBtn.addEventListener('click', function() {
-        const skillInput = document.querySelector('.add-skill-input');
-        const levelSelect = document.querySelector('.add-skill-form .skill-level-select');
-        
-        if (skillInput.value.trim()) {
-          const skillsContainer = document.querySelector('.skills-edit-container');
-          const newSkill = document.createElement('div');
-          newSkill.className = 'skill-edit-item';
-          newSkill.innerHTML = `
-            <span>${skillInput.value}</span>
-            <select class="skill-level-select">
-              <option>Начальный</option>
-              <option>Средний</option>
-              <option>Продвинутый</option>
-              <option>Эксперт</option>
-            </select>
-            <button class="skill-remove-btn" type="button">×</button>
-          `;
-          
-          // Устанавливаем выбранный уровень
-          newSkill.querySelector('.skill-level-select').value = levelSelect.value;
-          
-          skillsContainer.appendChild(newSkill);
-          skillInput.value = '';
-          
-          // Добавляем обработчик удаления
-          newSkill.querySelector('.skill-remove-btn').addEventListener('click', function() {
-            skillsContainer.removeChild(newSkill);
-          });
-        }
-      });
-      
-      // Удаление навыков
-      document.querySelectorAll('.skill-remove-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          this.parentElement.remove();
-        });
-      });
-    });
-  </script>
+<script src="/js/jobPageScript.js"></script>
+<script src="/js/editResume.js"></script>
 </body>
 </html>

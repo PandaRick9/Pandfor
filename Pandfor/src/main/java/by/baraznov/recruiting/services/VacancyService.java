@@ -9,6 +9,7 @@ import by.baraznov.recruiting.models.enums.EmploymentType;
 import by.baraznov.recruiting.models.enums.ExperienceYear;
 import by.baraznov.recruiting.models.enums.Schedule;
 import by.baraznov.recruiting.models.enums.WorkFormat;
+import jakarta.validation.Valid;
 
 
 import java.util.List;
@@ -31,4 +32,6 @@ public interface VacancyService {
             String city,
             Integer minSalary,
             Integer maxSalary) ;
+
+    void updateVacancy(Integer vacancyId, VacancyDto vacancyDto);
 }

@@ -1,6 +1,8 @@
 package by.baraznov.recruiting.repositories;
 
+import by.baraznov.recruiting.dto.CompanyEditProfileDto;
 import by.baraznov.recruiting.dto.JobSeekerBasicInfoDto;
+import by.baraznov.recruiting.dto.JobSeekerEditDto;
 import by.baraznov.recruiting.dto.JobSeekerProfileDto;
 import by.baraznov.recruiting.dto.ResumeAccountPageDTO;
 import by.baraznov.recruiting.models.JobSeeker;
@@ -47,5 +49,13 @@ public interface JobSeekerRepository extends JpaRepository<JobSeeker, Integer> {
         GROUP BY r.resumeId, r.title, r.dateCreated, r.isActive
         """)
     List<ResumeAccountPageDTO> findResumesByUserId(Integer userId);
+
+
+    @Query("SELECT new by.baraznov.recruiting.dto.JobSeekerEditDto(" +
+            "c.seekerId,c.firstName, c.lastName, c.email, c.phone, c.city, " +
+            "CONCAT('/photos/', FUNCTION('STR', c.photo.id))" +
+            ") " +
+            "FROM JobSeeker c WHERE c.seekerId = :id")
+    JobSeekerEditDto findJobProfileById(@Param("id") Integer id);
 }
 

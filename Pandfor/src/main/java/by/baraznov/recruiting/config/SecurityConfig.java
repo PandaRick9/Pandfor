@@ -5,6 +5,7 @@ import by.baraznov.recruiting.services.impl.PersonDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -26,6 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(requests -> requests
+
                         .requestMatchers("/auth/login", "/auth/registration", "/job", "/company","/resume", "/aboutus"
                                 ,"/search", "/error", "/static/**", "/auth/logo.png", "/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().hasAnyRole("JOBSEEKER", "COMPANY")

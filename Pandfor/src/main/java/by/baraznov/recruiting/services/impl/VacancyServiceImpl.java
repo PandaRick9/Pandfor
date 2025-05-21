@@ -10,12 +10,18 @@ import by.baraznov.recruiting.dto.vacancyPage.CompanyDto;
 import by.baraznov.recruiting.dto.vacancyPage.JobConditionDto;
 import by.baraznov.recruiting.dto.vacancyPage.VacancyDto;
 import by.baraznov.recruiting.dto.vacancyPage.VacancySkillDto;
+import by.baraznov.recruiting.models.Company;
+import by.baraznov.recruiting.models.JobCondition;
+import by.baraznov.recruiting.models.Skill;
 import by.baraznov.recruiting.models.Vacancy;
+import by.baraznov.recruiting.models.VacancySkill;
 import by.baraznov.recruiting.models.enums.EmploymentType;
 import by.baraznov.recruiting.models.enums.ExperienceYear;
 import by.baraznov.recruiting.models.enums.Schedule;
 import by.baraznov.recruiting.models.enums.WorkFormat;
+import by.baraznov.recruiting.repositories.SkillRepository;
 import by.baraznov.recruiting.repositories.VacancyRepository;
+import by.baraznov.recruiting.repositories.VacancySkillRepository;
 import by.baraznov.recruiting.services.VacancyService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +30,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +42,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyRepository vacancyRepository;
+    private final VacancySkillRepository vacancySkillRepository;
+    private final SkillRepository skillRepository;
 
     @Override
     @Transactional
@@ -188,6 +197,62 @@ public class VacancyServiceImpl implements VacancyService {
 
         return query.getResultList();
     }
+
+    @Override
+    @Transactional
+    public void updateVacancy(Integer vacancyId, VacancyDto vacancyDto) {
+        Vacancy vacancy = vacancyRepository.findById(vacancyId)
+                .orElseThrow(() -> new EntityNotFoundException("Vacancy not found"));
+
+        updateVacancyFields(vacancy, vacancyDto);
+        vacancyRepository.save(vacancy);
+    }
+
+    private void updateVacancyFields(Vacancy vacancy, VacancyDto dto) {
+        vacancy.setTitle(dto.title());
+        vacancy.setSalary(dto.salary());
+        vacancy.setDescription(dto.description());
+
+
+        if (vacancy.getJobCondition() != null && dto.jobCondition() != null) {
+            updateJobCondition(vacancy.getJobCondition(), dto.jobCondition());
+        }
+
+        updateSkills(vacancy, dto.skills());
+    }
+
+
+
+    private void updateJobCondition(JobCondition jobCondition, JobConditionDto dto) {
+        jobCondition.setSchedule(dto.schedule());
+        jobCondition.setEmploymentType(dto.employmentType());
+        jobCondition.setWorkFormat(dto.workFormat());
+        jobCondition.setRequiredExperienceYears(dto.requiredExperienceYears());
+    }
+
+    private void updateSkills(Vacancy vacancy, List<VacancySkillDto> skillDtos) {
+        vacancySkillRepository.deleteAllByVacancyId(vacancy.getVacancyId());
+
+        skillDtos.forEach(skillDto -> {
+            if (skillDto.skillName() == null || skillDto.skillName().isBlank()) {
+                return;
+            }
+
+            Skill skill = skillRepository.findByName(skillDto.skillName())
+                    .orElseGet(() -> {
+                        Skill newSkill = new Skill();
+                        newSkill.setName(skillDto.skillName());
+                        return skillRepository.save(newSkill);
+                    });
+
+            VacancySkill vacancySkill = new VacancySkill();
+            vacancySkill.setRequiredLevel(skillDto.requiredLevel());
+            vacancySkill.setSkill(skill);
+            vacancySkill.setVacancy(vacancy);
+            vacancy.getVacancySkills().add(vacancySkill);
+        });
+    }
+
 }
 
 

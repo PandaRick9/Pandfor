@@ -1,6 +1,9 @@
 package by.baraznov.recruiting.controllers;
 
+import by.baraznov.recruiting.dto.VacancyCardDTO;
 import by.baraznov.recruiting.dto.VacancyDTO;
+import by.baraznov.recruiting.dto.resumePage.ResumeDto;
+import by.baraznov.recruiting.dto.vacancyPage.VacancyDto;
 import by.baraznov.recruiting.mappers.VacancyMapper;
 import by.baraznov.recruiting.models.Company;
 import by.baraznov.recruiting.models.Employer;
@@ -17,6 +20,7 @@ import by.baraznov.recruiting.services.ResumeService;
 import by.baraznov.recruiting.services.SkillService;
 import by.baraznov.recruiting.services.VacancyService;
 import by.baraznov.recruiting.services.impl.CurrentUserProvider;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,6 +38,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -84,6 +89,21 @@ public class VacancyController {
         model.addAttribute("vacancy", vacancyService.getVacancyPageDetails(id));
         return "vacancyPage";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editVacancyForm(@PathVariable Integer id, Model model) {
+        return "editVacancyPage";
+    }
+    @PostMapping("/update/{id}")
+    public String updateVacancy(
+            @PathVariable Integer id,
+            @ModelAttribute("resume") @Valid VacancyDto vacancyDto)  {
+        vacancyService.updateVacancy(id, vacancyDto);
+        return "redirect:/account/company";
+    }
+
+
+
 
     @GetMapping("/new")
     public String newVacancy() {

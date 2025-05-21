@@ -27,7 +27,9 @@
         <p><strong>Телефон:</strong> <span th:text="*{phone()}">+7 (495) 123-45-67</span></p>
         <p><strong>Город:</strong> <span th:text="*{city()}">Москва</span></p>
       </div>
+      <form id="updateC" th:method="GET" th:action="@{/company/edit/{id}(id=${profile.vacancies().get(0).id()})}">
       <button class="view-btn">Редактировать информацию</button>
+      </form>
     </div>
   </section>
 
@@ -53,7 +55,10 @@
         </div>
         <div class="vacancy-actions">
           <button class="view-btn">Просмотреть</button>
+
+          <form id="update" th:method="GET" th:action="@{/vacancy/edit/{id}(id=${vacancy.id()})}">
           <button class="edit-btn">Редактировать</button>
+          </form>
           <form id="del" th:method="DELETE" th:action="@{/vacancy/{id}(id=${vacancy.id()})}">
           <button class="delete-btn">Удалить</button>
           </form>

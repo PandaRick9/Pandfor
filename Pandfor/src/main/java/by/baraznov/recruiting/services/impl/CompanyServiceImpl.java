@@ -1,13 +1,16 @@
 package by.baraznov.recruiting.services.impl;
 
+import by.baraznov.recruiting.dto.CompanyEditProfileDto;
 import by.baraznov.recruiting.dto.CompanyProfileDto;
 import by.baraznov.recruiting.dto.JobConditionProfileDto;
 import by.baraznov.recruiting.dto.VacancyProfileDto;
 import by.baraznov.recruiting.models.Company;
 import by.baraznov.recruiting.models.Employer;
 import by.baraznov.recruiting.models.Person;
+import by.baraznov.recruiting.models.Photo;
 import by.baraznov.recruiting.models.Vacancy;
 import by.baraznov.recruiting.repositories.CompanyRepository;
+import by.baraznov.recruiting.repositories.PhotoRepository;
 import by.baraznov.recruiting.repositories.VacancyRepository;
 import by.baraznov.recruiting.services.CompanyService;
 import by.baraznov.recruiting.services.VacancyService;
@@ -15,7 +18,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +30,7 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     private final VacancyRepository vacancyRepository;
+    private final PhotoRepository photoRepository;
 
     @Override
     @Transactional
@@ -69,6 +75,55 @@ public class CompanyServiceImpl implements CompanyService {
                 company.getPhoto() != null ? company.getPhoto().getId() : null,
                 vacancyDtos
         );
+    }
+
+    @Override
+    public CompanyEditProfileDto getCompanyProfileById(Integer companyId) {
+        return companyRepository.findCompanyProfileById(companyId);
+    }
+
+    @Override
+    @Transactional
+    public void updateCompanyProfile(Integer id,MultipartFile logoFile, CompanyEditProfileDto companyDto) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Company not found"));
+
+        updateCompanyFields(company, companyDto);
+
+        if (logoFile != null && !logoFile.isEmpty()) {
+            try {
+                updateCompanyLogo(company, logoFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        companyRepository.save(company);
+    }
+
+    private void updateCompanyFields(Company company, CompanyEditProfileDto dto) {
+        company.setName(dto.name());
+        company.setDescription(dto.description());
+        company.setCity(dto.city());
+        company.setEmail(dto.email());
+        company.setPhone(dto.phone());
+    }
+
+    private void updateCompanyLogo(Company company, MultipartFile logoFile) throws IOException {
+        Photo photo;
+        if (company.getPhoto() != null) {
+            photo = company.getPhoto();
+            photo.setFileName(logoFile.getOriginalFilename());
+            photo.setContentType(logoFile.getContentType());
+            photo.setData(logoFile.getBytes());
+        } else {
+            photo = new Photo();
+            photo.setFileName(logoFile.getOriginalFilename());
+            photo.setContentType(logoFile.getContentType());
+            photo.setData(logoFile.getBytes());
+            photo = photoRepository.save(photo);
+        }
+        company.setPhoto(photo);
     }
 
 }

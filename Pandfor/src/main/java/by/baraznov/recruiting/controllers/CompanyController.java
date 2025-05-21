@@ -1,6 +1,7 @@
 package by.baraznov.recruiting.controllers;
 
 import by.baraznov.recruiting.dto.CompanyDTO;
+import by.baraznov.recruiting.dto.CompanyEditProfileDto;
 import by.baraznov.recruiting.dto.MatchJobConditionDTO;
 import by.baraznov.recruiting.dto.MatchJobPreferenceDTO;
 import by.baraznov.recruiting.dto.MatchPercentageDTO;
@@ -22,6 +23,7 @@ import by.baraznov.recruiting.services.ReactionService;
 import by.baraznov.recruiting.services.ResumeService;
 import by.baraznov.recruiting.services.VacancyService;
 import by.baraznov.recruiting.services.impl.CurrentUserProvider;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -58,7 +60,7 @@ public class CompanyController {
     private final EmployerService employerService;
     private final VacancyService vacancyService;
     private final ReactionService reactionService;
-    private final ResumeService resumeService;
+
     @ModelAttribute("role")
     public String addRoleToModel() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -70,6 +72,25 @@ public class CompanyController {
         }
         return "ROLE_GUEST";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editCompanyForm(@PathVariable Integer id, Model model) {
+
+        model.addAttribute("companyId", vacancyService.findOne(id).getCompany().getCompanyId());
+
+        return "editCompanyPage";
+    }
+    @PostMapping("/update/{id}")
+    public String updateResume(
+            @PathVariable Integer id,
+            @RequestParam("logo") MultipartFile logoFile,
+            @ModelAttribute CompanyEditProfileDto companyEditProfileDto)  {
+        companyService.updateCompanyProfile(id, logoFile, companyEditProfileDto);
+        return "redirect:/account/company";
+    }
+
+
+
 
     @GetMapping("/new")
     public String newCompany() {

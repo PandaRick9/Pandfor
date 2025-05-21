@@ -1,5 +1,6 @@
 package by.baraznov.recruiting.repositories;
 
+import by.baraznov.recruiting.dto.CompanyEditProfileDto;
 import by.baraznov.recruiting.dto.CompanyProfileDto;
 import by.baraznov.recruiting.dto.VacancyProfileDto;
 import by.baraznov.recruiting.models.Company;
@@ -25,5 +26,9 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
         """)
     Optional<Company> findByUserId(Integer userId);
 
-
+    @Query("SELECT new by.baraznov.recruiting.dto.CompanyEditProfileDto(" +
+            "c.companyId, c.name, c.description, c.city, c.email, c.phone, " +
+            "CONCAT('/photos/', CAST(c.photo.id AS string)))" +
+            "FROM Company c WHERE c.companyId = :companyId")
+    CompanyEditProfileDto findCompanyProfileById(@Param("companyId") Integer companyId);
 }

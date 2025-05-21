@@ -1,6 +1,7 @@
 package by.baraznov.recruiting.services;
 
 import by.baraznov.recruiting.dto.JobSeekerDto;
+import by.baraznov.recruiting.dto.JobSeekerEditDto;
 import by.baraznov.recruiting.dto.JobSeekerProfileDto;
 import by.baraznov.recruiting.models.JobSeeker;
 import by.baraznov.recruiting.models.Person;
@@ -14,4 +15,7 @@ public interface JobSeekerService {
     JobSeekerProfileDto getProfile(Integer userId);
 
     JobSeeker createJobSeeker(Integer userId, JobSeekerDto seekerDto);
+    JobSeekerEditDto getJobSeekerProfileById(Integer id);
+
+    void updateJobSeeker(Integer id, MultipartFile logo, JobSeekerEditDto jobSeekerDto);
 }

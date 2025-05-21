@@ -44,7 +44,6 @@ public class AccountController {
         Person person = currentUserProvider.getCurrentPerson().getPerson();
         Integer userId = person.getUserId();
         JobSeekerProfileDto profile = jobSeekerService.getProfile(userId);
-        System.out.println(profile);
         model.addAttribute("profile", profile);
         return "accountJobPage";
     }

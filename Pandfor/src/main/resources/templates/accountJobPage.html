@@ -25,7 +25,9 @@
           <p><strong>Телефон:</strong> <span th:text="*{phone()}">+7 (999) 123-45-67</span></p>
           <p><strong>Город:</strong> <span th:text="*{city()}">Москва</span></p>
         </div>
+        <form id="updateC" th:method="GET" th:action="@{/jobseeker/edit/{id}(id=${profile.resumes.get(0).id()})}">
         <button class="view-btn">Редактировать информацию</button>
+        </form>
       </div>
     </section>
 
@@ -45,7 +47,10 @@
           </div>
           <div class="resume-actions">
             <button class="action-btn edit">Просмотреть</button>
+
+            <form id="update" th:method="GET" th:action="@{/resume/edit/{id}(id=${resume.id()})}">
             <button class="action-btn view">Редактировать</button>
+            </form>
             <form id="del" th:method="DELETE" th:action="@{/resume/{id}(id=${resume.id()})}">
             <button class="action-btn delete">Удалить</button>
             </form>

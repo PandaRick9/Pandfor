@@ -18,6 +18,7 @@ import by.baraznov.recruiting.services.PhotoService;
 import by.baraznov.recruiting.services.ResumeService;
 import by.baraznov.recruiting.services.SkillService;
 import by.baraznov.recruiting.services.impl.CurrentUserProvider;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,11 +29,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -53,6 +56,7 @@ public class ResumeController {
     private final EducationService educationService;
     private final CurrentUserProvider currentUserProvider;
     private final JobSeekerService jobSeekerService;
+    private final PhotoService photoService;
 
     @ModelAttribute("role")
     public String addRoleToModel() {
@@ -85,6 +89,19 @@ public class ResumeController {
         return "resumePage";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editResumeForm(@PathVariable Integer id, Model model) {
+        ResumeDto resume = resumeService.getResumeById(id);
+        model.addAttribute("resume", resume);
+        return "editResumePage";
+    }
+    @PostMapping("/update/{id}")
+    public String updateResume(
+            @PathVariable Integer id,
+            @ModelAttribute("resume") @Valid ResumeDto resumeDto) throws IOException {
+        resumeService.updateResume(id, resumeDto);
+        return "redirect:/account/job";
+    }
 
 
     @GetMapping("/new")
@@ -156,4 +173,6 @@ public class ResumeController {
         resumeService.delete(id);
         return "redirect:/account/job";
     }
+
+
 }

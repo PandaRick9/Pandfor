@@ -43,7 +43,7 @@ public class Resume {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seeker_id")
     private JobSeeker jobSeeker;
     @OneToOne(mappedBy = "resume", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

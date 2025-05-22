@@ -13,11 +13,13 @@ import by.baraznov.recruiting.mappers.CompanyMapper;
 import by.baraznov.recruiting.models.Company;
 import by.baraznov.recruiting.models.Employer;
 import by.baraznov.recruiting.models.JobSeeker;
+import by.baraznov.recruiting.models.MatchWeights;
 import by.baraznov.recruiting.models.Person;
 import by.baraznov.recruiting.models.PersonalInfo;
 import by.baraznov.recruiting.models.Photo;
 import by.baraznov.recruiting.services.CompanyService;
 import by.baraznov.recruiting.services.EmployerService;
+import by.baraznov.recruiting.services.MatchWeightsService;
 import by.baraznov.recruiting.services.PhotoService;
 import by.baraznov.recruiting.services.ReactionService;
 import by.baraznov.recruiting.services.ResumeService;
@@ -64,6 +66,7 @@ public class CompanyController {
     private final EmployerService employerService;
     private final VacancyService vacancyService;
     private final ReactionService reactionService;
+    private final MatchWeightsService matchWeightsService;
 
     @ModelAttribute("role")
     public String addRoleToModel() {
@@ -173,13 +176,15 @@ public class CompanyController {
 
 
     private List<Integer> calculateMatchPercentage(List<MatchPercentageDTO> matchDTOs) {
+        MatchWeights weights = matchWeightsService.getWeights();
+
         List<Integer> percentages = new ArrayList<>();
 
         for (MatchPercentageDTO dto : matchDTOs) {
             int skillMatch = calculateSkillMatch(dto.candidateSkills(), dto.requiredSkills());
             int conditionMatch = calculateConditionMatch(dto.jobPreference(), dto.jobCondition());
-
-            int totalMatch = (int) (skillMatch * 0.6 + conditionMatch * 0.4);
+            int totalMatch = (int) (skillMatch * weights.getSkillWeight() +
+                    conditionMatch * weights.getConditionWeight());
             percentages.add(totalMatch);
         }
 

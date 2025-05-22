@@ -163,4 +163,9 @@ CREATE TABLE Attachment
     data          bytea
 );
 
-
+CREATE TABLE MatchWeights
+(
+    id SERIAL PRIMARY KEY,
+    skill_weight DOUBLE PRECISION NOT NULL,
+    condition_weight DOUBLE PRECISION NOT NULL
+);

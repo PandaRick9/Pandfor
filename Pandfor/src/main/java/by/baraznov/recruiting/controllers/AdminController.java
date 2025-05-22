@@ -2,6 +2,7 @@ package by.baraznov.recruiting.controllers;
 
 import by.baraznov.recruiting.dto.AdminStats;
 import by.baraznov.recruiting.services.AdminStatsService;
+import by.baraznov.recruiting.services.MatchWeightsService;
 import by.baraznov.recruiting.services.PeopleService;
 import by.baraznov.recruiting.services.impl.PersonService;
 import jakarta.servlet.http.HttpSession;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
     private final AdminStatsService adminStatsService;
     private final PeopleService peopleService;
+    private final MatchWeightsService matchWeightsService;
 
 
     @GetMapping("/admin")
@@ -36,6 +38,7 @@ public class AdminController {
         model.addAttribute("login", login); // ← теперь всегда есть
         model.addAttribute("stats", adminStatsService.getStats());
         model.addAttribute("users", peopleService.getAllUsers(login));
+        model.addAttribute("weights", matchWeightsService.getWeights());
         return "adminPage";
     }
 

@@ -31,4 +31,12 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
             "CONCAT('/photos/', CAST(c.photo.id AS string)))" +
             "FROM Company c WHERE c.companyId = :companyId")
     CompanyEditProfileDto findCompanyProfileById(@Param("companyId") Integer companyId);
+    @Query("""
+    SELECT c FROM Company c
+    JOIN c.vacancies v
+    JOIN v.reactions r
+    GROUP BY c
+    ORDER BY COUNT(r) DESC
+    """)
+    List<Company> findTopCompaniesByReactions();
 }

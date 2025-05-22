@@ -146,21 +146,32 @@
       </div>
       </form>
     </section>
-    
-    
-    
-    
+
+
+
+
 
 
     <section class="featured">
-      <h2>Вакансии дня</h2>
-      <div class="vacancies">
-        <div class="vacancy-card">
-          <h4>Frontend-разработчик</h4>
-          <p>React, JavaScript, HTML, CSS</p>
+      <h2>Самые популярные компании</h2>
+      <div class="company-list">
+        <div th:each="company : ${topCompanies}" class="company-card">
+          <div class="company-header">
+            <h3 th:text="${company.name}">Название компании</h3>
+            <p class="company-city" th:text="${company.city}">Город</p>
+          </div>
+          <div class="company-body">
+            <div class="company-contact">
+              <p><strong>Email:</strong> <span th:text="${company.email}">email@example.com</span></p>
+              <p><strong>Телефон:</strong> <span th:text="${company.phone}">+375 XX XXX XXXX</span></p>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
+
+
   </main>
 
 

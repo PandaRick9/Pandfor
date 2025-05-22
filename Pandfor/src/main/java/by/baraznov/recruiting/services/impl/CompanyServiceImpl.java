@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -99,6 +100,11 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         companyRepository.save(company);
+    }
+
+    @Override
+    public List<Company> findTopCompany() {
+        return companyRepository.findTopCompaniesByReactions().stream().limit(5).collect(Collectors.toList());
     }
 
     private void updateCompanyFields(Company company, CompanyEditProfileDto dto) {

@@ -34,4 +34,6 @@ public interface VacancyService {
             Integer maxSalary) ;
 
     void updateVacancy(Integer vacancyId, VacancyDto vacancyDto);
+
+    List<Vacancy> findRecommended();
 }

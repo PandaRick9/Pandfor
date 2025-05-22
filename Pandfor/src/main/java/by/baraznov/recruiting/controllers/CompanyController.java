@@ -45,7 +45,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -110,12 +114,16 @@ public class CompanyController {
         return "companyVacancyPage";
     }
     @GetMapping("/vacancy/{id}")
-    public String vacancyReactions(@PathVariable Integer id, Model model){
-        List<ReactionShortDTO> reactionShortDTOList = reactionService.findAllByVacancy(id);
-        model.addAttribute("reactions", reactionShortDTOList);
-        model.addAttribute("title", vacancyService.findOne(id).getTitle());
-        model.addAttribute("matchPercentage", calculateMatchPercentage(vacancyService.findAllMatchPercentage(id)));
-        model.addAttribute("vacancyId", id);
+    public String vacancyReactions(@PathVariable Integer id, Model model) {
+        List<ReactionShortDTO> reactions = reactionService.findAllByVacancy(id);
+        List<Integer> matchPercentages = calculateMatchPercentage(vacancyService.findAllMatchPercentage(id));
+        Map<Integer, Integer> reactionToMatch = buildReactionToMatchMap(reactions, matchPercentages);
+
+        sortReactions(reactions, reactionToMatch);
+        List<Integer> sortedPercentages = extractSortedMatchPercentages(reactions, reactionToMatch);
+
+        populateModel(model, id, reactions, sortedPercentages);
+
         return "reactionPage";
     }
 
@@ -202,4 +210,45 @@ public class CompanyController {
         return (int) ((matches * 100.0) / totalChecks);
     }
 
+    private int getStatusPriority(String status) {
+        return switch (status) {
+            case "Не просмотрено" -> 0;
+            case "Приглашение" -> 1;
+            case "Отказ" -> 2;
+            default -> 3;
+        };
+    }
+
+
+
+
+    private Map<Integer, Integer> buildReactionToMatchMap(List<ReactionShortDTO> reactions, List<Integer> percentages) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < reactions.size(); i++) {
+            map.put(reactions.get(i).reactionId(), percentages.get(i));
+        }
+        return map;
+    }
+
+    private void sortReactions(List<ReactionShortDTO> reactions, Map<Integer, Integer> reactionToMatch) {
+        reactions.sort(Comparator
+                .comparingInt((ReactionShortDTO r) -> getStatusPriority(String.valueOf(r.status())))
+                .thenComparing(r -> reactionToMatch.getOrDefault(r.reactionId(), 0), Comparator.reverseOrder())
+        );
+    }
+
+    private List<Integer> extractSortedMatchPercentages(List<ReactionShortDTO> sortedReactions, Map<Integer, Integer> reactionToMatch) {
+        List<Integer> sortedList = new ArrayList<>();
+        for (ReactionShortDTO r : sortedReactions) {
+            sortedList.add(reactionToMatch.getOrDefault(r.reactionId(), 0));
+        }
+        return sortedList;
+    }
+
+    private void populateModel(Model model, Integer vacancyId, List<ReactionShortDTO> reactions, List<Integer> matchPercentages) {
+        model.addAttribute("reactions", reactions);
+        model.addAttribute("matchPercentage", matchPercentages);
+        model.addAttribute("title", vacancyService.findOne(vacancyId).getTitle());
+        model.addAttribute("vacancyId", vacancyId);
+    }
 }

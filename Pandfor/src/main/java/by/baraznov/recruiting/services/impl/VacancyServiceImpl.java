@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -206,6 +207,21 @@ public class VacancyServiceImpl implements VacancyService {
 
         updateVacancyFields(vacancy, vacancyDto);
         vacancyRepository.save(vacancy);
+    }
+
+    @Override
+    public List<Vacancy> findRecommended() {
+        List<Vacancy> allVacancies = vacancyRepository.findAll();
+        List<Vacancy> topVacancies = allVacancies.stream()
+                .sorted((v1, v2) -> Integer.compare(v2.getReactions().size(), v1.getReactions().size()))
+                .limit(10)
+                .collect(Collectors.toList());
+        if (topVacancies.size() <= 3) {
+            return topVacancies;
+        }
+
+        Collections.shuffle(topVacancies);
+        return topVacancies.subList(0, 3);
     }
 
     private void updateVacancyFields(Vacancy vacancy, VacancyDto dto) {

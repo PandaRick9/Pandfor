@@ -31,7 +31,7 @@ function addSkill() {
 
 function getSkillLevelText(value) {
     switch (value) {
-        case 'BASIC': return 'Начинающий';
+        case 'BASIC': return 'Базовый';
         case 'INTERMEDIATE': return 'Средний';
         case 'ADVANCED': return 'Продвинутый';
         default: return '';

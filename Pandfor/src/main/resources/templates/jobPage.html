@@ -150,13 +150,34 @@
 
 
     <section class="featured">
-        <h2>Вакансии дня</h2>
-        <div class="vacancies">
-            <div class="vacancy-card">
-                <h4>Frontend-разработчик</h4>
-                <p>React, JavaScript, HTML, CSS</p>
+        <h2>Лучшие вакансии сайта</h2>
+        <div th:each="vacancy : ${vacancies}" class="vacancy-card">
+            <div class="vacancy-header">
+                <h4 class="vacancy-title" th:text="${vacancy.title}">Название вакансии</h4>
+                <div class="vacancy-salary-details">
+                    <span class="salary" th:text="${vacancy.salary} + ' Br'">3000–3500 Br за месяц</span>
+                    <span class="detail-badge" th:text="${vacancy.jobCondition.requiredExperienceYears}">Опыт 1–3 года</span>
+                    <span class="detail-badge" th:text="${vacancy.jobCondition.employmentType}">Полная занятость</span>
+                </div>
+            </div>
+            <div class="vacancy-company" th:if="${vacancy.company != null}">
+                <span class="company-name" th:text="${vacancy.company.name}">Компания</span>
+            </div>
+            <div class="vacancy-location" th:if="${vacancy.company != null}">
+                <span class="city" th:text="${vacancy.company.city}">Город</span>
+            </div>
+
+            <div class="vacancy-skills">
+                <span>Требуемые навыки:</span>
+                <span th:each="vs, stat : ${vacancy.vacancySkills}" th:if="${stat.index < 3}">
+                        <span th:text="${vs.skill.name}">JavaScript</span>
+                        <span th:if="${stat.index + 1 < #lists.size(vacancy.vacancySkills)
+                       and stat.index < 2}">, </span>
+                    </span>
+                <span th:if="${#lists.size(vacancy.vacancySkills) > 3}">…</span>
             </div>
         </div>
+
     </section>
 </main>
 

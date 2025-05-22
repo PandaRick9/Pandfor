@@ -72,7 +72,7 @@ public class ResumeController {
 
     @GetMapping
     public String allResume(Model model) {
-        List<Resume> resumes = resumeService.findAll();
+        List<Resume> resumes = resumeService.findAllActive();
         List<Resume> validResumes = resumes.stream()
                 .filter(r -> r.getJobSeeker() != null)
                 .collect(Collectors.toList());

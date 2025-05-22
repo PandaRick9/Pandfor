@@ -68,6 +68,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public List<Resume> findAllActive() {
+        return resumesRepository.findAllByIsActive(true);
+    }
+
+    @Override
     @Transactional
     public void delete(Integer id) {
         resumesRepository.deleteById(id);

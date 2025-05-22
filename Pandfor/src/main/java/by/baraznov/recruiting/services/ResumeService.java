@@ -17,6 +17,7 @@ public interface ResumeService {
     void save(Resume resume);
     Resume findOne(Integer id);
     List<Resume> findAll();
+    List<Resume> findAllActive();
     void delete(Integer id);
     ResumeDto getResumeById(Integer id);
     List<Resume> searchResumes(String search);

@@ -39,4 +39,6 @@ public interface ResumesRepository extends JpaRepository<Resume, Integer> {
         ORDER BY rs.skill.name
         """)
     List<ResumeSkill> findSkillsByResumeId(Integer resumeId);
+
+    List<Resume> findAllByIsActive(Boolean isActive);
 }

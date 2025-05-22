@@ -1,0 +1,190 @@
+ :root {
+            --primary: #507DBC;
+            --light: #A1C6EA;
+            --white: #ffffff;
+            --text: #333;
+            --background: #F4F8FB;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+        }
+
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .section {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .section {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--light);
+            flex: 1 1 200px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .stat-card p {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .weights-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .weights-table th,
+        .weights-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .weights-table th {
+            background-color: var(--light);
+        }
+
+        .weights-table input {
+            width: 80px;
+            padding: 5px;
+        }
+
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .users-table th {
+            background-color: var(--light);
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .users-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.active {
+            background-color: #e6f7ee;
+            color: #28a745;
+        }
+
+        .status.blocked {
+            background-color: #fde8e8;
+            color: #dc3545;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #3a6ea5;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8
+        }
+
+        .btn-save {
+            background-color: var(--primary);
+            color: var(--white);
+            margin-top: 15px;
+        }

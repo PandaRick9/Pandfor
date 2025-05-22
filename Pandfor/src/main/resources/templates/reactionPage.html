@@ -102,12 +102,16 @@
           <div class="match-percentage" th:text="'Подходит на ' + ${matchPercentage[iterStat.index]} + '%'" >Подходит на 85%</div>
 
         </div>
-        <div class="button-section">
+        <div class="button-section button-row">
           <form th:action="@{/reaction/{id}(id=${reaction.resumeId()})}" method="GET">
             <input type="hidden" name="fromVacancy" th:value="${vacancyId}">
           <button class="resume-btn">Просмотреть резюме</button>
           </form>
+          <form th:action="@{/download/{id}(id=${reaction.resumeId()})}" method="GET">
+            <button class="resume-btn">Скачать файл</button>
+          </form>
         </div>
+
         <div class="button-section button-row">
           <form th:action="@{/reaction/accept}" method="post" style="display:inline;">
             <input type="hidden" name="reactionId" th:value="${reaction.reactionId}">

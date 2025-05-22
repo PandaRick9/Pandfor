@@ -29,11 +29,12 @@ public class Person {
     private String password;
     @Column(name = "role")
     private String role;
+    @Column(name = "is_active")
+    private Boolean isActive;
     @Transient
     private String confirmPassword;
     @OneToOne(mappedBy = "person")
     private Employer employer;
     @OneToOne(mappedBy = "person")
     private JobSeeker jobSeeker;
-
 }

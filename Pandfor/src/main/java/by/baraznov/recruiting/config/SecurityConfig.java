@@ -1,5 +1,6 @@
 package by.baraznov.recruiting.config;
 
+import by.baraznov.recruiting.security.CustomLoginFailureHandler;
 import by.baraznov.recruiting.security.CustomLoginSuccessHandler;
 import by.baraznov.recruiting.services.impl.PersonDetailsService;
 import lombok.AllArgsConstructor;
@@ -28,9 +29,10 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(requests -> requests
 
-                        .requestMatchers("/auth/login", "/auth/registration", "/job", "/company","/resume", "/aboutus"
+                        .requestMatchers("/auth/login", "/auth/registration", "/job", "/company","/resume", "/aboutus", "/secret-admin-access/**"
                                 ,"/search", "/error", "/static/**", "/auth/logo.png", "/css/**", "/js/**", "/images/**").permitAll()
-                        .anyRequest().hasAnyRole("JOBSEEKER", "COMPANY")
+
+                        .anyRequest().hasAnyRole("JOBSEEKER", "COMPANY","ADMIN")
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login")
@@ -38,14 +40,17 @@ public class SecurityConfig {
                         .usernameParameter("login")
                         .passwordParameter("password")
                         .successHandler(customLoginSuccessHandler())
-                        .failureUrl("/auth/login?error")
+                        .failureHandler(customLoginFailureHandler())
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/auth/login"));
         return http.build();
     }
-
+    @Bean
+    public CustomLoginFailureHandler customLoginFailureHandler() {
+        return new CustomLoginFailureHandler();
+    }
     @Bean
     public CustomLoginSuccessHandler customLoginSuccessHandler() {
         return new CustomLoginSuccessHandler();

@@ -22,6 +22,9 @@
         <div th:if="${param.error}" style="color: red;">
             <p >Неверный логин или пароль</p>
         </div>
+        <div th:if="${param.disabled}" style="color: red;">
+            <p>Ваш аккаунт заблокирован</p>
+        </div>
 
          <button type="submit" class="primary-btn">Войти</button>
 

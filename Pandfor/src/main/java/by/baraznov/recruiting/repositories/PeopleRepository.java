@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface PeopleRepository extends JpaRepository<Person, Integer> {
     Optional<Person> findByLogin(String username);
-    @Query(value = "SELECT * FROM user_table WHERE id != :user_id", nativeQuery = true)
+    @Query("SELECT p FROM Person p WHERE p.userId != :user_id")
     List<Person> findAllWithoutOne(@Param("user_id") Integer user_id);
 }

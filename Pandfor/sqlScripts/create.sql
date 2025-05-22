@@ -11,16 +11,17 @@ CREATE TABLE User_Table
     user_id    SERIAL PRIMARY KEY,
     login      VARCHAR(100) UNIQUE NOT NULL,
     "password" VARCHAR(100)        NOT NULL,
-    role       VARCHAR(20)         NOT NULL -- например: ROLE_JOBSEEKER, ROLE_EMPLOYER
+    role       VARCHAR(20)         NOT NULL,-- например: ROLE_JOBSEEKER, ROLE_EMPLOYER
+    is_active  BOOLEAN
 );
 -- Компания
 CREATE TABLE Company
 (
     company_id  SERIAL PRIMARY KEY,   -- Уникальный идентификатор компании
-    photo_id                INT UNIQUE REFERENCES Photo (photo_id),
+    photo_id    INT UNIQUE REFERENCES Photo (photo_id),
     "name"      varchar(70) NOT NULL, -- Название компании
-    phone                   VARCHAR(20),                              -- Телефон
-    email                   VARCHAR(100),                             -- Email
+    phone       VARCHAR(20),          -- Телефон
+    email       VARCHAR(100),         -- Email
     description TEXT,                 -- Описание компании
     city        VARCHAR(100)
 );
@@ -37,11 +38,11 @@ CREATE TABLE Employer
 -- Соискатель
 CREATE TABLE JobSeeker
 (
-    seeker_id SERIAL PRIMARY KEY, -- Уникальный ID соискателя
-    user_id   INT REFERENCES User_Table (user_id),
-   first_name varchar(50),
+    seeker_id  SERIAL PRIMARY KEY, -- Уникальный ID соискателя
+    user_id    INT REFERENCES User_Table (user_id),
+    first_name varchar(50),
     last_name  varchar(50),
-    patronymic  varchar(50),
+    patronymic varchar(50),
     phone      varchar(20),
     email      varchar(50),
     city       varchar(50),
@@ -77,7 +78,7 @@ CREATE TABLE Education
     info_id         INT REFERENCES PersonalInfo (info_id), -- Привязка к личной информации
     institution     VARCHAR(255),                          -- Учебное заведение
     specialization  VARCHAR(255),                          -- Специализация/направление
-    graduation_date INT                                   -- Год окончания
+    graduation_date INT                                    -- Год окончания
 );
 
 -- Пожелания по условиям работы
@@ -129,7 +130,7 @@ CREATE TABLE JobConditions
     schedule                  VARCHAR(100),                               -- График (полный день и т.д.)
     employment_type           VARCHAR(100),                               -- Тип занятости
     work_format               VARCHAR(100),                               -- Формат (офис, удалёнка и т.п.)
-    required_experience_years VARCHAR(100)                                         -- Необходимый опыт (в годах)
+    required_experience_years VARCHAR(100)                                -- Необходимый опыт (в годах)
 );
 
 -- Навыки, требуемые для вакансии
